@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://Objects/Assets/spr_Props.png" type="Texture" id=1]
 [ext_resource path="res://Player/Assets/red hood itch free Copy-Sheet.png" type="Texture" id=2]
+[ext_resource path="res://Player/Player.gd" type="Script" id=3]
 
 [node name="World" type="Node2D"]
 __meta__ = {
@@ -14,8 +15,11 @@ texture = ExtResource( 1 )
 region_enabled = true
 region_rect = Rect2( 10, 50, 100, 50 )
 
-[node name="Player" type="Sprite" parent="."]
-position = Vector2( 152.141, 70.571 )
+[node name="Player" type="KinematicBody2D" parent="."]
+script = ExtResource( 3 )
+
+[node name="Sprite" type="Sprite" parent="Player"]
+position = Vector2( 171.245, 48.0964 )
 texture = ExtResource( 2 )
 vframes = 11
 hframes = 12
