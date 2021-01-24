@@ -1,13 +1,15 @@
 extends KinematicBody2D
 
-const MAX_SPEED = 100
-const ACCELERATION = 200
-const FRICTION = 1250
+const MAX_SPEED = 50
+const ACCELERATION = 150
+const FRICTION = 500
 
 var velocity = Vector2.ZERO
+var sprite_orientation = 1
 var is_running = false
 
 onready var spritePlayer = $SpritePlayer
+
 onready var animation = $AnimationPlayer
 onready var animationTree = $AnimationTree
 
@@ -22,9 +24,10 @@ func _physics_process(delta):
 	is_running = input_vector != Vector2.ZERO
 	if is_running:
 		if input_vector.x > 0:
-			spritePlayer.scale.x = 1
-		else:
-			spritePlayer.scale.x = -1
+			sprite_orientation = 1
+		elif input_vector.x < 0:
+			sprite_orientation = -1
+		spritePlayer.scale.x = sprite_orientation
 		velocity = velocity.move_toward(input_vector * MAX_SPEED, 
 				ACCELERATION * delta)
 	else:
