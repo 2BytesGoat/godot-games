@@ -3,17 +3,19 @@ extends KinematicBody2D
 const MAX_SPEED = 75
 const ACCELERATION = 500
 const FRICTION = 500
+const SHOOT_FORCE = 200
 
 const arrowProjectile = preload("res://Projectiles/Arrow.tscn")
+
+var state = MOVE
+var velocity = Vector2.ZERO
+var flip_sprite_player = false
+var shoot_direction = Vector2.ZERO
 
 enum{
 	MOVE,
 	SHOOT
 }
-
-var velocity = Vector2.ZERO
-var flip_sprite_player = false
-var state = MOVE
 
 onready var spritePlayer = $SpritePlayer
 onready var cursorPlayer = $CursorPlayer
@@ -37,7 +39,8 @@ func shoot_state(_delta):
 func shoot_animation_finished():
 	var arrow = arrowProjectile.instance()
 	shootArrowPosition.add_child(arrow)
-	arrow.launch(0.5)
+	arrow.launch(Vector2(shoot_direction.x * SHOOT_FORCE, 
+						 shoot_direction.y * SHOOT_FORCE))
 	state = MOVE
 
 func move_state(delta):
@@ -50,7 +53,6 @@ func move_state(delta):
 	
 	if input_vector != Vector2.ZERO:
 		flip_sprite_player = input_vector.x > 0
-		spritePlayer.set_flip_h(flip_sprite_player) # flip sprite
 		velocity = velocity.move_toward(input_vector * MAX_SPEED, 
 				ACCELERATION * delta)
 		animationState.travel("Run")
@@ -60,6 +62,9 @@ func move_state(delta):
 	velocity = move_and_slide(velocity)
 
 	if Input.is_action_just_pressed("hero_shoot"):
-		flip_sprite_player = get_local_mouse_position().x > 0
-		spritePlayer.set_flip_h(flip_sprite_player) # flip sprite
+		shoot_direction = get_local_mouse_position()
+		shoot_direction /= shoot_direction.abs()
+		flip_sprite_player = shoot_direction.x > 0
 		state = SHOOT
+		
+	spritePlayer.set_flip_h(flip_sprite_player) # flip sprite

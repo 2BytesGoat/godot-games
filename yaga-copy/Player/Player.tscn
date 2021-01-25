@@ -27,7 +27,7 @@ tracks/0/keys = {
 "values": [ 0, 0 ]
 }
 
-[sub_resource type="Animation" id=14]
+[sub_resource type="Animation" id=3]
 resource_name = "Run"
 loop = true
 tracks/0/type = "value"
@@ -65,7 +65,7 @@ tracks/1/loop_wrap = true
 tracks/1/imported = false
 tracks/1/enabled = true
 tracks/1/keys = {
-"times": PoolRealArray( 0.5 ),
+"times": PoolRealArray( 0.4 ),
 "transitions": PoolRealArray( 1 ),
 "values": [ {
 "args": [  ],
@@ -73,7 +73,7 @@ tracks/1/keys = {
 } ]
 }
 
-[sub_resource type="Animation" id=15]
+[sub_resource type="Animation" id=5]
 resource_name = "ShootArrowStrong"
 length = 0.9
 tracks/0/type = "value"
@@ -103,8 +103,7 @@ tracks/1/keys = {
 } ]
 }
 
-[sub_resource type="Animation" id=3]
-resource_name = "Skip"
+[sub_resource type="Animation" id=6]
 length = 2.3
 loop = true
 tracks/0/type = "value"
@@ -132,39 +131,39 @@ tracks/1/keys = {
 "values": [ Vector2( 1, 0.75 ), Vector2( 0.75, 0.5 ), Vector2( 1, 0.75 ), Vector2( 1, 0.75 ), Vector2( 0.75, 0.5 ), Vector2( 1, 0.75 ) ]
 }
 
-[sub_resource type="AnimationNodeAnimation" id=5]
+[sub_resource type="AnimationNodeAnimation" id=7]
 animation = "Idle"
 
-[sub_resource type="AnimationNodeAnimation" id=6]
+[sub_resource type="AnimationNodeAnimation" id=8]
 animation = "Run"
 
-[sub_resource type="AnimationNodeAnimation" id=7]
+[sub_resource type="AnimationNodeAnimation" id=9]
 animation = "ShootArrow"
 
-[sub_resource type="AnimationNodeStateMachineTransition" id=8]
-advance_condition = "isRunning"
-
-[sub_resource type="AnimationNodeStateMachineTransition" id=9]
-advance_condition = "isIdle"
-
 [sub_resource type="AnimationNodeStateMachineTransition" id=10]
-advance_condition = "shootArrow"
+advance_condition = "isRunning"
 
 [sub_resource type="AnimationNodeStateMachineTransition" id=11]
 advance_condition = "isIdle"
 
-[sub_resource type="AnimationNodeStateMachine" id=12]
-states/Idle/node = SubResource( 5 )
+[sub_resource type="AnimationNodeStateMachineTransition" id=12]
+advance_condition = "shootArrow"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=13]
+advance_condition = "isIdle"
+
+[sub_resource type="AnimationNodeStateMachine" id=14]
+states/Idle/node = SubResource( 7 )
 states/Idle/position = Vector2( -849, -113 )
-states/Run/node = SubResource( 6 )
+states/Run/node = SubResource( 8 )
 states/Run/position = Vector2( -849, -213 )
-states/ShootArrow/node = SubResource( 7 )
+states/ShootArrow/node = SubResource( 9 )
 states/ShootArrow/position = Vector2( -1047, -113 )
-transitions = [ "Idle", "Run", SubResource( 8 ), "Run", "Idle", SubResource( 9 ), "Idle", "ShootArrow", SubResource( 10 ), "ShootArrow", "Idle", SubResource( 11 ) ]
+transitions = [ "Idle", "Run", SubResource( 10 ), "Run", "Idle", SubResource( 11 ), "Idle", "ShootArrow", SubResource( 12 ), "ShootArrow", "Idle", SubResource( 13 ) ]
 start_node = "Idle"
 graph_offset = Vector2( -1503, -252 )
 
-[sub_resource type="AnimationNodeStateMachinePlayback" id=13]
+[sub_resource type="AnimationNodeStateMachinePlayback" id=15]
 
 [node name="Player" type="KinematicBody2D"]
 script = ExtResource( 2 )
@@ -204,16 +203,16 @@ shape = SubResource( 1 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 anims/Idle = SubResource( 2 )
-anims/Run = SubResource( 14 )
+anims/Run = SubResource( 3 )
 anims/ShootArrow = SubResource( 4 )
-anims/ShootArrowStrong = SubResource( 15 )
-anims/Skip = SubResource( 3 )
+anims/ShootArrowStrong = SubResource( 5 )
+anims/Skip = SubResource( 6 )
 
 [node name="AnimationTree" type="AnimationTree" parent="."]
-tree_root = SubResource( 12 )
+tree_root = SubResource( 14 )
 anim_player = NodePath("../AnimationPlayer")
 active = true
-parameters/playback = SubResource( 13 )
+parameters/playback = SubResource( 15 )
 parameters/conditions/isIdle = false
 parameters/conditions/isRunning = false
 parameters/conditions/shootArrow = false
