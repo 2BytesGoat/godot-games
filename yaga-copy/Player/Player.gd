@@ -9,6 +9,7 @@ const arrowProjectile = preload("res://Projectiles/Arrow.tscn")
 
 var state = MOVE
 var velocity = Vector2.ZERO
+var cursor_angle = 0
 var flip_sprite_player = false
 var shoot_direction = Vector2.ZERO
 
@@ -24,8 +25,9 @@ onready var animationState = animationTree.get("parameters/playback")
 onready var shootArrowPosition = $SpritePlayer/ArrowSpawnPosition
 
 func _physics_process(delta):
-	var mouse_pos = get_global_mouse_position()
-	cursorPlayer.look_at(mouse_pos)
+	var cursor_position = get_viewport().get_mouse_position()
+	cursor_angle = get_angle_to(cursor_position)
+	cursorPlayer.rotation = cursor_angle
 	match state:
 		MOVE:
 			move_state(delta)
@@ -39,8 +41,7 @@ func shoot_state(_delta):
 func shoot_animation_finished():
 	var arrow = arrowProjectile.instance()
 	shootArrowPosition.add_child(arrow)
-	arrow.launch(Vector2(shoot_direction.x * SHOOT_FORCE, 
-						 shoot_direction.y * SHOOT_FORCE))
+	arrow.launch(cursor_angle, 200)
 	state = MOVE
 
 func move_state(delta):
@@ -62,9 +63,7 @@ func move_state(delta):
 	velocity = move_and_slide(velocity)
 
 	if Input.is_action_just_pressed("hero_shoot"):
-		shoot_direction = get_local_mouse_position()
-		shoot_direction /= shoot_direction.abs()
-		flip_sprite_player = shoot_direction.x > 0
+		flip_sprite_player = abs(cursor_angle) < 1.5
 		state = SHOOT
 		
-	spritePlayer.set_flip_h(flip_sprite_player) # flip sprite
+	spritePlayer.set_flip_h(flip_sprite_player)
