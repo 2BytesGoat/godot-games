@@ -41,7 +41,7 @@ func shoot_state(_delta):
 func shoot_animation_finished():
 	var arrow = arrowProjectile.instance()
 	shootArrowPosition.add_child(arrow)
-	arrow.launch(cursor_angle, 200)
+	arrow.launch(cursor_angle, 250)
 	state = MOVE
 
 func move_state(delta):

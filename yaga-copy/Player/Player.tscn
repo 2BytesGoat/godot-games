@@ -187,7 +187,7 @@ vframes = 11
 hframes = 12
 
 [node name="ArrowSpawnPosition" type="Position2D" parent="SpritePlayer"]
-position = Vector2( 17.3242, 12.5483 )
+position = Vector2( 0, 14 )
 
 [node name="PlayerTurn" type="Sprite" parent="."]
 visible = false
