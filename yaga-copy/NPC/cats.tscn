@@ -1,0 +1,122 @@
+[gd_scene load_steps=13 format=2]
+
+[ext_resource path="res://NPC/cat_sprite.png" type="Texture" id=1]
+
+[sub_resource type="Animation" id=3]
+resource_name = "Brown_Down"
+length = 0.3
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("cat_sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 1,
+"values": [ 51, 52, 53 ]
+}
+
+[sub_resource type="Animation" id=1]
+resource_name = "Brown_Left"
+length = 0.3
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("cat_sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 1,
+"values": [ 63, 64, 65 ]
+}
+
+[sub_resource type="Animation" id=2]
+resource_name = "Brown_Right"
+length = 0.3
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("cat_sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 1,
+"values": [ 75, 76, 77 ]
+}
+
+[sub_resource type="Animation" id=4]
+resource_name = "Brown_Up"
+length = 0.3
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("cat_sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 1,
+"values": [ 87, 88, 89 ]
+}
+
+[sub_resource type="AnimationNodeAnimation" id=5]
+animation = "Brown_Up"
+
+[sub_resource type="AnimationNodeAnimation" id=6]
+animation = "Brown_Down"
+
+[sub_resource type="AnimationNodeAnimation" id=7]
+animation = "Brown_Right"
+
+[sub_resource type="AnimationNodeAnimation" id=8]
+animation = "Brown_Left"
+
+[sub_resource type="AnimationNodeBlendSpace2D" id=9]
+blend_point_0/node = SubResource( 5 )
+blend_point_0/pos = Vector2( 0, 1 )
+blend_point_1/node = SubResource( 6 )
+blend_point_1/pos = Vector2( 0, -1 )
+blend_point_2/node = SubResource( 7 )
+blend_point_2/pos = Vector2( 1, 0 )
+blend_point_3/node = SubResource( 8 )
+blend_point_3/pos = Vector2( -1, 0 )
+blend_mode = 1
+
+[sub_resource type="AnimationNodeStateMachine" id=10]
+states/Walking/node = SubResource( 9 )
+states/Walking/position = Vector2( 431, 104 )
+
+[sub_resource type="AnimationNodeStateMachinePlayback" id=11]
+
+[node name="Node2D" type="Node2D"]
+
+[node name="cat_sprite" type="Sprite" parent="."]
+scale = Vector2( 1, 0.996546 )
+texture = ExtResource( 1 )
+vframes = 8
+hframes = 12
+frame = 51
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+anims/Brown_Down = SubResource( 3 )
+anims/Brown_Left = SubResource( 1 )
+anims/Brown_Right = SubResource( 2 )
+anims/Brown_Up = SubResource( 4 )
+
+[node name="AnimationTree" type="AnimationTree" parent="."]
+tree_root = SubResource( 10 )
+anim_player = NodePath("../AnimationPlayer")
+active = true
+parameters/playback = SubResource( 11 )
+parameters/Walking/blend_position = Vector2( 0, 0 )
