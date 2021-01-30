@@ -3,7 +3,7 @@ extends KinematicBody2D
 const MAX_SPEED = 75
 const ACCELERATION = 500
 const FRICTION = 500
-const SHOOT_FORCE = 200
+const SHOOT_FORCE = 10
 
 const arrowProjectile = preload("res://Projectiles/Arrow.tscn")
 
@@ -11,7 +11,7 @@ var state = MOVE
 var velocity = Vector2.ZERO
 var cursor_angle = 0
 var flip_sprite_player = false
-var shoot_direction = Vector2.ZERO
+var shoot_angle = 0
 
 enum{
 	MOVE,
@@ -28,6 +28,7 @@ func _physics_process(delta):
 	var cursor_position = get_viewport().get_mouse_position()
 	cursor_angle = get_angle_to(cursor_position)
 	cursorPlayer.rotation = cursor_angle
+	
 	match state:
 		MOVE:
 			move_state(delta)
@@ -41,10 +42,10 @@ func shoot_state(_delta):
 func shoot_animation_finished():
 	var arrow = arrowProjectile.instance()
 	shootArrowPosition.add_child(arrow)
-	arrow.launch(cursor_angle, 250)
+	arrow.launch(shoot_angle, SHOOT_FORCE)
 	state = MOVE
 
-func move_state(delta):
+func move_state(delta):	
 	var input_vector = Vector2.ZERO
 	input_vector.x = Input.get_action_strength("ui_right") - \
 				Input.get_action_strength("ui_left")
@@ -64,6 +65,7 @@ func move_state(delta):
 
 	if Input.is_action_just_pressed("hero_shoot"):
 		flip_sprite_player = abs(cursor_angle) < 1.5
+		shoot_angle = cursor_angle
 		state = SHOOT
 		
 	spritePlayer.set_flip_h(flip_sprite_player)
