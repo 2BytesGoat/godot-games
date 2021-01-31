@@ -54,7 +54,8 @@ func move_state(delta):
 	input_vector = input_vector.normalized()
 	
 	if input_vector != Vector2.ZERO:
-		flip_sprite_player = input_vector.x > 0
+		if input_vector.x != 0: # solves flipping issue when moving vertically
+			flip_sprite_player = input_vector.x > 0
 		velocity = velocity.move_toward(input_vector * MAX_SPEED, 
 				ACCELERATION * delta)
 		animationState.travel("Run")
