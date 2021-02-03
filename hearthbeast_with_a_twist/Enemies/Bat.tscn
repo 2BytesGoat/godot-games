@@ -38,10 +38,11 @@ radius = 5.29244
 collision_layer = 0
 
 [node name="BatAnimatedSprite" type="AnimatedSprite" parent="."]
+modulate = Color( 0.85, 0.85, 0.85, 1 )
 position = Vector2( 0, -12 )
 frames = SubResource( 6 )
 animation = "fly"
-frame = 2
+frame = 1
 playing = true
 
 [node name="BatShadow" type="Sprite" parent="."]

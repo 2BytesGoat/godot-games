@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=2]
+[gd_scene load_steps=25 format=2]
 
 [ext_resource path="res://Player/Assets/red hood itch free Copy-Sheet.png" type="Texture" id=1]
 [ext_resource path="res://Player/Player.gd" type="Script" id=2]
@@ -28,24 +28,9 @@ tracks/0/keys = {
 }
 
 [sub_resource type="Animation" id=3]
-resource_name = "Run"
-loop = true
-tracks/0/type = "value"
-tracks/0/path = NodePath("SpritePlayer:frame")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
-"update": 1,
-"values": [ 7, 8, 9, 10, 24, 19, 20, 21, 22, 23 ]
-}
-
-[sub_resource type="Animation" id=4]
-resource_name = "ShootArrow"
+resource_name = "MeleLight"
 length = 0.5
+loop = true
 tracks/0/type = "value"
 tracks/0/path = NodePath("SpritePlayer:frame")
 tracks/0/interp = 1
@@ -56,7 +41,7 @@ tracks/0/keys = {
 "times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4 ),
 "transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
 "update": 1,
-"values": [ 25, 27, 29, 31, 33 ]
+"values": [ 56, 57, 59, 60, 62 ]
 }
 tracks/1/type = "method"
 tracks/1/path = NodePath(".")
@@ -65,16 +50,16 @@ tracks/1/loop_wrap = true
 tracks/1/imported = false
 tracks/1/enabled = true
 tracks/1/keys = {
-"times": PoolRealArray( 0.4 ),
+"times": PoolRealArray( 0.5 ),
 "transitions": PoolRealArray( 1 ),
 "values": [ {
 "args": [  ],
-"method": "shoot_animation_finished"
+"method": "attack_animation_finished"
 } ]
 }
 
-[sub_resource type="Animation" id=5]
-resource_name = "ShootArrowStrong"
+[sub_resource type="Animation" id=4]
+resource_name = "RangedHeavy"
 length = 0.9
 tracks/0/type = "value"
 tracks/0/path = NodePath("SpritePlayer:frame")
@@ -103,7 +88,51 @@ tracks/1/keys = {
 } ]
 }
 
+[sub_resource type="Animation" id=5]
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("SpritePlayer:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 7, 8, 9, 10, 24, 19, 20, 21, 22, 23 ]
+}
+
 [sub_resource type="Animation" id=6]
+length = 0.5
+tracks/0/type = "value"
+tracks/0/path = NodePath("SpritePlayer:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 25, 27, 29, 31, 33 ]
+}
+tracks/1/type = "method"
+tracks/1/path = NodePath(".")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0.4 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [  ],
+"method": "shoot_animation_finished"
+} ]
+}
+
+[sub_resource type="Animation" id=7]
 length = 2.3
 loop = true
 tracks/0/type = "value"
@@ -131,39 +160,48 @@ tracks/1/keys = {
 "values": [ Vector2( 1, 0.75 ), Vector2( 0.75, 0.5 ), Vector2( 1, 0.75 ), Vector2( 1, 0.75 ), Vector2( 0.75, 0.5 ), Vector2( 1, 0.75 ) ]
 }
 
-[sub_resource type="AnimationNodeAnimation" id=7]
+[sub_resource type="AnimationNodeAnimation" id=8]
 animation = "Idle"
 
-[sub_resource type="AnimationNodeAnimation" id=8]
-animation = "Run"
+[sub_resource type="AnimationNodeAnimation" id=17]
+animation = "MeleLight"
 
 [sub_resource type="AnimationNodeAnimation" id=9]
+animation = "Run"
+
+[sub_resource type="AnimationNodeAnimation" id=10]
 animation = "ShootArrow"
 
-[sub_resource type="AnimationNodeStateMachineTransition" id=10]
+[sub_resource type="AnimationNodeStateMachineTransition" id=11]
 advance_condition = "isRunning"
 
-[sub_resource type="AnimationNodeStateMachineTransition" id=11]
-advance_condition = "isIdle"
-
 [sub_resource type="AnimationNodeStateMachineTransition" id=12]
-advance_condition = "shootArrow"
+advance_condition = "isIdle"
 
 [sub_resource type="AnimationNodeStateMachineTransition" id=13]
+advance_condition = "shootArrow"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=14]
 advance_condition = "isIdle"
 
-[sub_resource type="AnimationNodeStateMachine" id=14]
-states/Idle/node = SubResource( 7 )
-states/Idle/position = Vector2( -849, -113 )
-states/Run/node = SubResource( 8 )
-states/Run/position = Vector2( -849, -213 )
-states/ShootArrow/node = SubResource( 9 )
-states/ShootArrow/position = Vector2( -1047, -113 )
-transitions = [ "Idle", "Run", SubResource( 10 ), "Run", "Idle", SubResource( 11 ), "Idle", "ShootArrow", SubResource( 12 ), "ShootArrow", "Idle", SubResource( 13 ) ]
-start_node = "Idle"
-graph_offset = Vector2( -1503, -252 )
+[sub_resource type="AnimationNodeStateMachineTransition" id=18]
 
-[sub_resource type="AnimationNodeStateMachinePlayback" id=15]
+[sub_resource type="AnimationNodeStateMachineTransition" id=19]
+
+[sub_resource type="AnimationNodeStateMachine" id=15]
+states/Idle/node = SubResource( 8 )
+states/Idle/position = Vector2( -849, -113 )
+states/MeleLight/node = SubResource( 17 )
+states/MeleLight/position = Vector2( -668, -113 )
+states/Run/node = SubResource( 9 )
+states/Run/position = Vector2( -849, -213 )
+states/ShootArrow/node = SubResource( 10 )
+states/ShootArrow/position = Vector2( -1047, -113 )
+transitions = [ "Idle", "Run", SubResource( 11 ), "Run", "Idle", SubResource( 12 ), "Idle", "ShootArrow", SubResource( 13 ), "ShootArrow", "Idle", SubResource( 14 ), "Idle", "MeleLight", SubResource( 18 ), "MeleLight", "Idle", SubResource( 19 ) ]
+start_node = "Idle"
+graph_offset = Vector2( -1487, -248 )
+
+[sub_resource type="AnimationNodeStateMachinePlayback" id=16]
 
 [node name="Player" type="KinematicBody2D"]
 script = ExtResource( 2 )
@@ -203,16 +241,17 @@ shape = SubResource( 1 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 anims/Idle = SubResource( 2 )
-anims/Run = SubResource( 3 )
-anims/ShootArrow = SubResource( 4 )
-anims/ShootArrowStrong = SubResource( 5 )
-anims/Skip = SubResource( 6 )
+anims/MeleLight = SubResource( 3 )
+anims/RangedHeavy = SubResource( 4 )
+anims/Run = SubResource( 5 )
+anims/ShootArrow = SubResource( 6 )
+anims/Skip = SubResource( 7 )
 
 [node name="AnimationTree" type="AnimationTree" parent="."]
-tree_root = SubResource( 14 )
+tree_root = SubResource( 15 )
 anim_player = NodePath("../AnimationPlayer")
 active = true
-parameters/playback = SubResource( 15 )
+parameters/playback = SubResource( 16 )
 parameters/conditions/isIdle = false
 parameters/conditions/isRunning = false
 parameters/conditions/shootArrow = false

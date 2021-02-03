@@ -15,7 +15,8 @@ var shoot_angle = 0
 
 enum{
 	MOVE,
-	SHOOT
+	SHOOT,
+	ATTACK
 }
 
 onready var spritePlayer = $SpritePlayer
@@ -34,6 +35,8 @@ func _physics_process(delta):
 			move_state(delta)
 		SHOOT:
 			shoot_state(delta)
+		ATTACK:
+			attack_state(delta)
 	
 func shoot_state(_delta):
 	velocity = Vector2.ZERO
@@ -43,6 +46,13 @@ func shoot_animation_finished():
 	var arrow = arrowProjectile.instance()
 	shootArrowPosition.add_child(arrow)
 	arrow.launch(shoot_angle, SHOOT_FORCE)
+	state = MOVE
+	
+func attack_state(_delta):
+	velocity = Vector2.ZERO
+	animationState.travel("MeleLight")
+	
+func attack_animation_finished():
 	state = MOVE
 
 func move_state(delta):	
@@ -68,5 +78,9 @@ func move_state(delta):
 		flip_sprite_player = abs(cursor_angle) < 1.5
 		shoot_angle = cursor_angle
 		state = SHOOT
+		
+	if Input.is_action_just_pressed("hero_attack"):
+		flip_sprite_player = abs(cursor_angle) < 1.5
+		state = ATTACK
 		
 	spritePlayer.set_flip_h(flip_sprite_player)
