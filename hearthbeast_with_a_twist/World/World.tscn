@@ -1,15 +1,16 @@
-[gd_scene load_steps=56 format=2]
+[gd_scene load_steps=57 format=2]
 
 [ext_resource path="res://Objects/Carriage.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Player/Player.tscn" type="PackedScene" id=2]
-[ext_resource path="res://World/Assets/GrassBackground.png" type="Texture" id=3]
-[ext_resource path="res://World/Assets/DirtTileset.png" type="Texture" id=4]
-[ext_resource path="res://World/Assets/CliffTileset.png" type="Texture" id=5]
-[ext_resource path="res://Enemies/Bat.tscn" type="PackedScene" id=6]
+[ext_resource path="res://Enemies/Bat.tscn" type="PackedScene" id=3]
+[ext_resource path="res://World/Assets/CliffTileset.png" type="Texture" id=4]
+[ext_resource path="res://World/Assets/DirtTileset.png" type="Texture" id=5]
+[ext_resource path="res://World/Assets/GrassBackground.png" type="Texture" id=6]
+[ext_resource path="res://World/Grass.tscn" type="PackedScene" id=7]
 
 [sub_resource type="TileSet" id=1]
 0/name = "DirtTileset.png 0"
-0/texture = ExtResource( 4 )
+0/texture = ExtResource( 5 )
 0/tex_offset = Vector2( 0, 0 )
 0/modulate = Color( 1, 1, 1, 1 )
 0/region = Rect2( 0, 0, 176, 80 )
@@ -175,7 +176,7 @@ points = PoolVector2Array( 0, 0, 32, 0, 32, 32, 0, 32 )
 
 [sub_resource type="TileSet" id=49]
 0/name = "CliffTileset.png 0"
-0/texture = ExtResource( 5 )
+0/texture = ExtResource( 4 )
 0/tex_offset = Vector2( 0, 0 )
 0/modulate = Color( 1, 1, 1, 1 )
 0/region = Rect2( 0, 0, 352, 160 )
@@ -486,11 +487,14 @@ points = PoolVector2Array( 0, 0, 32, 0, 32, 32, 0, 32 )
 [node name="Background" type="TextureRect" parent="."]
 margin_right = 322.0
 margin_bottom = 182.0
-texture = ExtResource( 3 )
+texture = ExtResource( 6 )
 stretch_mode = 2
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="Grass" parent="Background" instance=ExtResource( 7 )]
+position = Vector2( 274.432, 79.6225 )
 
 [node name="DirtPathTileMap" type="TileMap" parent="."]
 modulate = Color( 0.89, 0.89, 0.6675, 0.960784 )
@@ -511,11 +515,17 @@ tile_data = PoolIntArray( 7, 0, 196608, 8, 0, 196609, 9, 0, 6, 10, 0, 2, 65545, 
 [node name="Player" parent="YSort" instance=ExtResource( 2 )]
 position = Vector2( 174.066, 52.9765 )
 
-[node name="Bat" parent="YSort" instance=ExtResource( 6 )]
+[node name="Bat" parent="YSort" instance=ExtResource( 3 )]
 position = Vector2( 35.077, 44.6209 )
 
-[node name="Bat2" parent="YSort" instance=ExtResource( 6 )]
+[node name="Bat2" parent="YSort" instance=ExtResource( 3 )]
 position = Vector2( 53.1082, 103.311 )
 
 [node name="Carriage" parent="YSort" instance=ExtResource( 1 )]
 position = Vector2( 118.469, 74.0588 )
+
+[node name="Grass" parent="." instance=ExtResource( 7 )]
+position = Vector2( 289.635, 63.7126 )
+
+[node name="Grass2" parent="." instance=ExtResource( 7 )]
+position = Vector2( 273.372, 64.0662 )
