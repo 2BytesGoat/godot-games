@@ -1,10 +1,15 @@
-[gd_scene load_steps=25 format=2]
+[gd_scene load_steps=27 format=2]
 
 [ext_resource path="res://Player/Assets/red hood itch free Copy-Sheet.png" type="Texture" id=1]
 [ext_resource path="res://Player/Player.gd" type="Script" id=2]
 [ext_resource path="res://Player/Assets/run turnaround-Sheet.png" type="Texture" id=3]
 [ext_resource path="res://Shadows/MediumShadow.png" type="Texture" id=4]
 [ext_resource path="res://Player/Assets/cursor_smol.png" type="Texture" id=5]
+[ext_resource path="res://Boxes/HitBox.tscn" type="PackedScene" id=6]
+
+[sub_resource type="CapsuleShape2D" id=20]
+radius = 9.375
+height = 13.75
 
 [sub_resource type="CapsuleShape2D" id=1]
 radius = 4.52213
@@ -56,6 +61,18 @@ tracks/1/keys = {
 "args": [  ],
 "method": "attack_animation_finished"
 } ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("SpritePlayer/HitBoxPivot/HitBox/CollisionShape2D:disabled")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0.2, 0.4 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ false, true ]
 }
 
 [sub_resource type="Animation" id=4]
@@ -163,45 +180,45 @@ tracks/1/keys = {
 [sub_resource type="AnimationNodeAnimation" id=8]
 animation = "Idle"
 
-[sub_resource type="AnimationNodeAnimation" id=17]
+[sub_resource type="AnimationNodeAnimation" id=9]
 animation = "MeleLight"
 
-[sub_resource type="AnimationNodeAnimation" id=9]
+[sub_resource type="AnimationNodeAnimation" id=10]
 animation = "Run"
 
-[sub_resource type="AnimationNodeAnimation" id=10]
+[sub_resource type="AnimationNodeAnimation" id=11]
 animation = "ShootArrow"
 
-[sub_resource type="AnimationNodeStateMachineTransition" id=11]
+[sub_resource type="AnimationNodeStateMachineTransition" id=12]
 advance_condition = "isRunning"
 
-[sub_resource type="AnimationNodeStateMachineTransition" id=12]
-advance_condition = "isIdle"
-
 [sub_resource type="AnimationNodeStateMachineTransition" id=13]
-advance_condition = "shootArrow"
+advance_condition = "isIdle"
 
 [sub_resource type="AnimationNodeStateMachineTransition" id=14]
+advance_condition = "shootArrow"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=15]
 advance_condition = "isIdle"
 
-[sub_resource type="AnimationNodeStateMachineTransition" id=18]
+[sub_resource type="AnimationNodeStateMachineTransition" id=16]
 
-[sub_resource type="AnimationNodeStateMachineTransition" id=19]
+[sub_resource type="AnimationNodeStateMachineTransition" id=17]
 
-[sub_resource type="AnimationNodeStateMachine" id=15]
+[sub_resource type="AnimationNodeStateMachine" id=18]
 states/Idle/node = SubResource( 8 )
 states/Idle/position = Vector2( -849, -113 )
-states/MeleLight/node = SubResource( 17 )
+states/MeleLight/node = SubResource( 9 )
 states/MeleLight/position = Vector2( -668, -113 )
-states/Run/node = SubResource( 9 )
+states/Run/node = SubResource( 10 )
 states/Run/position = Vector2( -849, -213 )
-states/ShootArrow/node = SubResource( 10 )
+states/ShootArrow/node = SubResource( 11 )
 states/ShootArrow/position = Vector2( -1047, -113 )
-transitions = [ "Idle", "Run", SubResource( 11 ), "Run", "Idle", SubResource( 12 ), "Idle", "ShootArrow", SubResource( 13 ), "ShootArrow", "Idle", SubResource( 14 ), "Idle", "MeleLight", SubResource( 18 ), "MeleLight", "Idle", SubResource( 19 ) ]
+transitions = [ "Idle", "Run", SubResource( 12 ), "Run", "Idle", SubResource( 13 ), "Idle", "ShootArrow", SubResource( 14 ), "ShootArrow", "Idle", SubResource( 15 ), "Idle", "MeleLight", SubResource( 16 ), "MeleLight", "Idle", SubResource( 17 ) ]
 start_node = "Idle"
 graph_offset = Vector2( -1487, -248 )
 
-[sub_resource type="AnimationNodeStateMachinePlayback" id=16]
+[sub_resource type="AnimationNodeStateMachinePlayback" id=19]
 
 [node name="Player" type="KinematicBody2D"]
 script = ExtResource( 2 )
@@ -227,6 +244,16 @@ hframes = 12
 [node name="ArrowSpawnPosition" type="Position2D" parent="SpritePlayer"]
 position = Vector2( 0, 14 )
 
+[node name="HitBoxPivot" type="Position2D" parent="SpritePlayer"]
+position = Vector2( 18, 15.875 )
+
+[node name="HitBox" parent="SpritePlayer/HitBoxPivot" instance=ExtResource( 6 )]
+position = Vector2( 0, 0.125 )
+
+[node name="CollisionShape2D" parent="SpritePlayer/HitBoxPivot/HitBox" index="0"]
+shape = SubResource( 20 )
+disabled = true
+
 [node name="PlayerTurn" type="Sprite" parent="."]
 visible = false
 position = Vector2( 0, -2 )
@@ -248,10 +275,12 @@ anims/ShootArrow = SubResource( 6 )
 anims/Skip = SubResource( 7 )
 
 [node name="AnimationTree" type="AnimationTree" parent="."]
-tree_root = SubResource( 15 )
+tree_root = SubResource( 18 )
 anim_player = NodePath("../AnimationPlayer")
 active = true
-parameters/playback = SubResource( 16 )
+parameters/playback = SubResource( 19 )
 parameters/conditions/isIdle = false
 parameters/conditions/isRunning = false
 parameters/conditions/shootArrow = false
+
+[editable path="SpritePlayer/HitBoxPivot/HitBox"]
