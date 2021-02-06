@@ -220,6 +220,7 @@ graph_offset = Vector2( -1487, -248 )
 [sub_resource type="AnimationNodeStateMachinePlayback" id=19]
 
 [node name="Player" type="KinematicBody2D"]
+collision_layer = 2
 script = ExtResource( 2 )
 
 [node name="CursorPlayer" type="Sprite" parent="."]
@@ -254,6 +255,7 @@ position = Vector2( 18, 15.875 )
 
 [node name="HitBox" parent="PlayerSpriteNode/SpritePlayer/HitBoxPivot" instance=ExtResource( 6 )]
 position = Vector2( 0, 0.125 )
+collision_mask = 8
 
 [node name="CollisionShape2D" parent="PlayerSpriteNode/SpritePlayer/HitBoxPivot/HitBox" index="0"]
 shape = SubResource( 20 )
