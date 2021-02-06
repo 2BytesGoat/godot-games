@@ -3,7 +3,7 @@ extends KinematicBody2D
 const MAX_SPEED = 75
 const ACCELERATION = 500
 const FRICTION = 500
-const SHOOT_FORCE = 10
+const SHOOT_FORCE = 400
 
 const arrowProjectile = preload("res://Projectiles/Arrow.tscn")
 

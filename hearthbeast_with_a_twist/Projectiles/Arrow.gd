@@ -1,18 +1,13 @@
-extends KinematicBody2D
+extends Area2D
 
 var velocity = Vector2.ZERO
+var collided = false
 
 func _ready():
 	set_physics_process(false)
 
 func _physics_process(delta):
-	var collision = move_and_collide(velocity)
-	if collision != null:
-		_on_inpact(collision.normal)
-	
-func _on_inpact(normal: Vector2):
-	set_physics_process(false)
-	$CollisionShape2D.disabled = true
+	position += velocity * delta
 	
 func launch(rot, speed):
 	# Transfer object from player to scene
@@ -25,3 +20,7 @@ func launch(rot, speed):
 	set_rotation(rot)
 	velocity = Vector2(speed, 0).rotated(rot)
 	set_physics_process(true)
+
+func _on_Arrow_body_entered(body):
+	set_physics_process(false)
+	$CollisionShape2D.disabled = true

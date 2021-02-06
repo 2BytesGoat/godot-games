@@ -8,6 +8,8 @@ radius = 5.90316
 height = 41.7381
 
 [node name="Carriage" type="StaticBody2D"]
+collision_layer = 2147483649
+collision_mask = 0
 
 [node name="LargeShadow" type="Sprite" parent="."]
 position = Vector2( -7.22923, 17.0178 )
