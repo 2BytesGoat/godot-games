@@ -1,8 +1,7 @@
-[gd_scene load_steps=27 format=2]
+[gd_scene load_steps=26 format=2]
 
 [ext_resource path="res://Player/Assets/red hood itch free Copy-Sheet.png" type="Texture" id=1]
 [ext_resource path="res://Player/Player.gd" type="Script" id=2]
-[ext_resource path="res://Player/Assets/run turnaround-Sheet.png" type="Texture" id=3]
 [ext_resource path="res://Shadows/MediumShadow.png" type="Texture" id=4]
 [ext_resource path="res://Player/Assets/cursor_smol.png" type="Texture" id=5]
 [ext_resource path="res://Boxes/HitBox.tscn" type="PackedScene" id=6]
@@ -20,7 +19,7 @@ resource_name = "Idle"
 length = 0.1
 loop = true
 tracks/0/type = "value"
-tracks/0/path = NodePath("PlayerCeva/SpritePlayer:frame")
+tracks/0/path = NodePath("PlayerSpriteNode/SpritePlayer:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
@@ -37,7 +36,7 @@ resource_name = "MeleLight"
 length = 0.5
 loop = true
 tracks/0/type = "value"
-tracks/0/path = NodePath("PlayerCeva/SpritePlayer:frame")
+tracks/0/path = NodePath("PlayerSpriteNode/SpritePlayer:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
@@ -63,7 +62,7 @@ tracks/1/keys = {
 } ]
 }
 tracks/2/type = "value"
-tracks/2/path = NodePath("PlayerCeva/SpritePlayer/HitBoxPivot/HitBox/CollisionShape2D:disabled")
+tracks/2/path = NodePath("PlayerSpriteNode/SpritePlayer/HitBoxPivot/HitBox/CollisionShape2D:disabled")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/imported = false
@@ -79,7 +78,7 @@ tracks/2/keys = {
 resource_name = "RangedHeavy"
 length = 0.9
 tracks/0/type = "value"
-tracks/0/path = NodePath("PlayerCeva/SpritePlayer:frame")
+tracks/0/path = NodePath("PlayerSpriteNode/SpritePlayer:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
@@ -108,7 +107,7 @@ tracks/1/keys = {
 [sub_resource type="Animation" id=5]
 loop = true
 tracks/0/type = "value"
-tracks/0/path = NodePath("PlayerCeva/SpritePlayer:frame")
+tracks/0/path = NodePath("PlayerSpriteNode/SpritePlayer:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
@@ -123,7 +122,7 @@ tracks/0/keys = {
 [sub_resource type="Animation" id=6]
 length = 0.5
 tracks/0/type = "value"
-tracks/0/path = NodePath("PlayerCeva/SpritePlayer:frame")
+tracks/0/path = NodePath("PlayerSpriteNode/SpritePlayer:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
@@ -153,7 +152,7 @@ tracks/1/keys = {
 length = 2.3
 loop = true
 tracks/0/type = "value"
-tracks/0/path = NodePath("PlayerCeva/SpritePlayer:frame")
+tracks/0/path = NodePath("PlayerSpriteNode/SpritePlayer:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
@@ -165,7 +164,7 @@ tracks/0/keys = {
 "values": [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24 ]
 }
 tracks/1/type = "value"
-tracks/1/path = NodePath("PlayerCeva/ShadowPlayer:scale")
+tracks/1/path = NodePath("PlayerSpriteNode/ShadowPlayer:scale")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/imported = false
@@ -229,17 +228,17 @@ position = Vector2( 0, 10 )
 scale = Vector2( 0.922201, 0.922201 )
 texture = ExtResource( 5 )
 
-[node name="PlayerCeva" type="Node2D" parent="."]
+[node name="PlayerSpriteNode" type="Node2D" parent="."]
 position = Vector2( 0, 10 )
 rotation = -1.5708
 
-[node name="ShadowPlayer" type="Sprite" parent="PlayerCeva"]
+[node name="ShadowPlayer" type="Sprite" parent="PlayerSpriteNode"]
 position = Vector2( -2.9381, -1.06359e-05 )
 rotation = 1.5708
 scale = Vector2( 0.801796, 0.551796 )
 texture = ExtResource( 4 )
 
-[node name="SpritePlayer" type="Sprite" parent="PlayerCeva"]
+[node name="SpritePlayer" type="Sprite" parent="PlayerSpriteNode"]
 position = Vector2( 26, 9.41197e-05 )
 rotation = 1.5708
 texture = ExtResource( 1 )
@@ -247,26 +246,18 @@ flip_h = true
 vframes = 11
 hframes = 12
 
-[node name="ArrowSpawnPosition" type="Position2D" parent="PlayerCeva/SpritePlayer"]
+[node name="ArrowSpawnPosition" type="Position2D" parent="PlayerSpriteNode/SpritePlayer"]
 position = Vector2( 0, 14 )
 
-[node name="HitBoxPivot" type="Position2D" parent="PlayerCeva/SpritePlayer"]
+[node name="HitBoxPivot" type="Position2D" parent="PlayerSpriteNode/SpritePlayer"]
 position = Vector2( 18, 15.875 )
 
-[node name="HitBox" parent="PlayerCeva/SpritePlayer/HitBoxPivot" instance=ExtResource( 6 )]
+[node name="HitBox" parent="PlayerSpriteNode/SpritePlayer/HitBoxPivot" instance=ExtResource( 6 )]
 position = Vector2( 0, 0.125 )
 
-[node name="CollisionShape2D" parent="PlayerCeva/SpritePlayer/HitBoxPivot/HitBox" index="0"]
+[node name="CollisionShape2D" parent="PlayerSpriteNode/SpritePlayer/HitBoxPivot/HitBox" index="0"]
 shape = SubResource( 20 )
 disabled = true
-
-[node name="PlayerTurn" type="Sprite" parent="PlayerCeva"]
-visible = false
-position = Vector2( 12, 4.34399e-05 )
-rotation = 1.5708
-texture = ExtResource( 3 )
-hframes = 5
-frame = 4
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2( 0, 10 )
@@ -290,4 +281,4 @@ parameters/conditions/isIdle = false
 parameters/conditions/isRunning = false
 parameters/conditions/shootArrow = false
 
-[editable path="PlayerCeva/SpritePlayer/HitBoxPivot/HitBox"]
+[editable path="PlayerSpriteNode/SpritePlayer/HitBoxPivot/HitBox"]

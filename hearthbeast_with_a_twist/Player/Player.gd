@@ -19,12 +19,12 @@ enum{
 	ATTACK
 }
 
-onready var playerCeva = $PlayerCeva
-onready var spritePlayer = $PlayerCeva/SpritePlayer
+onready var playerSNone = $PlayerSpriteNode
+onready var spritePlayer = $PlayerSpriteNode/SpritePlayer
 onready var cursorPlayer = $CursorPlayer
 onready var animationTree = $AnimationTree
 onready var animationState = animationTree.get("parameters/playback")
-onready var shootArrowPosition = $PlayerCeva/SpritePlayer/ArrowSpawnPosition
+onready var shootArrowPosition = $PlayerSpriteNode/SpritePlayer/ArrowSpawnPosition
 
 func _physics_process(delta):
 	var cursor_position = get_viewport().get_mouse_position()
@@ -84,4 +84,4 @@ func move_state(delta):
 		flip_sprite_player = abs(cursor_angle) < 1.5
 		state = ATTACK
 		
-	playerCeva.scale.y = 1 if flip_sprite_player else -1
+	playerSNone.scale.y = 1 if flip_sprite_player else -1
