@@ -1,21 +1,21 @@
-[gd_scene load_steps=26 format=2]
+[gd_scene load_steps=27 format=2]
 
 [ext_resource path="res://Player/Assets/red hood itch free Copy-Sheet.png" type="Texture" id=1]
 [ext_resource path="res://Player/Player.gd" type="Script" id=2]
+[ext_resource path="res://Boxes/SwordHitBox.gd" type="Script" id=3]
 [ext_resource path="res://Shadows/MediumShadow.png" type="Texture" id=4]
 [ext_resource path="res://Player/Assets/cursor_smol.png" type="Texture" id=5]
 [ext_resource path="res://Boxes/HitBox.tscn" type="PackedScene" id=6]
 
-[sub_resource type="CapsuleShape2D" id=20]
-radius = 9.375
-height = 13.75
-
 [sub_resource type="CapsuleShape2D" id=1]
+radius = 11.25
+height = 9.75
+
+[sub_resource type="CapsuleShape2D" id=2]
 radius = 4.52213
 height = 5.07492
 
-[sub_resource type="Animation" id=2]
-resource_name = "Idle"
+[sub_resource type="Animation" id=3]
 length = 0.1
 loop = true
 tracks/0/type = "value"
@@ -31,8 +31,7 @@ tracks/0/keys = {
 "values": [ 0, 0 ]
 }
 
-[sub_resource type="Animation" id=3]
-resource_name = "MeleLight"
+[sub_resource type="Animation" id=4]
 length = 0.5
 loop = true
 tracks/0/type = "value"
@@ -74,8 +73,7 @@ tracks/2/keys = {
 "values": [ false, true ]
 }
 
-[sub_resource type="Animation" id=4]
-resource_name = "RangedHeavy"
+[sub_resource type="Animation" id=5]
 length = 0.9
 tracks/0/type = "value"
 tracks/0/path = NodePath("PlayerSpriteNode/SpritePlayer:frame")
@@ -104,7 +102,7 @@ tracks/1/keys = {
 } ]
 }
 
-[sub_resource type="Animation" id=5]
+[sub_resource type="Animation" id=6]
 loop = true
 tracks/0/type = "value"
 tracks/0/path = NodePath("PlayerSpriteNode/SpritePlayer:frame")
@@ -119,7 +117,7 @@ tracks/0/keys = {
 "values": [ 7, 8, 9, 10, 24, 19, 20, 21, 22, 23 ]
 }
 
-[sub_resource type="Animation" id=6]
+[sub_resource type="Animation" id=7]
 length = 0.5
 tracks/0/type = "value"
 tracks/0/path = NodePath("PlayerSpriteNode/SpritePlayer:frame")
@@ -148,7 +146,7 @@ tracks/1/keys = {
 } ]
 }
 
-[sub_resource type="Animation" id=7]
+[sub_resource type="Animation" id=8]
 length = 2.3
 loop = true
 tracks/0/type = "value"
@@ -176,48 +174,48 @@ tracks/1/keys = {
 "values": [ Vector2( 1, 0.75 ), Vector2( 0.75, 0.5 ), Vector2( 1, 0.75 ), Vector2( 1, 0.75 ), Vector2( 0.75, 0.5 ), Vector2( 1, 0.75 ) ]
 }
 
-[sub_resource type="AnimationNodeAnimation" id=8]
+[sub_resource type="AnimationNodeAnimation" id=9]
 animation = "Idle"
 
-[sub_resource type="AnimationNodeAnimation" id=9]
+[sub_resource type="AnimationNodeAnimation" id=10]
 animation = "MeleLight"
 
-[sub_resource type="AnimationNodeAnimation" id=10]
+[sub_resource type="AnimationNodeAnimation" id=11]
 animation = "Run"
 
-[sub_resource type="AnimationNodeAnimation" id=11]
+[sub_resource type="AnimationNodeAnimation" id=12]
 animation = "ShootArrow"
 
-[sub_resource type="AnimationNodeStateMachineTransition" id=12]
+[sub_resource type="AnimationNodeStateMachineTransition" id=13]
 advance_condition = "isRunning"
 
-[sub_resource type="AnimationNodeStateMachineTransition" id=13]
-advance_condition = "isIdle"
-
 [sub_resource type="AnimationNodeStateMachineTransition" id=14]
-advance_condition = "shootArrow"
+advance_condition = "isIdle"
 
 [sub_resource type="AnimationNodeStateMachineTransition" id=15]
-advance_condition = "isIdle"
+advance_condition = "shootArrow"
 
 [sub_resource type="AnimationNodeStateMachineTransition" id=16]
+advance_condition = "isIdle"
 
 [sub_resource type="AnimationNodeStateMachineTransition" id=17]
 
-[sub_resource type="AnimationNodeStateMachine" id=18]
-states/Idle/node = SubResource( 8 )
+[sub_resource type="AnimationNodeStateMachineTransition" id=18]
+
+[sub_resource type="AnimationNodeStateMachine" id=19]
+states/Idle/node = SubResource( 9 )
 states/Idle/position = Vector2( -849, -113 )
-states/MeleLight/node = SubResource( 9 )
+states/MeleLight/node = SubResource( 10 )
 states/MeleLight/position = Vector2( -668, -113 )
-states/Run/node = SubResource( 10 )
+states/Run/node = SubResource( 11 )
 states/Run/position = Vector2( -849, -213 )
-states/ShootArrow/node = SubResource( 11 )
+states/ShootArrow/node = SubResource( 12 )
 states/ShootArrow/position = Vector2( -1047, -113 )
-transitions = [ "Idle", "Run", SubResource( 12 ), "Run", "Idle", SubResource( 13 ), "Idle", "ShootArrow", SubResource( 14 ), "ShootArrow", "Idle", SubResource( 15 ), "Idle", "MeleLight", SubResource( 16 ), "MeleLight", "Idle", SubResource( 17 ) ]
+transitions = [ "Idle", "Run", SubResource( 13 ), "Run", "Idle", SubResource( 14 ), "Idle", "ShootArrow", SubResource( 15 ), "ShootArrow", "Idle", SubResource( 16 ), "Idle", "MeleLight", SubResource( 17 ), "MeleLight", "Idle", SubResource( 18 ) ]
 start_node = "Idle"
 graph_offset = Vector2( -1487, -248 )
 
-[sub_resource type="AnimationNodeStateMachinePlayback" id=19]
+[sub_resource type="AnimationNodeStateMachinePlayback" id=20]
 
 [node name="Player" type="KinematicBody2D"]
 collision_layer = 2
@@ -251,34 +249,35 @@ hframes = 12
 position = Vector2( 0, 14 )
 
 [node name="HitBoxPivot" type="Position2D" parent="PlayerSpriteNode/SpritePlayer"]
-position = Vector2( 18, 15.875 )
+position = Vector2( 15.375, 15.875 )
 
 [node name="HitBox" parent="PlayerSpriteNode/SpritePlayer/HitBoxPivot" instance=ExtResource( 6 )]
 position = Vector2( 0, 0.125 )
 collision_mask = 8
+script = ExtResource( 3 )
 
 [node name="CollisionShape2D" parent="PlayerSpriteNode/SpritePlayer/HitBoxPivot/HitBox" index="0"]
-shape = SubResource( 20 )
+shape = SubResource( 1 )
 disabled = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2( 0, 10 )
 rotation = -1.5708
-shape = SubResource( 1 )
+shape = SubResource( 2 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-anims/Idle = SubResource( 2 )
-anims/MeleLight = SubResource( 3 )
-anims/RangedHeavy = SubResource( 4 )
-anims/Run = SubResource( 5 )
-anims/ShootArrow = SubResource( 6 )
-anims/Skip = SubResource( 7 )
+anims/Idle = SubResource( 3 )
+anims/MeleLight = SubResource( 4 )
+anims/RangedHeavy = SubResource( 5 )
+anims/Run = SubResource( 6 )
+anims/ShootArrow = SubResource( 7 )
+anims/Skip = SubResource( 8 )
 
 [node name="AnimationTree" type="AnimationTree" parent="."]
-tree_root = SubResource( 18 )
+tree_root = SubResource( 19 )
 anim_player = NodePath("../AnimationPlayer")
 active = true
-parameters/playback = SubResource( 19 )
+parameters/playback = SubResource( 20 )
 parameters/conditions/isIdle = false
 parameters/conditions/isRunning = false
 parameters/conditions/shootArrow = false

@@ -1,6 +1,8 @@
 extends Area2D
 
 var velocity = Vector2.ZERO
+var knockback_vector = Vector2.ZERO
+var damage = 1
 var collided = false
 
 func _ready():
@@ -19,8 +21,12 @@ func launch(rot, speed):
 	# Set position and rotation based on shooting origin
 	set_rotation(rot)
 	velocity = Vector2(speed, 0).rotated(rot)
+	knockback_vector = velocity.normalized()
 	set_physics_process(true)
 
-func _on_Arrow_body_entered(body):
+func _on_Arrow_body_entered(body): # hitting tilemap of environment
 	set_physics_process(false)
 	$CollisionShape2D.disabled = true
+
+func _on_Arrow_area_entered(area): # hitting an enemy
+	queue_free()

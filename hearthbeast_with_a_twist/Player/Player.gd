@@ -8,6 +8,7 @@ const SHOOT_FORCE = 400
 const arrowProjectile = preload("res://Projectiles/Arrow.tscn")
 
 var state = MOVE
+var input_vector = Vector2.ZERO
 var velocity = Vector2.ZERO
 var cursor_angle = 0
 var flip_sprite_player = false
@@ -25,6 +26,7 @@ onready var cursorPlayer = $CursorPlayer
 onready var animationTree = $AnimationTree
 onready var animationState = animationTree.get("parameters/playback")
 onready var shootArrowPosition = $PlayerSpriteNode/SpritePlayer/ArrowSpawnPosition
+onready var swordHitbox = $PlayerSpriteNode/SpritePlayer/HitBoxPivot/HitBox
 
 func _physics_process(delta):
 	var cursor_position = get_viewport().get_mouse_position()
@@ -56,8 +58,7 @@ func attack_state(_delta):
 func attack_animation_finished():
 	state = MOVE
 
-func move_state(delta):	
-	var input_vector = Vector2.ZERO
+func move_state(delta):
 	input_vector.x = Input.get_action_strength("ui_right") - \
 				Input.get_action_strength("ui_left")
 	input_vector.y = Input.get_action_strength("ui_down") - \
@@ -65,6 +66,7 @@ func move_state(delta):
 	input_vector = input_vector.normalized()
 	
 	if input_vector != Vector2.ZERO:
+		swordHitbox.knockback_vector = input_vector.normalized()
 		if input_vector.x != 0: # solves flipping issue when moving vertically
 			flip_sprite_player = input_vector.x > 0
 		velocity = velocity.move_toward(input_vector * MAX_SPEED, 
