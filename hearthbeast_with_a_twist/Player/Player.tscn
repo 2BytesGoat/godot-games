@@ -255,6 +255,7 @@ position = Vector2( 15.375, 15.875 )
 position = Vector2( 0, 0.125 )
 collision_mask = 8
 script = ExtResource( 3 )
+damage = 2
 
 [node name="CollisionShape2D" parent="PlayerSpriteNode/SpritePlayer/HitBoxPivot/HitBox" index="0"]
 shape = SubResource( 1 )

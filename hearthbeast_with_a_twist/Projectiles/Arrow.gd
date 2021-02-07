@@ -1,15 +1,17 @@
-extends Area2D
+extends "res://Boxes/HitBox.gd"
 
 var velocity = Vector2.ZERO
 var knockback_vector = Vector2.ZERO
-var damage = 1
 var collided = false
+var autodestruct = false
 
 func _ready():
 	set_physics_process(false)
 
 func _physics_process(delta):
 	position += velocity * delta
+	if autodestruct:
+		queue_free()
 	
 func launch(rot, speed):
 	# Transfer object from player to scene
@@ -30,3 +32,7 @@ func _on_Arrow_body_entered(body): # hitting tilemap of environment
 
 func _on_Arrow_area_entered(area): # hitting an enemy
 	queue_free()
+
+func _on_Autodestruct_timeout():
+	if not collided:
+		autodestruct = true

@@ -25,8 +25,8 @@ onready var spritePlayer = $PlayerSpriteNode/SpritePlayer
 onready var cursorPlayer = $CursorPlayer
 onready var animationTree = $AnimationTree
 onready var animationState = animationTree.get("parameters/playback")
-onready var shootArrowPosition = $PlayerSpriteNode/SpritePlayer/ArrowSpawnPosition
 onready var swordHitbox = $PlayerSpriteNode/SpritePlayer/HitBoxPivot/HitBox
+onready var shootArrowPosition = $PlayerSpriteNode/SpritePlayer/ArrowSpawnPosition
 
 func _physics_process(delta):
 	var cursor_position = get_viewport().get_mouse_position()
