@@ -246,7 +246,7 @@ vframes = 11
 hframes = 12
 
 [node name="ArrowSpawnPosition" type="Position2D" parent="PlayerSpriteNode/SpritePlayer"]
-position = Vector2( 0, 14 )
+position = Vector2( 0, 13 )
 
 [node name="HitBoxPivot" type="Position2D" parent="PlayerSpriteNode/SpritePlayer"]
 position = Vector2( 15.375, 15.875 )
