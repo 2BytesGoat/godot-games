@@ -7,6 +7,6 @@ func create_grass():
 	get_parent().add_child(grass_effect)
 	grass_effect.global_position = global_position
 
-func _on_HurtBox_area_entered(area):
+func _on_HurtBox_area_entered(_area):
 	create_grass()
 	queue_free()

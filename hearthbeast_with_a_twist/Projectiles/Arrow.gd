@@ -26,11 +26,11 @@ func launch(rot, speed):
 	knockback_vector = velocity.normalized()
 	set_physics_process(true)
 
-func _on_Arrow_body_entered(body): # hitting tilemap of environment
+func _on_Arrow_body_entered(_body): # hitting tilemap of environment
 	set_physics_process(false)
 	$CollisionShape2D.disabled = true
 
-func _on_Arrow_area_entered(area): # hitting an enemy
+func _on_Arrow_area_entered(_area): # hitting an enemy
 	queue_free()
 
 func _on_Autodestruct_timeout():
