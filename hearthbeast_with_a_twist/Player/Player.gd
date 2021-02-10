@@ -13,6 +13,7 @@ var velocity = Vector2.ZERO
 var cursor_angle = 0
 var flip_sprite_player = false
 var shoot_angle = 0
+var stats = PlayerStats
 
 enum{
 	MOVE,
@@ -27,6 +28,10 @@ onready var animationTree = $AnimationTree
 onready var animationState = animationTree.get("parameters/playback")
 onready var swordHitbox = $PlayerSpriteNode/SpritePlayer/HitBoxPivot/HitBox
 onready var shootArrowPosition = $PlayerSpriteNode/SpritePlayer/ArrowSpawnPosition
+onready var hurtbox = $HurtBox
+
+func _ready():
+	stats.connect("no_health", self, "queue_free")
 
 func _physics_process(delta):
 	var cursor_position = get_viewport().get_mouse_position()
@@ -87,3 +92,8 @@ func move_state(delta):
 		state = ATTACK
 		
 	playerSNone.scale.y = 1 if flip_sprite_player else -1
+
+func _on_HurtBox_area_entered(area):
+	stats.health -= area.damage
+	hurtbox.start_invincibility(0.5)
+	hurtbox.create_hit_effect()
