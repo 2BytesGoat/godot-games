@@ -1,5 +1,9 @@
 extends KinematicBody
 
+var gravity = 9.8
+var jump = 3.5
+var falling = Vector3.ZERO
+
 var mouse_sensitivity = 0.1
 
 var speed = 10
@@ -36,6 +40,14 @@ func _process(delta):
 		direction -= transform.basis.x
 	elif Input.is_action_pressed("move_right"):
 		direction += transform.basis.x
+		
+	if Input.is_action_just_pressed("jump") and is_on_floor():
+		falling.y = jump
+		
+	if not is_on_floor():
+		falling.y -= gravity * delta
+	
+	velocity += falling
 	
 	direction = direction.normalized()
 	velocity = velocity.linear_interpolate(direction * speed, acceleration * delta)
