@@ -1,6 +1,7 @@
 [gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://Character.gd" type="Script" id=1]
+[ext_resource path="res://weapons/Mesh_Goose.tscn" type="PackedScene" id=2]
 
 [sub_resource type="CapsuleShape" id=1]
 radius = 0.75
@@ -9,9 +10,6 @@ height = 1.5
 [sub_resource type="CapsuleMesh" id=2]
 radius = 0.75
 mid_height = 1.5
-
-[sub_resource type="CubeMesh" id=3]
-size = Vector3( 0.2, 0.2, 1 )
 
 [node name="Character" type="KinematicBody"]
 script = ExtResource( 1 )
@@ -28,13 +26,17 @@ material/0 = null
 [node name="GunPivot" type="Spatial" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.56314, 0 )
 
-[node name="Arm" type="MeshInstance" parent="GunPivot"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.5 )
-mesh = SubResource( 3 )
-material/0 = null
+[node name="Mesh_Goose" parent="GunPivot" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.875062, -0.790707, -0.0590236 )
 
 [node name="CharRotPivot" type="Spatial" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.02784, 1.33497, 0 )
 
 [node name="Camera" type="Camera" parent="CharRotPivot"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 5 )
+transform = Transform( 0.996195, -0.00456138, 0.0870363, 0, 0.99863, 0.052336, -0.0871557, -0.0521368, 0.994829, 0.7, 1.25, 6 )
+
+[node name="AimCast" type="RayCast" parent="CharRotPivot/Camera"]
+enabled = true
+cast_to = Vector3( 0, 0, -1000 )
+
+[editable path="GunPivot/Mesh_Goose"]

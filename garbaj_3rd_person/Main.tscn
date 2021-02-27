@@ -1,31 +1,54 @@
 [gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://Character.tscn" type="PackedScene" id=1]
-[ext_resource path="res://icon.png" type="Texture" id=2]
-
-[sub_resource type="CubeMesh" id=1]
-size = Vector3( 10, 0.2, 10 )
-
-[sub_resource type="SpatialMaterial" id=3]
-albedo_texture = ExtResource( 2 )
-uv1_scale = Vector3( 100, 100, 1 )
-
-[sub_resource type="BoxShape" id=2]
-extents = Vector3( 5, 0.2, 5 )
+[ext_resource path="res://textures/plane_texture.tres" type="Material" id=2]
+[ext_resource path="res://textures/wall_texture_2.tres" type="Material" id=3]
+[ext_resource path="res://textures/wall_texture.tres" type="Material" id=4]
+[ext_resource path="res://enemies/BadGuy.tscn" type="PackedScene" id=5]
 
 [node name="Main" type="Spatial"]
 
 [node name="Character" parent="." instance=ExtResource( 1 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.46287, 0 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.46287, 0 )
 
 [node name="Level" type="Spatial" parent="."]
 
-[node name="MeshInstance" type="MeshInstance" parent="Level"]
-transform = Transform( 10, 0, 0, 0, 1, 0, 0, 0, 10, 0.178919, -0.0295029, 0.0378332 )
-mesh = SubResource( 1 )
-material/0 = SubResource( 3 )
+[node name="CSGCombiner" type="CSGCombiner" parent="Level"]
+use_collision = true
 
-[node name="StaticBody" type="StaticBody" parent="Level/MeshInstance"]
+[node name="Pool" type="CSGBox" parent="Level/CSGCombiner"]
+width = 46.0
+height = 8.0
+depth = 72.0
+material = ExtResource( 2 )
 
-[node name="CollisionShape" type="CollisionShape" parent="Level/MeshInstance/StaticBody"]
-shape = SubResource( 2 )
+[node name="PoolHole" type="CSGBox" parent="Level/CSGCombiner/Pool"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, 0 )
+operation = 2
+width = 28.0
+height = 14.0
+depth = 20.0
+material = ExtResource( 2 )
+
+[node name="Ramp" type="CSGPolygon" parent="Level/CSGCombiner"]
+transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -8.08241, -3.88611, -4.91445 )
+polygon = PoolVector2Array( -7, 0, 1, 5, 5.1, 7.9, 7, 0 )
+depth = 5.718
+
+[node name="WallR" type="CSGBox" parent="Level/CSGCombiner"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 5, -17 )
+width = 20.0
+height = 8.0
+material = ExtResource( 4 )
+
+[node name="WallL" type="CSGBox" parent="Level/CSGCombiner"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 5, 17 )
+width = 20.0
+height = 8.0
+material = ExtResource( 3 )
+
+[node name="BadGuy" parent="." instance=ExtResource( 5 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 20, 5, -15 )
+
+[node name="DirectionalLight" type="DirectionalLight" parent="."]
+transform = Transform( 1, 0, 0, 0, 1.19249e-08, 1, 0, -1, 1.19249e-08, 0, 30, 0 )

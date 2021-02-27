@@ -1,0 +1,11 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://weapons/Mesh_Goose.glb" type="PackedScene" id=1]
+
+[node name="Mesh_Goose" instance=ExtResource( 1 )]
+
+[node name="Mesh_Goose" parent="." index="2"]
+transform = Transform( 0.04, 1.30337e-08, -1.30337e-08, 1.30337e-08, -0.04, 0, -1.30337e-08, -4.2469e-15, -0.04, 0, 0, 0 )
+
+[node name="Muzzle" type="Spatial" parent="Mesh_Goose" index="0"]
+transform = Transform( 0.999999, -3.97904e-13, 3.97904e-13, 3.97904e-13, 0.999999, -1.28749e-19, -3.97904e-13, -1.01644e-19, 0.999999, 1.04467e-05, -7.21834, 24.8424 )
