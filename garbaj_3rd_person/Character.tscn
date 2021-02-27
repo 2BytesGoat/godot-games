@@ -1,7 +1,8 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://Character.gd" type="Script" id=1]
 [ext_resource path="res://weapons/Mesh_Goose.tscn" type="PackedScene" id=2]
+[ext_resource path="res://weapons/crosshair.png" type="Texture" id=3]
 
 [sub_resource type="CapsuleShape" id=1]
 radius = 0.75
@@ -33,10 +34,25 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.875062, -0.790707, -0.059023
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.02784, 1.33497, 0 )
 
 [node name="Camera" type="Camera" parent="CharRotPivot"]
-transform = Transform( 0.996195, -0.00456138, 0.0870363, 0, 0.99863, 0.052336, -0.0871557, -0.0521368, 0.994829, 0.7, 1.25, 6 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.7, 1.25, 6 )
 
 [node name="AimCast" type="RayCast" parent="CharRotPivot/Camera"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 3.72529e-09, 1, 0, 0, 0 )
 enabled = true
 cast_to = Vector3( 0, 0, -1000 )
+
+[node name="TextureRect" type="TextureRect" parent="CharRotPivot"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -20.0
+margin_top = -20.0
+margin_right = 20.0
+margin_bottom = 20.0
+texture = ExtResource( 3 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [editable path="GunPivot/Mesh_Goose"]
