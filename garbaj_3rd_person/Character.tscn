@@ -28,16 +28,17 @@ material/0 = null
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.56314, 0 )
 
 [node name="Mesh_Goose" parent="GunPivot" instance=ExtResource( 2 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.875062, -0.790707, -0.0590236 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.8, -0.8, 0 )
+
+[node name="Mesh_Goose" parent="GunPivot/Mesh_Goose" index="2"]
+transform = Transform( 0.04, 1.30337e-08, -1.30337e-08, 1.30337e-08, -0.04, 0, -1.30337e-08, -4.2469e-15, -0.04, 0.139388, -0.289089, -0.262763 )
 
 [node name="CharRotPivot" type="Spatial" parent="."]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.02784, 1.33497, 0 )
 
 [node name="Camera" type="Camera" parent="CharRotPivot"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.7, 1.25, 6 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0 )
 
 [node name="AimCast" type="RayCast" parent="CharRotPivot/Camera"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 3.72529e-09, 1, 0, 0, 0 )
 enabled = true
 cast_to = Vector3( 0, 0, -1000 )
 

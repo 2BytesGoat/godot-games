@@ -21,6 +21,7 @@ onready var pivot = $CharRotPivot
 onready var gun_pivot = $GunPivot
 onready var aimcast = $CharRotPivot/Camera/AimCast
 onready var muzzle = $GunPivot/Mesh_Goose/Mesh_Goose/Muzzle
+onready var bullet_hole = preload("res://weapons/BulletHole.tscn")
 
 func _ready():
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
@@ -38,6 +39,18 @@ func _input(event):
 
 func _physics_process(delta):
 	direction = Vector3.ZERO
+	
+	if Input.is_action_just_pressed("shoot"):
+		if aimcast.is_colliding():
+			var target = aimcast.get_collider()
+			if target.is_in_group("Enemy"):
+				print('hit enemy')
+				target.health -= damage
+			else:
+				var b_hole = bullet_hole.instance()
+				target.add_child(b_hole)
+				b_hole.global_transform.origin = aimcast.get_collision_point()
+				b_hole.look_at(aimcast.get_collision_point() + aimcast.get_collision_normal(), Vector3.UP)
 	
 	if is_on_floor():
 		jumps_numer = 2
@@ -62,19 +75,6 @@ func _physics_process(delta):
 	if Input.is_action_just_pressed("jump") and jumps_numer > 0:
 		falling.y = jump_height
 		jumps_numer -= 1
-		
-	if Input.is_action_just_pressed("shoot"):
-		if aimcast.is_colliding():
-			var bullet = get_world().direct_space_state
-			var collision = bullet.intersect_ray(muzzle.global_transform.origin, 
-												 aimcast.get_collision_point())
-			
-			if collision:
-				var target = collision.collider
-				
-				if target.is_in_group("Enemy"):
-					print("enemy hit")
-					target.health -= damage
 	
 	velocity += falling
 	
