@@ -25,7 +25,6 @@ var can_fire = true
 var fire_sound_player: AudioStreamPlayer
 var reload_sound_player: AudioStreamPlayer
 
-
 func _ready() -> void:
 	delay_timer = Timer.new()
 	if autofire:
@@ -42,7 +41,6 @@ func _ready() -> void:
 	reload_sound_player.stream = reload_sound
 	add_child(reload_sound_player)
 
-
 func _input(event: InputEvent) -> void:
 	if not listen_to_input:
 		return
@@ -51,19 +49,16 @@ func _input(event: InputEvent) -> void:
 	if event.is_action_released(fire_action_name) and autofire:
 		cease_fire()
 
-
-func open_fire() -> void:
+func open_fire(target=null) -> void:
 	if autofire or can_fire:
-		_fire()
+		_fire(target)
 		fire_sound_player.playing = true
 		if wait_for_sound:
 			yield(fire_sound_player, "finished")
 
-
 func cease_fire() -> void:
 	fire_sound_player.playing = false
 	delay_timer.stop()
-
 
 func _reload() -> void:
 	delay_timer.stop()
@@ -74,14 +69,12 @@ func _reload() -> void:
 	can_fire = true
 	reload_sound_player.playing = false
 
-
-func _fire() -> void:
+func _fire(target=null) -> void:
 	if bullet_res != null:
 		can_fire = false
 		var new_bullet = bullet_res.instance()
 		muzzle_position.add_child(new_bullet)
+		if target != null:
+			new_bullet.look_at(target, Vector3(0,1,0))
 		new_bullet.fire(muzzle_velocity)
 		delay_timer.start(fire_delay)
-
-
-

@@ -9,8 +9,6 @@
 transform = Transform( -1, 0, -3.25841e-07, 0, 1, 0, 3.25841e-07, 0, -1, 0, 0, 0 )
 script = ExtResource( 2 )
 autofire = false
-listen_to_input = true
-fire_action_name = "fire_gun"
 bullet_res = ExtResource( 1 )
 muzzle_velocity = 100.0
 fire_rate = 5.0
@@ -18,7 +16,7 @@ wait_for_sound = true
 fire_sound = ExtResource( 4 )
 
 [node name="node-0" parent="." index="0"]
-transform = Transform( 0.05, 0, 0, 0, -8.14603e-09, -0.05, 0, 0.05, -8.14603e-09, 0, 0, 0 )
+transform = Transform( 0.03, 0, 0, 0, -1.31134e-09, -0.03, 0, 0.03, -1.31134e-09, 0, 0, 0 )
 
 [node name="MuzzlePosition" type="Position3D" parent="." index="1"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.3, 1.69138 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.2, -0.75 )
