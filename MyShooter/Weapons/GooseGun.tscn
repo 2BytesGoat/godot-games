@@ -1,0 +1,24 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://Weapons/Bullet.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Weapons/Scripts/Gun.gd" type="Script" id=2]
+[ext_resource path="res://Assets/Models/Weapons/Small_Mesh_Goose.glb" type="PackedScene" id=3]
+[ext_resource path="res://Assets/Sound/bullet1.wav" type="AudioStream" id=4]
+
+[node name="GooseGun" instance=ExtResource( 3 )]
+transform = Transform( -1, 0, -3.25841e-07, 0, 1, 0, 3.25841e-07, 0, -1, 0, 0, 0 )
+script = ExtResource( 2 )
+autofire = false
+listen_to_input = true
+fire_action_name = "fire_gun"
+bullet_res = ExtResource( 1 )
+muzzle_velocity = 100.0
+fire_rate = 5.0
+wait_for_sound = true
+fire_sound = ExtResource( 4 )
+
+[node name="node-0" parent="." index="0"]
+transform = Transform( 0.05, 0, 0, 0, -8.14603e-09, -0.05, 0, 0.05, -8.14603e-09, 0, 0, 0 )
+
+[node name="MuzzlePosition" type="Position3D" parent="." index="1"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.3, 1.69138 )
