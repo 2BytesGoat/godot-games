@@ -11,3 +11,5 @@ func fire(muzzle_velocity: float) -> void:
 	
 	set_as_toplevel(true)
 	apply_central_impulse(-transform.basis.z * muzzle_velocity)
+
+

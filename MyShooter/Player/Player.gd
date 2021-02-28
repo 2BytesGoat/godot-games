@@ -35,6 +35,8 @@ func _input(event) -> void:
 		if aimcast.is_colliding():
 			var target = aimcast.get_collision_point()
 			equiped_gun.open_fire(target)
+		else:
+			equiped_gun.open_fire()
 		
 	if Input.is_action_just_pressed("jump") and nb_jumps > 0:
 		player_fall_force = jump_height
@@ -50,7 +52,6 @@ func _input(event) -> void:
 
 func _physics_process(delta):
 	if is_on_floor():
-		player_fall_force = 0
 		nb_jumps = max_nb_jumps
 	else:
 		player_fall_force -= gravity * delta
@@ -65,9 +66,9 @@ func aim(event: InputEventMouseMotion) -> void:
 	rotate_y(deg2rad(-event.relative.x * mouse_sensitivity))
 	# rotate camera
 	vision_pivot.rotate_x(deg2rad(-event.relative.y * mouse_sensitivity))
-	vision_pivot.rotation.x = clamp(vision_pivot.rotation.x, deg2rad(-70), deg2rad(30))
+	vision_pivot.rotation.x = clamp(vision_pivot.rotation.x, deg2rad(-70), deg2rad(70))
 	gun_pivot.rotate_x(deg2rad(-event.relative.y * mouse_sensitivity))
-	gun_pivot.rotation.x = clamp(gun_pivot.rotation.x, deg2rad(-70), deg2rad(30))
+	gun_pivot.rotation.x = clamp(gun_pivot.rotation.x, deg2rad(-70), deg2rad(70))
 
 func swap_cameras() -> void:
 	front_camera.current = back_camera.current
