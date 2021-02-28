@@ -2,6 +2,7 @@ extends RigidBody
 class_name Bullet
 
 export var lifetime: float = 2
+export var damage: float = 10
 
 func fire(muzzle_velocity: float) -> void:
 	var death_timer = Timer.new()
