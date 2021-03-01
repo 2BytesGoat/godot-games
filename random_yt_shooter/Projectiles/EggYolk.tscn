@@ -8,8 +8,10 @@ albedo_texture = ExtResource( 1 )
 
 [sub_resource type="QuadMesh" id=2]
 material = SubResource( 1 )
+custom_aabb = AABB( 0, 0, -0.02, 0, 180, 0 )
 
 [node name="EggYolk" type="Spatial"]
+transform = Transform( -1, 0, -3.25841e-07, 0, 1, 0, 3.25841e-07, 0, -1, 0, 0, 0.02 )
 
 [node name="MeshInstance" type="MeshInstance" parent="."]
 mesh = SubResource( 2 )
