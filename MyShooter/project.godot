@@ -12,7 +12,7 @@ _global_script_classes=[ {
 "base": "RigidBody",
 "class": "Bullet",
 "language": "GDScript",
-"path": "res://Weapons/Scripts/Bullet.gd"
+"path": "res://Projectiles/Scripts/Bullet.gd"
 }, {
 "base": "Spatial",
 "class": "Gun",
