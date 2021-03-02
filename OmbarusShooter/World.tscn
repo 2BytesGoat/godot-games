@@ -1,0 +1,24 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://Assets/Textures/Plane.tres" type="Material" id=1]
+
+[node name="World" type="Spatial"]
+
+[node name="Level" type="Spatial" parent="."]
+
+[node name="CSGCombiner" type="CSGCombiner" parent="Level"]
+use_collision = true
+
+[node name="Pool" type="CSGBox" parent="Level/CSGCombiner"]
+width = 10.0
+height = 4.0
+depth = 20.0
+material = ExtResource( 1 )
+
+[node name="PoolHole" type="CSGBox" parent="Level/CSGCombiner/Pool"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0 )
+operation = 2
+width = 8.0
+height = 4.0
+depth = 18.0
+material = ExtResource( 1 )
