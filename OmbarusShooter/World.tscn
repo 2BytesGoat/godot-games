@@ -10,6 +10,12 @@
 [node name="CSGCombiner" type="CSGCombiner" parent="Level"]
 use_collision = true
 
+[node name="CSGBox" type="CSGBox" parent="Level/CSGCombiner"]
+transform = Transform( 1, 0, 0, 0, 0.899779, 0.436346, 0, -0.436346, 0.899779, 0, 0, 0 )
+visible = false
+height = 0.105656
+depth = 4.77666
+
 [node name="Pool" type="CSGBox" parent="Level/CSGCombiner"]
 width = 10.0
 height = 4.0
@@ -25,4 +31,4 @@ depth = 18.0
 material = ExtResource( 1 )
 
 [node name="Player" parent="." instance=ExtResource( 2 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.619443, -0.706331, -0.178034 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.619443, -0.706331, -7.92469 )

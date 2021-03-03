@@ -1,86 +1,110 @@
-[gd_scene load_steps=17 format=2]
+[gd_scene load_steps=22 format=2]
 
-[ext_resource path="res://Assets/Character/xbot.gltf" type="PackedScene" id=1]
+[ext_resource path="res://Assets/Character/ybot.gltf" type="PackedScene" id=1]
 [ext_resource path="res://Player/Player.gd" type="Script" id=2]
 
-[sub_resource type="CapsuleShape" id=1]
-radius = 0.3
-height = 1.2
-
-[sub_resource type="AnimationNodeAnimation" id=2]
+[sub_resource type="AnimationNodeAnimation" id=1]
 animation = "Idle-loop"
 
+[sub_resource type="AnimationNodeAnimation" id=2]
+animation = "Left Strafe Walking-loop"
+
 [sub_resource type="AnimationNodeAnimation" id=3]
-animation = "Jumping-loop"
+animation = "Right Strafe Walking-loop"
 
 [sub_resource type="AnimationNodeAnimation" id=4]
-animation = "Running Jump-loop"
+animation = "Walking Backwards-loop"
 
-[sub_resource type="AnimationNodeAnimation" id=5]
-animation = "Running-loop"
+[sub_resource type="AnimationNodeBlendSpace2D" id=5]
+blend_point_0/node = SubResource( 2 )
+blend_point_0/pos = Vector2( -1, 0 )
+blend_point_1/node = SubResource( 3 )
+blend_point_1/pos = Vector2( 1, 0 )
+blend_point_2/node = SubResource( 4 )
+blend_point_2/pos = Vector2( 0, -1 )
 
 [sub_resource type="AnimationNodeAnimation" id=6]
 animation = "Walking-loop"
 
-[sub_resource type="AnimationNodeStateMachineTransition" id=7]
-xfade_time = 0.3
+[sub_resource type="AnimationNodeAnimation" id=7]
+animation = "Right Strafe Walking-loop"
 
-[sub_resource type="AnimationNodeStateMachineTransition" id=8]
-xfade_time = 0.3
+[sub_resource type="AnimationNodeAnimation" id=8]
+animation = "Left Strafe Walking-loop"
 
-[sub_resource type="AnimationNodeStateMachineTransition" id=9]
-xfade_time = 0.3
+[sub_resource type="AnimationNodeAnimation" id=9]
+animation = "Walking Backwards-loop"
 
-[sub_resource type="AnimationNodeStateMachineTransition" id=10]
-xfade_time = 0.3
+[sub_resource type="AnimationNodeBlendSpace2D" id=10]
+blend_point_0/node = SubResource( 6 )
+blend_point_0/pos = Vector2( 0, 1 )
+blend_point_1/node = SubResource( 7 )
+blend_point_1/pos = Vector2( -1, 0 )
+blend_point_2/node = SubResource( 8 )
+blend_point_2/pos = Vector2( 1, 0 )
+blend_point_3/node = SubResource( 9 )
+blend_point_3/pos = Vector2( 0, -1 )
 
 [sub_resource type="AnimationNodeStateMachineTransition" id=11]
-xfade_time = 0.15
+xfade_time = 0.25
 
 [sub_resource type="AnimationNodeStateMachineTransition" id=12]
 xfade_time = 0.15
 
-[sub_resource type="AnimationNodeStateMachine" id=13]
-states/Idle/node = SubResource( 2 )
-states/Idle/position = Vector2( 351, 81 )
-states/Jumping-loop/node = SubResource( 3 )
-states/Jumping-loop/position = Vector2( 691, 126 )
-states/Running/node = SubResource( 5 )
-states/Running/position = Vector2( 459, 193 )
-"states/Running Jump-loop/node" = SubResource( 4 )
-"states/Running Jump-loop/position" = Vector2( 822, 169 )
-states/Walking/node = SubResource( 6 )
-states/Walking/position = Vector2( 252, 193 )
-transitions = [ "Running", "Walking", SubResource( 7 ), "Walking", "Running", SubResource( 8 ), "Walking", "Idle", SubResource( 9 ), "Idle", "Walking", SubResource( 10 ), "Idle", "Running", SubResource( 11 ), "Running", "Idle", SubResource( 12 ) ]
-start_node = "Idle"
-graph_offset = Vector2( -20, 51 )
+[sub_resource type="AnimationNodeStateMachineTransition" id=13]
+xfade_time = 0.25
 
-[sub_resource type="AnimationNodeStateMachinePlayback" id=14]
+[sub_resource type="AnimationNodeStateMachineTransition" id=15]
+xfade_time = 0.15
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=16]
+xfade_time = 0.15
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=20]
+xfade_time = 0.15
+
+[sub_resource type="AnimationNodeStateMachine" id=17]
+states/Idle/node = SubResource( 1 )
+states/Idle/position = Vector2( 411, 47 )
+states/WalkingBackward/node = SubResource( 5 )
+states/WalkingBackward/position = Vector2( 558, 138 )
+states/WalkingForward/node = SubResource( 10 )
+states/WalkingForward/position = Vector2( 275, 138 )
+transitions = [ "Idle", "WalkingForward", SubResource( 11 ), "WalkingForward", "Idle", SubResource( 12 ), "Idle", "WalkingBackward", SubResource( 13 ), "WalkingForward", "WalkingBackward", SubResource( 15 ), "WalkingBackward", "WalkingForward", SubResource( 16 ), "WalkingBackward", "Idle", SubResource( 20 ) ]
+start_node = "Idle"
+graph_offset = Vector2( -66, -9 )
+
+[sub_resource type="AnimationNodeStateMachinePlayback" id=18]
+
+[sub_resource type="CapsuleShape" id=19]
+radius = 0.3
+height = 1.2
 
 [node name="Player" type="KinematicBody"]
 script = ExtResource( 2 )
-PlayerAnimationTree = NodePath("AnimationTree")
+MAX_SPEED = 7
+ACCELERATION = 100
+animation_tree = NodePath("AnimationTree")
 
-[node name="xbot" parent="." instance=ExtResource( 1 )]
-transform = Transform( -1, 0, -3.25841e-07, 0, 1, 0, 3.25841e-07, 0, -1, -0.1, 0, 0 )
+[node name="ybot" parent="." instance=ExtResource( 1 )]
 
-[node name="Armature" parent="xbot" index="2"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.1, 0, -3.25841e-08 )
+[node name="AnimationTree" type="AnimationTree" parent="."]
+tree_root = SubResource( 17 )
+anim_player = NodePath("../ybot/AnimationPlayer")
+active = true
+root_motion_track = NodePath("Armature/Skeleton:root_motion")
+parameters/playback = SubResource( 18 )
+parameters/WalkingBackward/blend_position = Vector2( -0.0100541, -0.0431035 )
+parameters/WalkingForward/blend_position = Vector2( 0.00232017, 0.103448 )
 
 [node name="CollisionShape" type="CollisionShape" parent="."]
 transform = Transform( 1, 0, 0, 0, -1.62921e-07, -1, 0, 1, -1.62921e-07, 0, 0.9, 0 )
-shape = SubResource( 1 )
-
-[node name="AnimationTree" type="AnimationTree" parent="."]
-tree_root = SubResource( 13 )
-anim_player = NodePath("../xbot/AnimationPlayer")
-active = true
-parameters/playback = SubResource( 14 )
+shape = SubResource( 19 )
 
 [node name="HeadNode" type="Spatial" parent="."]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.6, 0 )
+transform = Transform( -1, 0, -3.25841e-07, 0, 1, 0, 3.25841e-07, 0, -1, 0, 1.6, 0 )
 
 [node name="Camera" type="Camera" parent="HeadNode"]
 transform = Transform( 1, 0, 0, 0, 0.965926, 0.258819, 0, -0.258819, 0.965926, 0, 1, 2 )
 
-[editable path="xbot"]
+[editable path="ybot"]
