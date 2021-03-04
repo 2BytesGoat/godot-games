@@ -1,7 +1,8 @@
 extends KinematicBody
 
-export var MAX_SPEED = 75
-export var ACCELERATION = 500
+export var MAX_WALK_SPEED = 2
+export var MAX_RUN_SPEED = 4.5
+export var ACCELERATION = 30
 export var FRICTION = 500
 
 export(NodePath) onready var animation_tree = get_node(animation_tree)
@@ -10,6 +11,7 @@ onready var animation_playback = animation_tree.get("parameters/playback")
 var gravity_push = 9.8
 var velocity = Vector3.ZERO
 var input_vector = Vector3.ZERO
+var animation_transitionx = 20
 
 var blend_position = Vector2.ZERO
 
@@ -19,6 +21,7 @@ func _ready():
 func _physics_process(delta):
 	#var root_motion: Transform = animation_tree.get_root_motion_transform()
 	#var v = root_motion.origin / delta
+	#print(v)
 	move_state(delta)
 	
 	
@@ -29,16 +32,26 @@ func move_state(delta):
 				Input.get_action_strength("move_backward")
 	input_vector = input_vector.normalized()
 	
+	var is_running = Input.is_action_pressed("move_faster")
+	
 	if input_vector != Vector3.ZERO:
-		velocity = velocity.move_toward(input_vector * MAX_SPEED, 
+		if is_running and input_vector.z > 0:
+			velocity = velocity.move_toward(input_vector * MAX_RUN_SPEED, 
 						ACCELERATION * delta)
-		blend_position = Vector2(input_vector.x, input_vector.z)
-		if blend_position.y >= 0:
-			animation_tree.set("parameters/WalkingForward/blend_position", blend_position)
-			animation_playback.travel('WalkingForward')
+			animation_playback.travel('Running')
 		else:
-			animation_tree.set("parameters/WalkingBackward/blend_position", blend_position)
-			animation_playback.travel('WalkingBackward')
+			velocity = velocity.move_toward(input_vector * MAX_WALK_SPEED, 
+							ACCELERATION * delta)
+			# move animation related code in a AnimationTree script
+			# for smooth animtions use velocity instead of input_vector
+			if input_vector.z >= 0:
+				blend_position = Vector2(input_vector.x, input_vector.z)
+			else:
+				blend_position = Vector2(-input_vector.x, input_vector.z)
+			
+			animation_tree.set("parameters/Walking/blend_position", blend_position)
+			animation_playback.travel('Walking')
+		
 	else:
 		velocity = velocity.move_toward(Vector3.ZERO, FRICTION * delta)
 		animation_playback.travel('Idle')
