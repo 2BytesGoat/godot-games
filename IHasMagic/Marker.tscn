@@ -4,11 +4,16 @@
 
 [sub_resource type="SpatialMaterial" id=1]
 albedo_color = Color( 0.14902, 0.619608, 0.243137, 1 )
+emission_enabled = true
+emission = Color( 0.317647, 0.501961, 0.313726, 1 )
+emission_energy = 1.0
+emission_operator = 0
+emission_on_uv2 = false
 
 [sub_resource type="CylinderMesh" id=2]
 material = SubResource( 1 )
-top_radius = 0.25
-bottom_radius = 0.75
+top_radius = 0.5
+bottom_radius = 1.25
 height = 0.1
 
 [node name="Marker" type="Spatial"]
