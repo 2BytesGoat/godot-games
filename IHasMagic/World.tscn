@@ -1,0 +1,42 @@
+[gd_scene load_steps=7 format=2]
+
+[ext_resource path="res://Assets/Textures/Plane.png" type="Texture" id=1]
+[ext_resource path="res://Player.tscn" type="PackedScene" id=2]
+[ext_resource path="res://PlayerCamera.gd" type="Script" id=3]
+
+[sub_resource type="NavigationMesh" id=1]
+vertices = PoolVector3Array( -14.4, 0.4, 7.2, -14.4, 0.4, 14.4, -7.2, 0.4, 14.4, 7.2, 0.4, 14.4, 14.4, 0.4, 14.4, 14.4, 0.4, 7.2, 14.4, 0.4, -7.2, 14.4, 0.4, -14.4, 7.2, 0.4, -14.4, -7.2, 0.4, -14.4, -14.4, 0.4, -14.4, -14.4, 0.4, -7.2, -14.4, 0.4, 0, -14.4, 0.4, 7.2, -7.2, 0.4, 14.4, 0, 0.4, 14.4, 7.2, 0.4, 14.4, 14.4, 0.4, 7.2, 14.4, 0.4, 0, 14.4, 0.4, -7.2, 7.2, 0.4, -14.4, 0, 0.4, -14.4, 0, 0.4, -14.4, -7.2, 0.4, -14.4, -14.4, 0.4, -7.2, -14.4, 0.4, 0, 14.4, 0.4, 0, 0, 0.4, -14.4, -14.4, 0.4, 0, -7.2, 0.4, 14.4, 0, 0.4, 14.4, 14.4, 0.4, 7.2 )
+polygons = [ PoolIntArray( 2, 1, 0 ), PoolIntArray( 5, 4, 3 ), PoolIntArray( 8, 7, 6 ), PoolIntArray( 11, 10, 9 ), PoolIntArray( 14, 13, 12 ), PoolIntArray( 17, 16, 15 ), PoolIntArray( 19, 18, 20 ), PoolIntArray( 20, 18, 21 ), PoolIntArray( 23, 22, 24 ), PoolIntArray( 24, 22, 25 ), PoolIntArray( 31, 30, 26 ), PoolIntArray( 26, 30, 29 ), PoolIntArray( 26, 29, 28 ), PoolIntArray( 26, 28, 27 ) ]
+
+[sub_resource type="SpatialMaterial" id=2]
+flags_world_triplanar = true
+albedo_texture = ExtResource( 1 )
+uv1_triplanar = true
+
+[sub_resource type="QuadMesh" id=3]
+material = SubResource( 2 )
+custom_aabb = AABB( 270, 0, 0, 0, 0, 0 )
+size = Vector2( 30, 30 )
+
+[node name="World" type="Spatial"]
+
+[node name="PlayerCamera" type="Spatial" parent="."]
+script = ExtResource( 3 )
+
+[node name="Camera" type="Camera" parent="PlayerCamera"]
+transform = Transform( 1, 0, 0, 0, 0.707107, 0.707107, 0, -0.707107, 0.707107, 0, 14, 14 )
+
+[node name="Level1" type="Navigation" parent="."]
+
+[node name="Player" parent="Level1" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.93147, 0 )
+
+[node name="NavigationMeshInstance" type="NavigationMeshInstance" parent="Level1"]
+navmesh = SubResource( 1 )
+
+[node name="Terrain" type="CSGCombiner" parent="Level1/NavigationMeshInstance"]
+use_collision = true
+
+[node name="CSGMesh" type="CSGMesh" parent="Level1/NavigationMeshInstance/Terrain"]
+transform = Transform( 1, 0, 0, 0, 1.19249e-08, 1, 0, -1, 1.19249e-08, 0, 0, 0 )
+mesh = SubResource( 3 )
