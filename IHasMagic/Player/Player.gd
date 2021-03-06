@@ -9,8 +9,8 @@ onready var projectile_spwan = $Weapon/Position3D
 onready var Projectile = preload("res://Spells/Projectile.tscn")
 
 func _ready():
-	#Input.set_mouse_mode(Input.MOUSE_MODE_CONFINED)
-	pass
+	Input.set_mouse_mode(Input.MOUSE_MODE_CONFINED)
+	#pass
 
 func move_to(target_pos):
 	path = nav.get_simple_path(global_transform.origin, target_pos)
@@ -22,6 +22,7 @@ func update_orientation(target_pos):
 				  Vector2(global_pos.z, global_pos.x)).angle()
 	
 func cast_spell(target_pos):
+	path = []
 	update_orientation(target_pos)
 	var new_projectile = Projectile.instance()
 	projectile_spwan.add_child(new_projectile)
