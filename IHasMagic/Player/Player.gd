@@ -4,9 +4,8 @@ var path = []
 var path_idx = 0
 const move_speed = 12
 onready var nav: Navigation = get_parent()
-onready var dir_sprite: Spatial = $DirectionSprite 
-
-var global_pos = Vector3.ZERO
+onready var dir_sprite: Spatial = $DirectionSprite
+onready var Projectile = preload("res://Spells/Projectile.tscn")
 
 func _ready():
 	#Input.set_mouse_mode(Input.MOUSE_MODE_CONFINED)
@@ -17,7 +16,7 @@ func move_to(target_pos):
 	path_idx = 0
 	
 func _physics_process(delta):
-	global_pos = global_transform.origin
+	var global_pos = global_transform.origin
 	if path_idx < path.size():
 		var move_vec = (path[path_idx] - global_pos)
 		if move_vec.length() < 0.1:
