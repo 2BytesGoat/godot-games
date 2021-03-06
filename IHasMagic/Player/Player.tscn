@@ -59,3 +59,9 @@ material/0 = null
 transform = Transform( 1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 1.5 )
 mesh = SubResource( 5 )
 material/0 = null
+
+[node name="Weapon" type="Spatial" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.27457, 0 )
+
+[node name="Position3D" type="Position3D" parent="Weapon"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1 )

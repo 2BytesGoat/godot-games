@@ -2,6 +2,8 @@ extends Spatial
 
 const ray_length = 1000
 const world_colision_mask = 1
+const player_colision_mask = 10
+const all_colision_mask = 11
 const spawn_point = Vector3(0, 0.1, 7)
 
 onready var camera = $Camera
@@ -21,23 +23,30 @@ func _ready():
 func _process(delta):
 	var m_pos = get_viewport().get_mouse_position()
 	if Input.is_action_just_pressed("move_player"):
-		move_player_unit(m_pos)
-		
+		player_unit_move(m_pos)
+	if Input.is_action_just_pressed("cast_spell_1"):
+		player_cast_spell(m_pos)
+
+func player_unit_move(m_pos):
+	var result = raycast_from_mouse(m_pos, world_colision_mask)
+	if result:
+		create_movement_marker(result.position)
+		player_hero.move_to(result.position)
+
+func player_cast_spell(m_pos):
+	var result = raycast_from_mouse(m_pos, world_colision_mask)
+	if result:
+		player_hero.cast_spell(result.position)
+
+func raycast_from_mouse(m_pos, collision_mask):
+	var ray_start = camera.project_ray_origin(m_pos)
+	var ray_end = ray_start + camera.project_ray_normal(m_pos) * ray_length
+	var space_state = get_world().direct_space_state
+	return space_state.intersect_ray(ray_start, ray_end, [], collision_mask)
+
 func create_movement_marker(p_pos):
 	if is_instance_valid(last_marker):
 		last_marker.remove_marker()
 	last_marker = Marker.instance()
 	self.add_child(last_marker)
 	last_marker.global_transform.origin = p_pos
-
-func move_player_unit(m_pos):
-	var result = raycast_from_mouse(m_pos, world_colision_mask)
-	if result:
-		create_movement_marker(result.position)
-		player_hero.move_to(result.position)
-	
-func raycast_from_mouse(m_pos, collision_mask):
-	var ray_start = camera.project_ray_origin(m_pos)
-	var ray_end = ray_start + camera.project_ray_normal(m_pos) * ray_length
-	var space_state = get_world().direct_space_state
-	return space_state.intersect_ray(ray_start, ray_end, [], collision_mask)
