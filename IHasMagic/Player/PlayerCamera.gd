@@ -31,6 +31,8 @@ func _process(delta):
 		player_unit_move(m_pos)
 	if Input.is_action_just_pressed("cast_spell_1"):
 		player_cast_spell(m_pos)
+	if Input.is_action_pressed("ui_center_camera"):
+		center_camera_on_player()
 
 func pan_camera(m_pos, delta):
 	var v_size = get_viewport().size
@@ -40,11 +42,15 @@ func pan_camera(m_pos, delta):
 	elif m_pos.x > v_size.x - MOVE_MARGIN:
 		move_vec = Vector3(1, 0, 1)
 	if m_pos.y < MOVE_MARGIN:
-		move_vec = Vector3(1, 0, -1)
+		move_vec = Vector3(1.5, 0, -1.5)
 	elif m_pos.y > v_size.y - MOVE_MARGIN:
-		move_vec = Vector3(-1, 0, 1)
+		move_vec = Vector3(-1.5, 0, 1.5)
 	move_vec = move_vec.rotated(Vector3(0, 1, 0), rotation_degrees.y)
 	global_translate(move_vec * delta * MOVE_SPEED)
+	
+func center_camera_on_player():
+	var direction = player_hero.global_transform.origin - transform.origin
+	global_translate(direction)
 
 func player_unit_move(m_pos):
 	var result = raycast_from_mouse(m_pos, world_colision_mask)
