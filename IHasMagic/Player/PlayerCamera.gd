@@ -11,7 +11,7 @@ onready var camera = $Camera
 onready var world = get_parent()
 onready var current_level = world.get_node('Level')
 onready var Player = preload("res://Player/Player.tscn")
-onready var Marker = preload("res://Marker.tscn")
+onready var Marker = preload("res://Player/Marker.tscn")
 
 var last_marker
 var player_hero
