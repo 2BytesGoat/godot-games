@@ -42,9 +42,9 @@ func pan_camera(m_pos, delta):
 	elif m_pos.x > v_size.x - MOVE_MARGIN:
 		move_vec = Vector3(1, 0, 1)
 	if m_pos.y < MOVE_MARGIN:
-		move_vec = Vector3(1.5, 0, -1.5)
+		move_vec = Vector3(1, 0, -1)
 	elif m_pos.y > v_size.y - MOVE_MARGIN:
-		move_vec = Vector3(-1.5, 0, 1.5)
+		move_vec = Vector3(-1, 0, 1)
 	move_vec = move_vec.rotated(Vector3(0, 1, 0), rotation_degrees.y)
 	global_translate(move_vec * delta * MOVE_SPEED)
 	
