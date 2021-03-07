@@ -1,5 +1,7 @@
 extends Spatial
 
+const MOVE_MARGIN = 20
+const MOVE_SPEED = 30
 const ray_length = 1000
 const world_colision_mask = 1
 const player_colision_mask = 10
@@ -17,16 +19,32 @@ var last_marker
 var player_hero
 
 func _ready():
-	player_hero = Player.instance()
-	current_level.add_child(player_hero)
-	player_hero.global_transform.origin = spawn_point
+	#player_hero = Player.instance()
+	#current_level.add_child(player_hero)
+	#player_hero.global_transform.origin = spawn_point
+	player_hero = current_level.get_node("Player")
 
 func _process(delta):
 	var m_pos = get_viewport().get_mouse_position()
+	pan_camera(m_pos, delta)
 	if Input.is_action_just_pressed("move_player"):
 		player_unit_move(m_pos)
 	if Input.is_action_just_pressed("cast_spell_1"):
 		player_cast_spell(m_pos)
+
+func pan_camera(m_pos, delta):
+	var v_size = get_viewport().size
+	var move_vec = Vector3()
+	if m_pos.x < MOVE_MARGIN:
+		move_vec = Vector3(-1, 0, -1)
+	elif m_pos.x > v_size.x - MOVE_MARGIN:
+		move_vec = Vector3(1, 0, 1)
+	if m_pos.y < MOVE_MARGIN:
+		move_vec = Vector3(1, 0, -1)
+	elif m_pos.y > v_size.y - MOVE_MARGIN:
+		move_vec = Vector3(-1, 0, 1)
+	move_vec = move_vec.rotated(Vector3(0, 1, 0), rotation_degrees.y)
+	global_translate(move_vec * delta * MOVE_SPEED)
 
 func player_unit_move(m_pos):
 	var result = raycast_from_mouse(m_pos, world_colision_mask)

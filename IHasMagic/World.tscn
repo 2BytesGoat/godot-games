@@ -1,13 +1,14 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://Assets/Textures/Plane.png" type="Texture" id=1]
 [ext_resource path="res://Enemy/Dummy.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Player/PlayerCamera.tscn" type="PackedScene" id=3]
 [ext_resource path="res://World.gd" type="Script" id=4]
+[ext_resource path="res://Player/Player.tscn" type="PackedScene" id=5]
 
 [sub_resource type="NavigationMesh" id=1]
-vertices = PoolVector3Array( -7.2, 0.363522, -14.4, -14.4, 0.363522, -14.4, -14.4, 0.363522, -12.6, -5.1, 0.363522, -12.3, 7.2, 0.363522, -14.4, 9.53674e-07, 0.363522, -14.4, -5.1, 0.363522, -12.3, -5.1, 0.363522, -1.5, 14.4, 0.363522, -1.2, 14.4, 0.363522, -7.8, 9.53674e-07, 0.363522, -14.4, -7.2, 0.363522, -14.4, -5.1, 0.363522, -12.3, 14.4, 0.363522, -7.8, 14.4, 0.363522, -14.4, 7.2, 0.363522, -14.4, -13.5, 1.76352, -1.8, -6.6, 1.76352, -1.8, -6.6, 4.36352, -11.1, -13.5, 4.36352, -11.1, -13.2, 0.363522, -11.1, -13.2, 0.363522, -5.1, -6.6, 0.363522, -5.1, -6.6, 0.363522, -11.1, -13.5, 1.16352, 0.3, -14.4, 0.363522, 0.3, -14.4, 0.363522, 7.2, -13.95, 0.363522, 3.75, -6.6, 1.16352, 0.3, -6.6, 1.76352, -1.8, -13.5, 1.76352, -1.8, -13.5, 1.16352, 0.3, -5.7, 1.16352, 0.6, -6.6, 1.16352, 0.3, -13.5, 1.16352, 0.3, -14.4, 0.363522, 7.2, -14.4, 0.363522, 14.4, -5.7, 0.363522, 14.4, -13.95, 0.363522, 3.75, -7.80597, 0.363522, 2.99637, 4.2, 0.363522, 14.4, 14.4, 0.363522, 14.4, 14.4, 0.363522, 6.6, -5.1, 0.363522, 0.3, -5.7, 1.16352, 0.6, -5.7, 0.363522, 14.4, 4.2, 0.363522, 14.4, -5.1, 0.363522, -1.5, -5.1, 0.363522, 0.3, 4.2, 0.363522, 14.4, 14.4, 0.363522, 6.6, 14.4, 0.363522, -1.2 )
-polygons = [ PoolIntArray( 1, 0, 2 ), PoolIntArray( 2, 0, 3 ), PoolIntArray( 5, 4, 6 ), PoolIntArray( 6, 4, 7 ), PoolIntArray( 7, 4, 9 ), PoolIntArray( 7, 9, 8 ), PoolIntArray( 12, 11, 10 ), PoolIntArray( 15, 14, 13 ), PoolIntArray( 19, 18, 16 ), PoolIntArray( 16, 18, 17 ), PoolIntArray( 23, 22, 20 ), PoolIntArray( 20, 22, 21 ), PoolIntArray( 24, 27, 25 ), PoolIntArray( 25, 27, 26 ), PoolIntArray( 31, 30, 28 ), PoolIntArray( 28, 30, 29 ), PoolIntArray( 36, 35, 37 ), PoolIntArray( 37, 39, 32 ), PoolIntArray( 32, 39, 33 ), PoolIntArray( 33, 39, 34 ), PoolIntArray( 34, 39, 38 ), PoolIntArray( 38, 39, 35 ), PoolIntArray( 35, 39, 37 ), PoolIntArray( 40, 42, 41 ), PoolIntArray( 44, 43, 45 ), PoolIntArray( 45, 43, 46 ), PoolIntArray( 48, 47, 49 ), PoolIntArray( 49, 47, 50 ), PoolIntArray( 50, 47, 51 ) ]
+vertices = PoolVector3Array( -49.4, 0.4, 18.2, -49.4, 0.4, 24.5, -43.4, 0.4, 24.5, 43, 0.4, 24.5, 49.3, 0.4, 24.5, 49.3, 0.4, 18.2, -43.4, 0.4, -24.4, -49.4, 0.4, -24.4, -49.4, 0.4, -12.4, 49.3, 0.4, -12.4, 49.3, 0.4, -24.4, 43, 0.4, -24.4, -49.4, 0.4, 12.2, -49.4, 0.4, 18.2, -43.4, 0.4, 24.5, -37.1, 0.4, 24.5, 43, 0.4, 24.5, 49.3, 0.4, 18.2, 49.3, 0.4, 12.2, 36.7, 0.4, 24.5, -37.1, 0.4, -24.4, -43.4, 0.4, -24.4, -49.4, 0.4, -12.4, 5.8, 0.4, -24.4, -0.200001, 0.4, -24.4, -0.200001, 0.4, 24.5, 5.8, 0.4, 24.5, 49.3, 0.4, -12.4, 43, 0.4, -24.4, 36.7, 0.4, -24.4, 18.1, 0.4, 24.5, 24.4, 0.4, 24.5, 49.3, 0.4, -0.1, -37.1, 0.4, -24.4, -49.4, 0.4, -12.4, -49.4, 0.4, -6.4, -31.1, 0.4, -24.4, 49.3, 0.4, -6.4, 49.3, 0.4, -12.4, 36.7, 0.4, -24.4, 30.4, 0.4, -24.4, -49.4, 0.4, 12.2, -37.1, 0.4, 24.5, -31.1, 0.4, 24.5, -49.4, 0.4, 5.9, 36.7, 0.4, 24.5, 49.3, 0.4, 12.2, 49.3, 0.4, 5.9, 30.4, 0.4, 24.5, -12.5, 0.4, -24.4, -18.8, 0.4, -24.4, -49.4, 0.4, -0.1, 49.3, 0.4, -0.1, 18.1, 0.4, -24.4, 12.1, 0.4, -24.4, -49.4, 0.4, -0.1, -18.8, 0.4, 24.5, -12.5, 0.4, 24.5, 12.1, 0.4, 24.5, 18.1, 0.4, 24.5, 49.3, 0.4, -0.1, -31.1, 0.4, -24.4, -49.4, 0.4, -6.4, -49.4, 0.4, -0.1, -24.8, 0.4, -24.4, -49.4, 0.4, -0.1, -49.4, 0.4, 5.9, -31.1, 0.4, 24.5, -24.8, 0.4, 24.5, 49.3, 0.4, -6.4, 30.4, 0.4, -24.4, 24.4, 0.4, -24.4, 30.4, 0.4, 24.5, 49.3, 0.4, 5.9, 49.3, 0.4, -0.1, 24.4, 0.4, 24.5, 12.1, 0.4, 24.5, 49.3, 0.4, -0.1, 12.1, 0.4, -24.4, 5.8, 0.4, -24.4, 5.8, 0.4, 24.5, -12.5, 0.4, -24.4, -49.4, 0.4, -0.1, -12.5, 0.4, 24.5, -6.5, 0.4, 24.5, -6.5, 0.4, -24.4, 49.3, 0.4, -0.1, 49.3, 0.4, -6.4, 24.4, 0.4, -24.4, 18.1, 0.4, -24.4, -0.200001, 0.4, -24.4, -6.5, 0.4, -24.4, -6.5, 0.4, 24.5, -0.200001, 0.4, 24.5, -18.8, 0.4, -24.4, -24.8, 0.4, -24.4, -49.4, 0.4, -0.1, -49.4, 0.4, -0.1, -24.8, 0.4, 24.5, -18.8, 0.4, 24.5 )
+polygons = [ PoolIntArray( 2, 1, 0 ), PoolIntArray( 5, 4, 3 ), PoolIntArray( 8, 7, 6 ), PoolIntArray( 11, 10, 9 ), PoolIntArray( 13, 12, 14 ), PoolIntArray( 14, 12, 15 ), PoolIntArray( 17, 16, 18 ), PoolIntArray( 18, 16, 19 ), PoolIntArray( 22, 21, 20 ), PoolIntArray( 26, 25, 23 ), PoolIntArray( 23, 25, 24 ), PoolIntArray( 29, 28, 27 ), PoolIntArray( 32, 31, 30 ), PoolIntArray( 34, 33, 35 ), PoolIntArray( 35, 33, 36 ), PoolIntArray( 38, 37, 39 ), PoolIntArray( 39, 37, 40 ), PoolIntArray( 42, 41, 43 ), PoolIntArray( 43, 41, 44 ), PoolIntArray( 46, 45, 47 ), PoolIntArray( 47, 45, 48 ), PoolIntArray( 49, 51, 50 ), PoolIntArray( 54, 53, 52 ), PoolIntArray( 57, 56, 55 ), PoolIntArray( 60, 59, 58 ), PoolIntArray( 62, 61, 63 ), PoolIntArray( 63, 61, 64 ), PoolIntArray( 66, 65, 67 ), PoolIntArray( 67, 65, 68 ), PoolIntArray( 71, 70, 69 ), PoolIntArray( 73, 72, 74 ), PoolIntArray( 74, 72, 75 ), PoolIntArray( 78, 77, 79 ), PoolIntArray( 79, 77, 76 ), PoolIntArray( 79, 76, 80 ), PoolIntArray( 81, 85, 82 ), PoolIntArray( 82, 85, 83 ), PoolIntArray( 83, 85, 84 ), PoolIntArray( 87, 86, 88 ), PoolIntArray( 88, 86, 89 ), PoolIntArray( 93, 92, 90 ), PoolIntArray( 90, 92, 91 ), PoolIntArray( 96, 95, 94 ), PoolIntArray( 99, 98, 97 ) ]
 
 [sub_resource type="SpatialMaterial" id=2]
 flags_world_triplanar = true
@@ -17,17 +18,27 @@ uv1_triplanar = true
 [sub_resource type="QuadMesh" id=3]
 material = SubResource( 2 )
 custom_aabb = AABB( 270, 0, 0, 0, 0, 0 )
-size = Vector2( 30, 30 )
+size = Vector2( 50, 50 )
 
 [node name="World" type="Spatial"]
 script = ExtResource( 4 )
 
 [node name="PlayerController" parent="." instance=ExtResource( 3 )]
 
+[node name="Camera" parent="PlayerController" index="0"]
+transform = Transform( 0.707107, 0.353553, -0.612372, 0, 0.866025, 0.5, 0.707107, -0.353553, 0.612372, -13, 13, 13 )
+projection = 1
+current = true
+fov = 50.0
+size = 25.0
+
 [node name="Level" type="Navigation" parent="."]
 
+[node name="Player" parent="Level" instance=ExtResource( 5 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
+
 [node name="KinematicBody" parent="Level" instance=ExtResource( 2 )]
-transform = Transform( -4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 6, 0, -8 )
+transform = Transform( -0.5, 0, 0.866025, 0, 1, 0, -0.866025, 0, -0.5, 8, 0, -4 )
 
 [node name="NavigationMeshInstance" type="NavigationMeshInstance" parent="Level"]
 navmesh = SubResource( 1 )
@@ -38,11 +49,6 @@ use_collision = true
 [node name="CSGMesh" type="CSGMesh" parent="Level/NavigationMeshInstance/Terrain"]
 transform = Transform( 1, 0, 0, 0, 1.19249e-08, 1, 0, -1, 1.19249e-08, 0, 0, 0 )
 mesh = SubResource( 3 )
-
-[node name="CSGBox" type="CSGBox" parent="Level/NavigationMeshInstance/Terrain"]
-transform = Transform( 1, 0, 0, 0, -0.258819, -0.965926, 0, 0.965926, -0.258819, -10, 1, -4 )
-width = 8.0
-height = 16.0
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
