@@ -2,6 +2,8 @@ extends Spatial
 
 const MOVE_MARGIN = 20
 const MOVE_SPEED = 30
+const MIN_ZOOM = 15
+const MAX_ZOOM = 35
 const ray_length = 1000
 const world_colision_mask = 1
 const player_colision_mask = 10
@@ -22,6 +24,11 @@ func _ready():
 	#current_level.add_child(player_hero)
 	#player_hero.global_transform.origin = spawn_point
 	player_hero = current_level.get_node("Player")
+	
+func _input(event):
+	if event is InputEventMouseButton:
+		if event.is_pressed():
+			zomm_camera(event)
 
 func _process(delta):
 	var m_pos = get_viewport().get_mouse_position()
@@ -32,6 +39,12 @@ func _process(delta):
 		player_cast_spell(m_pos)
 	if Input.is_action_pressed("ui_center_camera"):
 		center_camera_on_player()
+		
+func zomm_camera(event):
+	if event.button_index == BUTTON_WHEEL_UP:
+		camera.size = min(MAX_ZOOM, camera.size + 1.5)
+	elif event.button_index == BUTTON_WHEEL_DOWN:
+		camera.size = max(MIN_ZOOM, camera.size - 1.5)
 
 func pan_camera(m_pos, delta):
 	var v_size = get_viewport().size
