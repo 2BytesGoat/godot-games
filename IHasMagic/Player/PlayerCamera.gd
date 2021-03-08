@@ -6,7 +6,6 @@ const ray_length = 1000
 const world_colision_mask = 1
 const player_colision_mask = 10
 const enemy_colision_mask = 100
-const all_colision_mask = 111
 const spawn_point = Vector3(0, 0.1, 7)
 
 onready var camera = $Camera
@@ -59,7 +58,7 @@ func player_unit_move(m_pos):
 		player_hero.move_to(result.position)
 
 func player_cast_spell(m_pos):
-	var result = raycast_from_mouse(m_pos, world_colision_mask)
+	var result = raycast_from_mouse(m_pos, world_colision_mask + enemy_colision_mask)
 	if result:
 		player_hero.cast_spell(result.position)
 

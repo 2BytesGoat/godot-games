@@ -19,6 +19,8 @@ height = 0.6
 extents = Vector3( 0.3, 0.3, 0.3 )
 
 [node name="Projectile" type="RigidBody"]
+transform = Transform( -1, 0, -3.25841e-07, 0, 1, 0, 3.25841e-07, 0, -1, 0, 0, 0 )
+gravity_scale = 0.0
 contacts_reported = 1
 contact_monitor = true
 script = ExtResource( 1 )

@@ -26,7 +26,7 @@ func cast_spell(target_pos):
 	update_orientation(target_pos)
 	var new_projectile = Projectile.instance()
 	projectile_spwan.add_child(new_projectile)
-	new_projectile.look_at(target_pos, Vector3.UP)
+	target_pos.y = global_transform.origin.y
 	new_projectile.launch()
 	
 func _physics_process(delta):
