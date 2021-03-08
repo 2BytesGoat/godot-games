@@ -18,8 +18,5 @@ func launch():
 	set_as_toplevel(true)
 	apply_central_impulse(-transform.basis.z * travel_speed)
 
-func _on_Projectile_body_entered(body):
-	if body is KinematicBody:
-		var direction = body.transform.origin - launch_origin 
-		body.move_and_slide(direction.normalized() * travel_speed * 2, Vector3.UP)
+func _on_Hitbox_area_entered(area):
 	queue_free()
