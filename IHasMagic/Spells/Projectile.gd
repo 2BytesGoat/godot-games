@@ -4,7 +4,10 @@ export var travel_speed = 50
 export var lifetime = 1.5
 
 var launch_origin
+var knockback_vector
 var death_timer
+
+onready var hitbox = $Hitbox
 
 func _ready():
 	launch_origin = global_transform.origin
