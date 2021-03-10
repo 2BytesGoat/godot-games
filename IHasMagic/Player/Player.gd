@@ -1,7 +1,7 @@
 extends KinematicBody
 
 const move_speed = 550
-const FRICTION = 150
+const FRICTION = 25 # consider scaling friction with current health
 
 var travel_path = []
 var travel_path_idx = 0

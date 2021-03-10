@@ -2,7 +2,7 @@ extends Area
 
 export var damage = 1
 var knockback_vector = Vector3.ZERO
-var knockback_power = 50
+var knockback_power = 20
 onready var projectile = get_parent()
 
 func _process(_delta):

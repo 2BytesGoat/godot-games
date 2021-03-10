@@ -37,7 +37,7 @@ size = 25.0
 [node name="Player2" parent="Level" instance=ExtResource( 5 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -11 )
 
-[node name="Hurtbox" parent="Level/Player2" index="3"]
+[node name="Hurtbox" parent="Level/Player2" index="5"]
 collision_layer = 4
 
 [node name="Player" parent="Level" instance=ExtResource( 5 )]

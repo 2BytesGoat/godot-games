@@ -4,8 +4,8 @@ export var travel_speed = 50
 export var lifetime = 1.5
 
 var launch_origin
-var knockback_vector
 var death_timer
+# for knockback look in hibox
 
 onready var hitbox = $Hitbox
 
