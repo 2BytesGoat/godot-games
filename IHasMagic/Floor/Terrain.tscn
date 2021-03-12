@@ -1,0 +1,35 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://Assets/Floor/Terrain.glb" type="PackedScene" id=1]
+
+[sub_resource type="SpatialMaterial" id=1]
+albedo_color = Color( 0.960784, 0.580392, 0.278431, 1 )
+emission_enabled = true
+emission = Color( 0.776471, 0.0196078, 0.0196078, 1 )
+emission_energy = 1.0
+emission_operator = 0
+emission_on_uv2 = false
+
+[node name="Terrain" instance=ExtResource( 1 )]
+transform = Transform( 0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.1, 0, 0, 0 )
+
+[node name="Tile Lava" parent="." index="0"]
+material/0 = SubResource( 1 )
+
+[node name="Tile Blank Full V2" parent="." index="1"]
+visible = false
+
+[node name="Tile Cobble Full2 V2" parent="." index="2"]
+visible = false
+
+[node name="Tile Dirt Full V2" parent="." index="3"]
+visible = false
+
+[node name="Tile SpikePit Full V1" parent="." index="4"]
+visible = false
+
+[node name="Tile Stone Full3 V2" parent="." index="5"]
+visible = false
+
+[node name="Tile Wood Fulll2 V2" parent="." index="6"]
+visible = false

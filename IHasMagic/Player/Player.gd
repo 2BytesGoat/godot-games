@@ -36,8 +36,9 @@ func cast_spell(target_pos):
 func _physics_process(delta):
 	var global_pos = global_transform.origin
 	
-	knockback_vector = knockback_vector.move_toward(Vector3.ZERO, FRICTION * delta)
-	knockback_vector = move_and_slide(knockback_vector)
+	if knockback_vector != Vector3.ZERO: #issues when colliding with grid map
+		knockback_vector = knockback_vector.move_toward(Vector3.ZERO, FRICTION * delta)
+		knockback_vector = move_and_slide(knockback_vector)
 	
 	if travel_path_idx < travel_path.size():
 		var move_vec = (travel_path[travel_path_idx] - global_pos)
