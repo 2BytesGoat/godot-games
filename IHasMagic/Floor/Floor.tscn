@@ -1,52 +1,77 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://Assets/Floor/Terrain.glb" type="PackedScene" id=1]
-[ext_resource path="res://Assets/Materials/Lava.tres" type="Material" id=2]
-[ext_resource path="res://Assets/Materials/Blank.tres" type="Material" id=3]
-[ext_resource path="res://Assets/Materials/Cobble.tres" type="Material" id=4]
-[ext_resource path="res://Assets/Materials/Dirt.tres" type="Material" id=5]
+[ext_resource path="res://Assets/Textures/Rock.png" type="Texture" id=2]
+[ext_resource path="res://Assets/Textures/Dirt.png" type="Texture" id=3]
+[ext_resource path="res://Assets/Textures/Cube.png" type="Texture" id=4]
+[ext_resource path="res://Assets/Textures/Lava.png" type="Texture" id=5]
 
-[sub_resource type="ConvexPolygonShape" id=1]
+[sub_resource type="SpatialMaterial" id=1]
+flags_world_triplanar = true
+albedo_texture = ExtResource( 4 )
+uv1_triplanar = true
+
+[sub_resource type="ConvexPolygonShape" id=2]
 points = PoolVector3Array( -16.7096, 1.5014, -9.64321, -16.7096, 1.5014, -9.64321, -16.7096, 1.5014, -9.64321, -16.7096, 1.5014, -9.64321, -16.7096, 1.5014, -9.64321, -16.7096, 1.5014, -9.64321, -16.7097, 0.00140113, -9.64326, -16.7097, 0.00140113, -9.64326, -16.7097, 0.00140113, -9.64326, -16.7097, 0.00140113, -9.64326, -16.7097, 0.00140113, -9.64326, -16.7028, 0.000705183, 9.65674, -16.7028, 0.000705183, 9.65674, -16.7028, 0.000705183, 9.65674, -16.7028, 0.000705183, 9.65674, -16.7028, 0.000705183, 9.65674, -16.7028, 0.000705183, 9.65674, -16.7027, 1.50071, 9.65679, -16.7027, 1.50071, 9.65679, -16.7027, 1.50071, 9.65679, -16.7027, 1.50071, 9.65679, -16.7027, 1.50071, 9.65679, 16.7124, 1.5007, -9.65515, 16.7124, 1.5007, -9.65515, 16.7124, 1.5007, -9.65515, 16.7124, 1.5007, -9.65515, 16.7124, 1.5007, -9.65515, 16.7193, 1.5, 9.64485, 16.7193, 1.5, 9.64485, 16.7193, 1.5, 9.64485, 16.7193, 1.5, 9.64485, 16.7193, 1.5, 9.64485, 16.7123, 0.000695884, -9.6552, 16.7123, 0.000695884, -9.6552, 16.7123, 0.000695884, -9.6552, 16.7123, 0.000695884, -9.6552, 16.7123, 0.000695884, -9.6552, 16.7123, 0.000695884, -9.6552, 16.7192, -5.96046e-08, 9.6448, 16.7192, -5.96046e-08, 9.6448, 16.7192, -5.96046e-08, 9.6448, 16.7192, -5.96046e-08, 9.6448, 16.7192, -5.96046e-08, 9.6448, 16.7192, -5.96046e-08, 9.6448, -0.00210854, 0.00139648, -19.2992, -0.00210854, 0.00139648, -19.2992, -0.00210854, 0.00139648, -19.2992, -0.00210854, 0.00139648, -19.2992, -0.00207686, 1.5014, -19.2992, -0.00207686, 1.5014, -19.2992, -0.00207686, 1.5014, -19.2992, -0.00207686, 1.5014, -19.2992, 0.0117272, 1.5, 19.3008, 0.0117272, 1.5, 19.3008, 0.0117272, 1.5, 19.3008, 0.0117272, 1.5, 19.3008, 0.0117272, 1.5, 19.3008, 0.0116955, 4.58956e-06, 19.3008, 0.0116955, 4.58956e-06, 19.3008, 0.0116955, 4.58956e-06, 19.3008 )
 
-[node name="Terrain" instance=ExtResource( 1 )]
+[sub_resource type="SpatialMaterial" id=3]
+flags_world_triplanar = true
+albedo_color = Color( 0.486275, 0.501961, 0.545098, 1 )
+albedo_texture = ExtResource( 2 )
+uv1_scale = Vector3( 0.4, 0.2, 0.4 )
+uv1_triplanar = true
+
+[sub_resource type="SpatialMaterial" id=4]
+flags_world_triplanar = true
+albedo_color = Color( 0.74902, 0.686275, 0.607843, 1 )
+albedo_texture = ExtResource( 3 )
+uv1_triplanar = true
+
+[sub_resource type="SpatialMaterial" id=5]
+flags_world_triplanar = true
+albedo_texture = ExtResource( 5 )
+uv1_scale = Vector3( 0.2, 0.5, 0.4 )
+uv1_triplanar = true
+uv1_triplanar_sharpness = 1.6245
+
+[node name="Floor" instance=ExtResource( 1 )]
+transform = Transform( 0.25, 0, 0, 0, 0.2, 0, 0, 0, 0.2, 0, 0, 0 )
 
 [node name="Tile Blank Full V2" parent="." index="0"]
 visible = false
-material_override = ExtResource( 3 )
+material/0 = SubResource( 1 )
 
 [node name="StaticBody" type="StaticBody" parent="Tile Blank Full V2" index="0"]
 
 [node name="CollisionShape" type="CollisionShape" parent="Tile Blank Full V2/StaticBody" index="0"]
-shape = SubResource( 1 )
+shape = SubResource( 2 )
 
 [node name="Tile Cobble Full2 V2" parent="." index="1"]
 visible = false
-material/0 = ExtResource( 4 )
+material/0 = SubResource( 3 )
 
 [node name="StaticBody2" type="StaticBody" parent="Tile Cobble Full2 V2" index="0"]
 
 [node name="CollisionShape" type="CollisionShape" parent="Tile Cobble Full2 V2/StaticBody2" index="0"]
-shape = SubResource( 1 )
+shape = SubResource( 2 )
 
 [node name="Tile Dirt Full V2" parent="." index="2"]
 visible = false
-material/0 = ExtResource( 5 )
+material/0 = SubResource( 4 )
 
 [node name="StaticBody2" type="StaticBody" parent="Tile Dirt Full V2" index="0"]
-visible = false
 
 [node name="CollisionShape" type="CollisionShape" parent="Tile Dirt Full V2/StaticBody2" index="0"]
-visible = false
-shape = SubResource( 1 )
+shape = SubResource( 2 )
 
 [node name="Tile Lava Full V2" parent="." index="3"]
-material/0 = ExtResource( 2 )
+visible = false
+material/0 = SubResource( 5 )
 
 [node name="StaticBody2" type="StaticBody" parent="Tile Lava Full V2" index="0"]
 
 [node name="CollisionShape" type="CollisionShape" parent="Tile Lava Full V2/StaticBody2" index="0"]
-shape = SubResource( 1 )
+shape = SubResource( 2 )
 
 [node name="Tile SpikePit Full V1" parent="." index="4"]
 visible = false

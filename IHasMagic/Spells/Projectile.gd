@@ -21,5 +21,5 @@ func launch():
 	set_as_toplevel(true)
 	apply_central_impulse(-transform.basis.z * travel_speed)
 
-func _on_Hitbox_area_entered(area):
+func _on_Hitbox_area_entered(_area):
 	queue_free()

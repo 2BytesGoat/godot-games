@@ -54,3 +54,6 @@ func _on_Status_no_health():
 func _on_Hurtbox_area_entered(area):
 	status.health -= area.damage
 	knockback_vector = area.knockback_vector * area.knockback_power
+
+func _on_Hurtbox_is_in_lava():
+	status.health -= 0.1
