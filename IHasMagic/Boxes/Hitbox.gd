@@ -8,3 +8,4 @@ onready var projectile = get_parent()
 func _process(_delta):
 	knockback_vector = projectile.global_transform.origin - projectile.launch_origin
 	knockback_vector = knockback_vector.normalized()
+	knockback_vector.y -= 1 # helps with uneaven terrain
