@@ -1,9 +1,13 @@
 extends Control
 
 onready var health_bar = $TextureProgress
+var max_value
+var value
 
-func update_texture_max(value):
-	health_bar.max_value = value
+func update_texture_max(_value):
+	max_value = _value
+	health_bar.max_value = _value
 	
-func update_texture_current(value):
-	health_bar.value = value
+func update_texture_current(_value):
+	value = _value
+	health_bar.value = _value

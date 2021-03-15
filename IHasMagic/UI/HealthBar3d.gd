@@ -9,4 +9,6 @@ func _on_Status_max_health_changed(value):
 	health_bar.update_texture_max(value)
 
 func _on_Status_health_changed(value):
+	if not self.visible and (health_bar.max_value != health_bar.value):
+		self.visible = true
 	health_bar.update_texture_current(value)

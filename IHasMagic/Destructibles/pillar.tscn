@@ -1,0 +1,44 @@
+[gd_scene load_steps=8 format=2]
+
+[ext_resource path="res://Assets/Destructibles/pillar.glb" type="PackedScene" id=1]
+[ext_resource path="res://addons/destruction/destruction.gd" type="Script" id=2]
+[ext_resource path="res://Destructibles/pillar_broken.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Status.tscn" type="PackedScene" id=4]
+[ext_resource path="res://Destructibles/pillar.gd" type="Script" id=5]
+[ext_resource path="res://UI/HealthBar3D.tscn" type="PackedScene" id=6]
+
+[sub_resource type="CylinderShape" id=1]
+height = 3.4226
+
+[node name="pillar" instance=ExtResource( 1 )]
+script = ExtResource( 5 )
+
+[node name="Destruction" type="Node" parent="." index="1"]
+script = ExtResource( 2 )
+shard_scene = ExtResource( 3 )
+
+[node name="HealthBar3D" parent="." index="2" instance=ExtResource( 6 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.35851, 0 )
+visible = false
+
+[node name="Hurtbox" type="Area" parent="." index="3"]
+collision_layer = 4
+collision_mask = 0
+
+[node name="CollisionShape2" type="CollisionShape" parent="Hurtbox" index="0"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.10298, 0 )
+shape = SubResource( 1 )
+
+[node name="Collsionbox" type="Area" parent="." index="4"]
+
+[node name="CollisionShape2" type="CollisionShape" parent="Collsionbox" index="0"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.10298, 0 )
+shape = SubResource( 1 )
+
+[node name="Status" parent="." index="5" instance=ExtResource( 4 )]
+[connection signal="area_entered" from="Hurtbox" to="." method="_on_Hurtbox_area_entered"]
+[connection signal="health_changed" from="Status" to="HealthBar3D" method="_on_Status_health_changed"]
+[connection signal="max_health_changed" from="Status" to="HealthBar3D" method="_on_Status_max_health_changed"]
+[connection signal="no_health" from="Status" to="." method="_on_Status_no_health"]
+
+[editable path="HealthBar3D"]
