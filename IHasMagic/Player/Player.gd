@@ -35,7 +35,6 @@ func cast_spell(target_pos):
 	
 func _physics_process(delta):
 	var global_pos = global_transform.origin
-	
 	if knockback_vector != Vector3.ZERO: #issues when colliding with grid map
 		knockback_vector = knockback_vector.move_toward(Vector3.ZERO, FRICTION * delta)
 		knockback_vector = move_and_slide(knockback_vector)
@@ -51,9 +50,9 @@ func _physics_process(delta):
 func _on_Status_no_health():
 	queue_free()
 
-func _on_Hurtbox_area_entered(area):
-	status.health -= area.damage
-	knockback_vector = area.knockback_vector * area.knockback_power
+func _on_Hurtbox_is_in_lava(damage):
+	status.health -= damage
 
-func _on_Hurtbox_is_in_lava():
-	status.health -= 0.1
+func _on_Hurtbox_hit_by_projectile(area):
+	status.health -= area.damage
+	self.knockback_vector = area.knockback_vector * area.knockback_power

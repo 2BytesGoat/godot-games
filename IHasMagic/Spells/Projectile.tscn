@@ -36,7 +36,9 @@ material/0 = null
 [node name="CollisionShape" type="CollisionShape" parent="."]
 shape = SubResource( 3 )
 
-[node name="Hitbox" parent="." instance=ExtResource( 2 )]
+[node name="Hitbox" parent="." groups=[
+"projectile",
+] instance=ExtResource( 2 )]
 collision_layer = 0
 collision_mask = 4
 

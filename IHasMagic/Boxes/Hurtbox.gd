@@ -1,18 +1,19 @@
 extends Area
 
-signal is_in_lava
+signal is_in_lava(damage)
+signal hit_by_projectile(area)
+var damage_taken = 0
 
-# Called when the node enters the scene tree for the first time.
-func _ready():
-	pass # Replace with function body.
-
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
-	for body in get_overlapping_bodies():
-		if body is GridMap:
-			var pos = self.global_transform.origin
-			var cell_pos = body.world_to_map(pos) - Vector3.UP
-			var surface_type = body.get_cell_item(cell_pos.x, cell_pos.y, cell_pos.z)
-			if surface_type == 1:
-				emit_signal("is_in_lava")
+	var is_on_floor = false
+	var is_in_lava = false
+	for area in get_overlapping_areas():
+		if area.is_in_group('floor'):
+			is_on_floor = true
+		elif area.is_in_group('lava'):
+			is_in_lava = true
+			damage_taken = area.damage
+		if area.is_in_group('projectile'):
+			emit_signal("hit_by_projectile", area)
+	if not is_on_floor and is_in_lava:
+		 emit_signal("is_in_lava", damage_taken)
