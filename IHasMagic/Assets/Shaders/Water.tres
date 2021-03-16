@@ -1,0 +1,83 @@
+[gd_resource type="ShaderMaterial" load_steps=8 format=2]
+
+[sub_resource type="Shader" id=8]
+code = "shader_type spatial;
+render_mode specular_phong;
+
+uniform float speed: hint_range(-1, 1) = 0.0;
+
+uniform sampler2D noise1;
+uniform sampler2D noise2;
+uniform sampler2D normalmap: hint_normal;
+
+uniform vec4 color: hint_color;
+uniform vec4 edge_color: hint_color;
+
+uniform float edge_scale = 0.25;
+uniform float near = 0.1;
+uniform float far = 100f;
+
+float rim(float depth){
+	depth = 2f * depth - 1f;
+	return near * far / (far + depth * (near - far));
+}
+
+void fragment(){
+	float time = TIME * speed;
+	vec3 n1 = texture(noise1, UV + time).rgb;
+	vec3 n2 = texture(noise2, UV - time * 0.2).rgb;
+	
+	vec2 uv_movement = UV * 4f;
+	uv_movement += TIME * speed * 4f;
+	
+	float sum = (n1.r + n2.r) - 1f;
+	float z_depth = rim(texture(DEPTH_TEXTURE, SCREEN_UV).x);
+	float z_pos = rim(FRAGCOORD.z);
+	float diff = z_depth - z_pos;
+	
+	vec2 displacement = vec2(sum);
+	diff += displacement.x * 100f;
+	
+	vec4 col = mix(edge_color, color, step(edge_scale, diff));
+	vec4 alpha = texture(SCREEN_TEXTURE, SCREEN_UV+displacement);
+	
+	float fin = 0.0;
+	if (sum > 0.0 && sum < 0.4) fin = 0.1;
+	if (sum > 0.4 && sum < 0.8) fin = 0.0;
+	if (sum > 0.8) fin = 1f;
+	
+	ALBEDO = vec3(fin) + mix(alpha.rgb, col.rgb, color.a);
+	NORMALMAP = texture(normalmap, uv_movement).rgb;
+	ROUGHNESS = 0.1;
+}"
+
+[sub_resource type="OpenSimplexNoise" id=11]
+lacunarity = 4.0
+
+[sub_resource type="NoiseTexture" id=12]
+seamless = true
+noise = SubResource( 11 )
+
+[sub_resource type="OpenSimplexNoise" id=17]
+
+[sub_resource type="NoiseTexture" id=14]
+noise = SubResource( 17 )
+
+[sub_resource type="OpenSimplexNoise" id=18]
+
+[sub_resource type="NoiseTexture" id=16]
+seamless = true
+as_normalmap = true
+noise = SubResource( 18 )
+
+[resource]
+shader = SubResource( 8 )
+shader_param/speed = 0.005
+shader_param/color = Color( 0.196078, 0.701961, 0.0117647, 1 )
+shader_param/edge_color = Color( 0, 0, 0, 1 )
+shader_param/edge_scale = 0.25
+shader_param/near = 0.1
+shader_param/far = 20.0
+shader_param/noise1 = SubResource( 12 )
+shader_param/noise2 = SubResource( 14 )
+shader_param/normalmap = SubResource( 16 )
