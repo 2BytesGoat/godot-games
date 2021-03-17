@@ -28,14 +28,14 @@ script/source = "extends Area
 radius = 30.0
 height = 3.0
 
-[sub_resource type="GDScript" id=6]
+[sub_resource type="GDScript" id=5]
 script/source = "extends Area
 
-var damage = 1
+var damage = 0.2
 
 "
 
-[sub_resource type="BoxShape" id=7]
+[sub_resource type="BoxShape" id=6]
 extents = Vector3( 50, 1, 50 )
 
 [node name="World" type="Spatial"]
@@ -53,14 +53,14 @@ size = 25.0
 [node name="Level" type="Navigation" parent="."]
 
 [node name="Player2" parent="Level" instance=ExtResource( 5 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.06355, -8.1843 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.06355, -8.1843 )
 collision_layer = 4
 
 [node name="Hurtbox" parent="Level/Player2" index="5"]
 collision_layer = 4
 
 [node name="Player" parent="Level" instance=ExtResource( 5 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -19, 1.02404, 20 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -19, 2.02404, 20 )
 
 [node name="NavigationMeshInstance" type="NavigationMeshInstance" parent="Level"]
 navmesh = SubResource( 1 )
@@ -97,10 +97,10 @@ material = ExtResource( 1 )
 [node name="LavaArea" type="Area" parent="Level/NavigationMeshInstance/CSGCombiner/Lava" groups=[
 "lava",
 ]]
-script = SubResource( 6 )
+script = SubResource( 5 )
 
 [node name="CollisionShape" type="CollisionShape" parent="Level/NavigationMeshInstance/CSGCombiner/Lava/LavaArea"]
-shape = SubResource( 7 )
+shape = SubResource( 6 )
 
 [node name="Destructibles" type="Node" parent="Level"]
 

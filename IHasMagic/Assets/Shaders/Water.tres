@@ -1,6 +1,6 @@
 [gd_resource type="ShaderMaterial" load_steps=8 format=2]
 
-[sub_resource type="Shader" id=8]
+[sub_resource type="Shader" id=1]
 code = "shader_type spatial;
 render_mode specular_phong;
 
@@ -51,33 +51,35 @@ void fragment(){
 	ROUGHNESS = 0.1;
 }"
 
-[sub_resource type="OpenSimplexNoise" id=11]
+[sub_resource type="OpenSimplexNoise" id=2]
 lacunarity = 4.0
 
-[sub_resource type="NoiseTexture" id=12]
+[sub_resource type="NoiseTexture" id=3]
 seamless = true
-noise = SubResource( 11 )
+noise = SubResource( 2 )
 
-[sub_resource type="OpenSimplexNoise" id=17]
+[sub_resource type="OpenSimplexNoise" id=4]
 
-[sub_resource type="NoiseTexture" id=14]
-noise = SubResource( 17 )
+[sub_resource type="NoiseTexture" id=5]
+seamless = true
+noise = SubResource( 4 )
 
-[sub_resource type="OpenSimplexNoise" id=18]
+[sub_resource type="OpenSimplexNoise" id=6]
 
-[sub_resource type="NoiseTexture" id=16]
+[sub_resource type="NoiseTexture" id=7]
 seamless = true
 as_normalmap = true
-noise = SubResource( 18 )
+noise = SubResource( 6 )
 
 [resource]
-shader = SubResource( 8 )
+render_priority = -1
+shader = SubResource( 1 )
 shader_param/speed = 0.005
-shader_param/color = Color( 0.196078, 0.701961, 0.0117647, 1 )
+shader_param/color = Color( 0.890196, 0.411765, 0.0941176, 1 )
 shader_param/edge_color = Color( 0, 0, 0, 1 )
 shader_param/edge_scale = 0.25
 shader_param/near = 0.1
 shader_param/far = 20.0
-shader_param/noise1 = SubResource( 12 )
-shader_param/noise2 = SubResource( 14 )
-shader_param/normalmap = SubResource( 16 )
+shader_param/noise1 = SubResource( 3 )
+shader_param/noise2 = SubResource( 5 )
+shader_param/normalmap = SubResource( 7 )

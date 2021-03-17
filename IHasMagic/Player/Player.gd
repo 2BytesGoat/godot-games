@@ -6,6 +6,7 @@ const FRICTION = 25 # consider scaling friction with current health
 var travel_path = []
 var travel_path_idx = 0
 var knockback_vector = Vector3.ZERO
+var movement = Vector3.ZERO
 
 onready var nav: Navigation = get_parent()
 onready var status = $Status
@@ -35,17 +36,20 @@ func cast_spell(target_pos):
 	
 func _physics_process(delta):
 	var global_pos = global_transform.origin
-	if knockback_vector != Vector3.ZERO: #issues when colliding with grid map
-		knockback_vector = knockback_vector.move_toward(Vector3.ZERO, FRICTION * delta)
-		knockback_vector = move_and_slide(knockback_vector)
-	
+
 	if travel_path_idx < travel_path.size():
 		var move_vec = (travel_path[travel_path_idx] - global_pos)
 		if move_vec.length() < 0.1:
 			travel_path_idx += 1
 		else:
 			update_orientation(travel_path[travel_path_idx])
-			move_and_slide(move_vec.normalized() * move_speed * delta, Vector3.UP)
+			movement = move_and_slide(move_vec.normalized() * move_speed * delta, Vector3.UP)
+			
+	if knockback_vector != Vector3.ZERO: #issues when colliding with grid map
+		knockback_vector = knockback_vector.move_toward(Vector3.ZERO, FRICTION * delta)
+		knockback_vector = move_and_slide(knockback_vector)
+	
+	movement += knockback_vector
 	
 func _on_Status_no_health():
 	queue_free()

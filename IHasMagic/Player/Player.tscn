@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=2]
+[gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://Player/Player.gd" type="Script" id=1]
 [ext_resource path="res://Assets/Materials/Player1.tres" type="Material" id=2]
@@ -6,29 +6,33 @@
 [ext_resource path="res://Boxes/Hurtbox.tscn" type="PackedScene" id=4]
 [ext_resource path="res://UI/HealthBar3D.tscn" type="PackedScene" id=5]
 [ext_resource path="res://Boxes/Hurtbox.gd" type="Script" id=6]
+[ext_resource path="res://Player/PlayerGFX.tscn" type="PackedScene" id=7]
 
-[sub_resource type="CapsuleMesh" id=1]
-radius = 0.75
-mid_height = 1.75
-
-[sub_resource type="CubeMesh" id=2]
-size = Vector3( 1, 0.5, 0.5 )
-
-[sub_resource type="CapsuleShape" id=3]
+[sub_resource type="CapsuleShape" id=1]
 radius = 0.75
 height = 1.75
 
-[sub_resource type="CylinderMesh" id=4]
+[sub_resource type="CylinderMesh" id=2]
 material = ExtResource( 2 )
 bottom_radius = 1.1
 height = 0.01
 
-[sub_resource type="PrismMesh" id=5]
+[sub_resource type="PrismMesh" id=3]
 material = ExtResource( 2 )
 size = Vector3( 1, 0.5, 0.01 )
 
-[sub_resource type="BoxShape" id=6]
+[sub_resource type="BoxShape" id=4]
 extents = Vector3( 1, 1, 2.2 )
+
+[sub_resource type="AnimationNodeAnimation" id=5]
+animation = "standing idle-loop"
+
+[sub_resource type="AnimationNodeBlendTree" id=6]
+graph_offset = Vector2( 0, 50.75 )
+nodes/Idle/node = SubResource( 5 )
+nodes/Idle/position = Vector2( 140, 100 )
+nodes/output/position = Vector2( 420, 100 )
+node_connections = [ "output", 0, "Idle" ]
 
 [node name="Player" type="KinematicBody" groups=[
 "player_unit",
@@ -38,37 +42,24 @@ collision_mask = 7
 script = ExtResource( 1 )
 
 [node name="HealthBar3D" parent="." instance=ExtResource( 5 )]
-transform = Transform( 1.5, 0, 0, 0, 2, 0, 0, 0, 1, 0, 5, 0 )
+transform = Transform( 1.5, 0, 0, 0, 1.5, 0, 0, 0, 1, 0, 6, 0 )
 
-[node name="GFX" type="Spatial" parent="."]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.6, 0 )
-
-[node name="Body" type="MeshInstance" parent="GFX"]
-transform = Transform( 1, 0, 0, 0, -1.62921e-07, -1, 0, 1, -1.62921e-07, 0, 0, 0 )
-layers = 2
-mesh = SubResource( 1 )
-material/0 = null
-
-[node name="Nose" type="MeshInstance" parent="GFX"]
-transform = Transform( -4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0, 1.2, 0.5 )
-visible = false
-layers = 2
-mesh = SubResource( 2 )
-material/0 = null
+[node name="PlayerGFX" parent="." instance=ExtResource( 7 )]
+transform = Transform( 3, 0, 0, 0, 3, 0, 0, 0, 3, 0, 0.3, 0 )
 
 [node name="CollisionShape" type="CollisionShape" parent="."]
 transform = Transform( 1, 0, 0, 0, -1.62921e-07, -1, 0, 1, -1.62921e-07, 0, 1.6, 0 )
-shape = SubResource( 3 )
+shape = SubResource( 1 )
 
 [node name="DirectionSprite" type="Spatial" parent="."]
 
 [node name="MeshInstance" type="MeshInstance" parent="DirectionSprite"]
-mesh = SubResource( 4 )
+mesh = SubResource( 2 )
 material/0 = null
 
 [node name="MeshInstance" type="MeshInstance" parent="DirectionSprite/MeshInstance"]
 transform = Transform( 1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 1.5 )
-mesh = SubResource( 5 )
+mesh = SubResource( 3 )
 material/0 = null
 
 [node name="Weapon" type="Spatial" parent="."]
@@ -83,9 +74,14 @@ script = ExtResource( 6 )
 
 [node name="CollisionShape" parent="Hurtbox" index="0"]
 transform = Transform( 1, 0, 0, 0, -1.62921e-07, -1, 0, 1, -1.62921e-07, 0, 1.6, 0 )
-shape = SubResource( 6 )
+shape = SubResource( 4 )
 
 [node name="Status" parent="." instance=ExtResource( 3 )]
+
+[node name="AnimationTree" type="AnimationTree" parent="."]
+tree_root = SubResource( 6 )
+anim_player = NodePath("../PlayerGFX/AnimationPlayer")
+active = true
 [connection signal="hit_by_projectile" from="Hurtbox" to="." method="_on_Hurtbox_hit_by_projectile"]
 [connection signal="is_in_lava" from="Hurtbox" to="." method="_on_Hurtbox_is_in_lava"]
 [connection signal="health_changed" from="Status" to="HealthBar3D" method="_on_Status_health_changed"]
@@ -93,6 +89,8 @@ shape = SubResource( 6 )
 [connection signal="no_health" from="Status" to="." method="_on_Status_no_health"]
 
 [editable path="HealthBar3D"]
+
+[editable path="PlayerGFX"]
 
 [editable path="Hurtbox"]
 
