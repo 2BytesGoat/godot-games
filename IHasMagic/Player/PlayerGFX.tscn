@@ -1,5 +1,6 @@
 [gd_scene load_steps=2 format=2]
 
-[ext_resource path="res://Assets/Player/ybot_magician.gltf" type="PackedScene" id=1]
+[ext_resource path="res://Assets/Player/yBotMage.gltf" type="PackedScene" id=1]
 
 [node name="PlayerGFX" instance=ExtResource( 1 )]
+transform = Transform( 3, 0, 0, 0, 3, 0, 0, 0, 3, 0, 0, 0 )
