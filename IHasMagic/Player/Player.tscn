@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=2]
+[gd_scene load_steps=21 format=2]
 
 [ext_resource path="res://Player/Player.gd" type="Script" id=1]
 [ext_resource path="res://Assets/Materials/Player1.tres" type="Material" id=2]
@@ -25,14 +25,35 @@ size = Vector3( 1, 0.5, 0.01 )
 extents = Vector3( 1, 1, 2.2 )
 
 [sub_resource type="AnimationNodeAnimation" id=5]
+animation = "Standing 1H Magic Attack 01-loop"
+
+[sub_resource type="AnimationNodeAnimation" id=6]
 animation = "standing idle-loop"
 
-[sub_resource type="AnimationNodeBlendTree" id=6]
-graph_offset = Vector2( 0, 50.75 )
-nodes/Idle/node = SubResource( 5 )
-nodes/Idle/position = Vector2( 140, 100 )
-nodes/output/position = Vector2( 420, 100 )
-node_connections = [ "output", 0, "Idle" ]
+[sub_resource type="AnimationNodeAnimation" id=7]
+animation = "Standing Run Forward-loop"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=8]
+xfade_time = 0.3
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=9]
+xfade_time = 0.2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=10]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=11]
+
+[sub_resource type="AnimationNodeStateMachine" id=12]
+states/Cast_Spell/node = SubResource( 5 )
+states/Cast_Spell/position = Vector2( 526, 64 )
+states/Idle_1/node = SubResource( 6 )
+states/Idle_1/position = Vector2( 321, 64 )
+states/Run_Forward/node = SubResource( 7 )
+states/Run_Forward/position = Vector2( 321, 148 )
+transitions = [ "Idle_1", "Run_Forward", SubResource( 8 ), "Run_Forward", "Idle_1", SubResource( 9 ), "Idle_1", "Cast_Spell", SubResource( 10 ), "Cast_Spell", "Idle_1", SubResource( 11 ) ]
+start_node = "Idle_1"
+
+[sub_resource type="AnimationNodeStateMachinePlayback" id=13]
 
 [node name="Player" type="KinematicBody" groups=[
 "player_unit",
@@ -79,9 +100,11 @@ shape = SubResource( 4 )
 [node name="Status" parent="." instance=ExtResource( 3 )]
 
 [node name="AnimationTree" type="AnimationTree" parent="."]
-tree_root = SubResource( 6 )
+tree_root = SubResource( 12 )
 anim_player = NodePath("../PlayerGFX/AnimationPlayer")
 active = true
+root_motion_track = NodePath("Armature/Skeleton:root_motion")
+parameters/playback = SubResource( 13 )
 [connection signal="hit_by_projectile" from="Hurtbox" to="." method="_on_Hurtbox_hit_by_projectile"]
 [connection signal="is_in_lava" from="Hurtbox" to="." method="_on_Hurtbox_is_in_lava"]
 [connection signal="health_changed" from="Status" to="HealthBar3D" method="_on_Status_health_changed"]
