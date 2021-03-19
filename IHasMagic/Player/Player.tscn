@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=2]
+[gd_scene load_steps=20 format=2]
 
 [ext_resource path="res://Player/Player.gd" type="Script" id=1]
 [ext_resource path="res://Assets/Materials/Player1.tres" type="Material" id=2]
@@ -9,8 +9,7 @@
 [ext_resource path="res://Player/PlayerGFX.tscn" type="PackedScene" id=7]
 
 [sub_resource type="CapsuleShape" id=1]
-radius = 0.75
-height = 1.75
+height = 3.2
 
 [sub_resource type="CylinderMesh" id=2]
 material = ExtResource( 2 )
@@ -22,20 +21,23 @@ material = ExtResource( 2 )
 size = Vector3( 1, 0.5, 0.01 )
 
 [sub_resource type="BoxShape" id=4]
-extents = Vector3( 1, 1, 2.2 )
+extents = Vector3( 1, 1, 2.5 )
+
+[sub_resource type="BoxShape" id=12]
+extents = Vector3( 1.51276, 0.262567, 1.5 )
 
 [sub_resource type="AnimationNodeAnimation" id=5]
 animation = "standing idle-loop"
 
 [sub_resource type="AnimationNodeBlend2" id=6]
 
-[sub_resource type="AnimationNodeAnimation" id=8]
+[sub_resource type="AnimationNodeAnimation" id=7]
 animation = "Standing Run Forward-loop"
 
-[sub_resource type="AnimationNodeAnimation" id=9]
+[sub_resource type="AnimationNodeAnimation" id=8]
 animation = "Standing 1H Magic Attack 01-loop"
 
-[sub_resource type="AnimationNodeOneShot" id=7]
+[sub_resource type="AnimationNodeOneShot" id=9]
 fadeout_time = 0.5
 autorestart_delay = 0.1
 
@@ -47,16 +49,16 @@ nodes/Idle/node = SubResource( 5 )
 nodes/Idle/position = Vector2( 260, 80 )
 nodes/MoveBlend/node = SubResource( 6 )
 nodes/MoveBlend/position = Vector2( 620, 100 )
-nodes/Run/node = SubResource( 8 )
+nodes/Run/node = SubResource( 7 )
 nodes/Run/position = Vector2( 260, 200 )
-nodes/Shoot/node = SubResource( 9 )
+nodes/Shoot/node = SubResource( 8 )
 nodes/Shoot/position = Vector2( 240, 340 )
-nodes/ShootSpell/node = SubResource( 7 )
+nodes/ShootSpell/node = SubResource( 9 )
 nodes/ShootSpell/position = Vector2( 860, 100 )
 nodes/ShootTimeScale/node = SubResource( 10 )
 nodes/ShootTimeScale/position = Vector2( 600, 300 )
 nodes/output/position = Vector2( 1100, 100 )
-node_connections = [ "output", 0, "ShootSpell", "ShootSpell", 0, "MoveBlend", "ShootSpell", 1, "ShootTimeScale", "MoveBlend", 0, "Idle", "MoveBlend", 1, "Run", "ShootTimeScale", 0, "Shoot" ]
+node_connections = [ "output", 0, "ShootSpell", "ShootTimeScale", 0, "Shoot", "MoveBlend", 0, "Idle", "MoveBlend", 1, "Run", "ShootSpell", 0, "MoveBlend", "ShootSpell", 1, "ShootTimeScale" ]
 
 [node name="Player" type="KinematicBody" groups=[
 "player_unit",
@@ -69,7 +71,7 @@ script = ExtResource( 1 )
 transform = Transform( 1.5, 0, 0, 0, 1.5, 0, 0, 0, 1, 0, 6, 0 )
 
 [node name="CollisionShape" type="CollisionShape" parent="."]
-transform = Transform( 1, 0, 0, 0, -1.62921e-07, -1, 0, 1, -1.62921e-07, 0, 1.6, 0 )
+transform = Transform( 1, 0, 0, 0, -1.62921e-07, -1, 0, 1, -1.62921e-07, 0, 2.5, 0 )
 shape = SubResource( 1 )
 
 [node name="DirectionSprite" type="Spatial" parent="."]
@@ -84,7 +86,7 @@ mesh = SubResource( 3 )
 material/0 = null
 
 [node name="Weapon" type="Spatial" parent="."]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, 3.77457, 3.4 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.75, 3.5 )
 
 [node name="Position3D" type="Position3D" parent="Weapon"]
 
@@ -93,8 +95,12 @@ collision_layer = 2
 script = ExtResource( 6 )
 
 [node name="CollisionShape" parent="Hurtbox" index="0"]
-transform = Transform( 1, 0, 0, 0, -1.62921e-07, -1, 0, 1, -1.62921e-07, 0, 1.6, 0 )
+transform = Transform( 1, 0, 0, 0, -1.62921e-07, -1, 0, 1, -1.62921e-07, 0, 2.5, 0.1 )
 shape = SubResource( 4 )
+
+[node name="CollisionShape2" type="CollisionShape" parent="Hurtbox"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.415473, 0.1 )
+shape = SubResource( 12 )
 
 [node name="Status" parent="." instance=ExtResource( 3 )]
 
