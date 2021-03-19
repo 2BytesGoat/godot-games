@@ -12,6 +12,7 @@ to configure how the `shard_scene` will be converted to `RigidBodies`.
 export var shard_template : PackedScene = preload("res://addons/destruction/ShardTemplates/DefaultShardTemplate.tscn")
 export var shard_scene : PackedScene
 export var shard_container := @"../../" setget set_shard_container
+export var shard_scaling: Vector3
 
 const DestructionUtils = preload("res://addons/destruction/DestructionUtils.gd")
 
@@ -19,6 +20,7 @@ func destroy() -> void:
 	var shards := DestructionUtils.create_shards(shard_scene.instance(), shard_template)
 	get_node(shard_container).add_child(shards)
 	shards.global_transform.origin = get_parent().global_transform.origin
+	shards.scale_object_local(shard_scaling)
 	get_parent().queue_free()
 
 

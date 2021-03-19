@@ -1,11 +1,10 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://addons/destruction/destruction.gd" type="Script" id=2]
 [ext_resource path="res://Destructibles/pillar_broken.tscn" type="PackedScene" id=3]
 [ext_resource path="res://Status.tscn" type="PackedScene" id=4]
 [ext_resource path="res://Destructibles/pillar.gd" type="Script" id=5]
 [ext_resource path="res://UI/HealthBar3D.tscn" type="PackedScene" id=6]
-[ext_resource path="res://addons/destruction/ShardTemplates/DefaultShardTemplate.tscn" type="PackedScene" id=7]
 
 [sub_resource type="ArrayMesh" id=1]
 resource_name = "Pillar"
@@ -39,9 +38,8 @@ material/0 = null
 
 [node name="Destruction" type="Node" parent="."]
 script = ExtResource( 2 )
-shard_template = ExtResource( 7 )
 shard_scene = ExtResource( 3 )
-shard_container = NodePath("../..")
+shard_scaling = Vector3( 2, 4, 2 )
 
 [node name="Hurtbox" type="Area" parent="."]
 collision_layer = 4
@@ -52,7 +50,6 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 7, 0 )
 shape = SubResource( 2 )
 
 [node name="Status" parent="." instance=ExtResource( 4 )]
-max_health = 1
 
 [node name="CollisionShape" type="CollisionShape" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 7, 0 )

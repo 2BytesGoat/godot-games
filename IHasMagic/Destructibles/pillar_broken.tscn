@@ -4,3 +4,6 @@
 
 [node name="pillar_broken" instance=ExtResource( 1 )]
 transform = Transform( 2, 0, 0, 0, 4, 0, 0, 0, 2, 0, 0, 0 )
+
+[node name="Pillar_cell" parent="." index="0"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.605313, 0.979118, 0.0617516 )
