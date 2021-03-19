@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=2]
+[gd_scene load_steps=23 format=2]
 
 [ext_resource path="res://Assets/Shaders/Water.tres" type="Material" id=1]
 [ext_resource path="res://Arena.gd" type="Script" id=2]
@@ -7,8 +7,6 @@
 [ext_resource path="res://Player/Player.tscn" type="PackedScene" id=5]
 [ext_resource path="res://Destructibles/pillar.tscn" type="PackedScene" id=6]
 [ext_resource path="res://Assets/Textures/Plane.png" type="Texture" id=7]
-
-[sub_resource type="AnimationNodeStateMachinePlayback" id=1]
 
 [sub_resource type="AnimationNodeAnimation" id=2]
 animation = "standing idle-loop"
@@ -91,13 +89,9 @@ collision_layer = 4
 [node name="Hurtbox" parent="Level/Player2" index="4"]
 collision_layer = 4
 
-[node name="AnimationTree" parent="Level/Player2" index="7"]
-parameters/playback = SubResource( 1 )
-
 [node name="AnimationTree" type="AnimationTree" parent="Level/Player2"]
 tree_root = SubResource( 9 )
 anim_player = NodePath("../testBot/AnimationPlayer")
-active = true
 root_motion_track = NodePath("Armature/Skeleton:root_motion")
 parameters/playback = SubResource( 10 )
 

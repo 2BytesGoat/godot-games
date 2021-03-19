@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=2]
+[gd_scene load_steps=19 format=2]
 
 [ext_resource path="res://Player/Player.gd" type="Script" id=1]
 [ext_resource path="res://Assets/Materials/Player1.tres" type="Material" id=2]
@@ -27,32 +27,36 @@ extents = Vector3( 1, 1, 2.2 )
 [sub_resource type="AnimationNodeAnimation" id=5]
 animation = "standing idle-loop"
 
-[sub_resource type="AnimationNodeAnimation" id=6]
+[sub_resource type="AnimationNodeBlend2" id=6]
+
+[sub_resource type="AnimationNodeAnimation" id=8]
 animation = "Standing Run Forward-loop"
 
-[sub_resource type="AnimationNodeAnimation" id=7]
+[sub_resource type="AnimationNodeAnimation" id=9]
 animation = "Standing 1H Magic Attack 01-loop"
 
-[sub_resource type="AnimationNodeStateMachineTransition" id=8]
+[sub_resource type="AnimationNodeOneShot" id=7]
+fadeout_time = 0.5
+autorestart_delay = 0.1
 
-[sub_resource type="AnimationNodeStateMachineTransition" id=9]
+[sub_resource type="AnimationNodeTimeScale" id=10]
 
-[sub_resource type="AnimationNodeStateMachineTransition" id=10]
-
-[sub_resource type="AnimationNodeStateMachineTransition" id=11]
-
-[sub_resource type="AnimationNodeStateMachine" id=12]
-states/Idle/node = SubResource( 5 )
-states/Idle/position = Vector2( 556, 14 )
-states/Run/node = SubResource( 6 )
-states/Run/position = Vector2( 556, 136 )
-states/Shoot/node = SubResource( 7 )
-states/Shoot/position = Vector2( 721, 14 )
-transitions = [ "Run", "Idle", SubResource( 8 ), "Idle", "Run", SubResource( 9 ), "Idle", "Shoot", SubResource( 10 ), "Shoot", "Idle", SubResource( 11 ) ]
-start_node = "Idle"
-graph_offset = Vector2( 2, -34 )
-
-[sub_resource type="AnimationNodeStateMachinePlayback" id=13]
+[sub_resource type="AnimationNodeBlendTree" id=11]
+graph_offset = Vector2( 212, 101.5 )
+nodes/Idle/node = SubResource( 5 )
+nodes/Idle/position = Vector2( 260, 80 )
+nodes/MoveBlend/node = SubResource( 6 )
+nodes/MoveBlend/position = Vector2( 620, 100 )
+nodes/Run/node = SubResource( 8 )
+nodes/Run/position = Vector2( 260, 200 )
+nodes/Shoot/node = SubResource( 9 )
+nodes/Shoot/position = Vector2( 240, 340 )
+nodes/ShootSpell/node = SubResource( 7 )
+nodes/ShootSpell/position = Vector2( 860, 100 )
+nodes/ShootTimeScale/node = SubResource( 10 )
+nodes/ShootTimeScale/position = Vector2( 600, 300 )
+nodes/output/position = Vector2( 1100, 100 )
+node_connections = [ "output", 0, "ShootSpell", "ShootSpell", 0, "MoveBlend", "ShootSpell", 1, "ShootTimeScale", "MoveBlend", 0, "Idle", "MoveBlend", 1, "Run", "ShootTimeScale", 0, "Shoot" ]
 
 [node name="Player" type="KinematicBody" groups=[
 "player_unit",
@@ -80,10 +84,9 @@ mesh = SubResource( 3 )
 material/0 = null
 
 [node name="Weapon" type="Spatial" parent="."]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.27457, 0 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, 3.77457, 3.4 )
 
 [node name="Position3D" type="Position3D" parent="Weapon"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1.25242 )
 
 [node name="Hurtbox" parent="." instance=ExtResource( 4 )]
 collision_layer = 2
@@ -95,14 +98,16 @@ shape = SubResource( 4 )
 
 [node name="Status" parent="." instance=ExtResource( 3 )]
 
-[node name="testBot" parent="." instance=ExtResource( 7 )]
+[node name="PlayerGFX" parent="." instance=ExtResource( 7 )]
 
 [node name="AnimationTree" type="AnimationTree" parent="."]
-tree_root = SubResource( 12 )
-anim_player = NodePath("../testBot/AnimationPlayer")
+tree_root = SubResource( 11 )
+anim_player = NodePath("../PlayerGFX/AnimationPlayer")
 active = true
 root_motion_track = NodePath("Armature/Skeleton:root_motion")
-parameters/playback = SubResource( 13 )
+parameters/MoveBlend/blend_amount = 0.0
+parameters/ShootSpell/active = false
+parameters/ShootTimeScale/scale = 2.0
 [connection signal="hit_by_projectile" from="Hurtbox" to="." method="_on_Hurtbox_hit_by_projectile"]
 [connection signal="is_in_lava" from="Hurtbox" to="." method="_on_Hurtbox_is_in_lava"]
 [connection signal="health_changed" from="Status" to="HealthBar3D" method="_on_Status_health_changed"]
@@ -115,4 +120,4 @@ parameters/playback = SubResource( 13 )
 
 [editable path="Status"]
 
-[editable path="testBot"]
+[editable path="PlayerGFX"]

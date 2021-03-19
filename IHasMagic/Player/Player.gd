@@ -19,7 +19,6 @@ onready var status = $Status
 onready var dir_sprite: Spatial = $DirectionSprite
 onready var projectile_spwan = $Weapon/Position3D
 onready var anim_tree = $AnimationTree
-onready var anim_state = anim_tree.get("parameters/playback")
 onready var Projectile = preload("res://Spells/Projectile.tscn")
 
 func _ready():
@@ -36,12 +35,8 @@ func update_orientation(target_pos):
 	
 func cast_spell(target_pos):
 	travel_path = []
-	state = SHOOT
 	update_orientation(target_pos)
-	var new_projectile = Projectile.instance()
-	projectile_spwan.add_child(new_projectile) 
-	new_projectile.launch()
-	anim_state.travel("Shoot")
+	state = SHOOT
 	
 func _physics_process(delta):
 	match state:
@@ -58,19 +53,25 @@ func move_state(delta):
 		else:
 			update_orientation(travel_path[travel_path_idx])
 			movement = move_and_slide(move_vec.normalized() * move_speed * delta, Vector3.UP)
-			anim_state.travel("Run")
+			anim_tree.set("parameters/MoveBlend/blend_amount", 1)
 	else:
 		movement = move_and_slide(Vector3.ZERO, Vector3.UP)
-		anim_state.travel("Idle")
+		anim_tree.set("parameters/MoveBlend/blend_amount", 0)
+	
 	
 	if knockback_vector != Vector3.ZERO:
 		knockback_vector = knockback_vector.move_toward(Vector3.ZERO, FRICTION * delta)
 		knockback_vector = move_and_slide(knockback_vector)
 		
 func shoot_state(_delta):
-	pass
+	anim_tree.set("parameters/ShootSpell/active", 1)
 	
-func _anim_finished():
+func launch_spell():
+	var new_projectile = Projectile.instance()
+	projectile_spwan.add_child(new_projectile) 
+	new_projectile.launch()
+	
+func _animation_ended():
 	state = MOVE
 	
 func _on_Status_no_health():
