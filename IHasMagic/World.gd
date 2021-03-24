@@ -12,6 +12,3 @@ func _input(_event):
 	if Input.is_action_just_pressed("ui_show_hide_fps"):
 		fps_lbl.visible = not fps_lbl.visible
 		is_fps_visible = fps_lbl.visible
-		
-	if Input.is_action_just_pressed("ui_cancel"):
-		get_node("cube/Destruction").destroy()

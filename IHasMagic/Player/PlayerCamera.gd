@@ -1,9 +1,9 @@
 extends Spatial
 
-const MOVE_MARGIN = 20
-const MOVE_SPEED = 30
-const MIN_ZOOM = 15
-const MAX_ZOOM = 35
+const SCROLL_MARGIN = 20
+const SCROLL_SPEED = 45
+const MIN_ZOOM = 30
+const MAX_ZOOM = 50
 const ray_length = 1000
 const world_colision_mask = 1
 const player_colision_mask = 10
@@ -24,6 +24,7 @@ func _ready():
 	#current_level.add_child(player_hero)
 	#player_hero.global_transform.origin = spawn_point
 	player_hero = current_level.get_node("Player")
+	center_camera_on_player()
 	
 func _input(event):
 	if event is InputEventMouseButton:
@@ -42,26 +43,28 @@ func _process(delta):
 		
 func zomm_camera(event):
 	if event.button_index == BUTTON_WHEEL_UP:
-		camera.size = min(MAX_ZOOM, camera.size + 1.5)
+		camera.fov = max(MIN_ZOOM, camera.fov - 1.5)
 	elif event.button_index == BUTTON_WHEEL_DOWN:
-		camera.size = max(MIN_ZOOM, camera.size - 1.5)
+		camera.fov = min(MAX_ZOOM, camera.fov + 1.5)
 
 func pan_camera(m_pos, delta):
 	var v_size = get_viewport().size
 	var move_vec = Vector3()
-	if m_pos.x < MOVE_MARGIN:
-		move_vec = Vector3(-1, 0, -1)
-	elif m_pos.x > v_size.x - MOVE_MARGIN:
-		move_vec = Vector3(1, 0, 1)
-	if m_pos.y < MOVE_MARGIN:
-		move_vec = Vector3(1, 0, -1)
-	elif m_pos.y > v_size.y - MOVE_MARGIN:
-		move_vec = Vector3(-1, 0, 1)
+	if m_pos.x < SCROLL_MARGIN:
+		move_vec += Vector3(0, 0, -1)
+	elif m_pos.x > v_size.x - SCROLL_MARGIN:
+		move_vec += Vector3(0, 0, 1)
+	if m_pos.y < SCROLL_MARGIN:
+		move_vec += Vector3(1, 0, 0)
+	elif m_pos.y > v_size.y - SCROLL_MARGIN:
+		move_vec += Vector3(-1, 0, 0)
+	move_vec = move_vec.normalized()
 	move_vec = move_vec.rotated(Vector3(0, 1, 0), rotation_degrees.y)
-	global_translate(move_vec * delta * MOVE_SPEED)
+	global_translate(move_vec * delta * SCROLL_SPEED)
 	
 func center_camera_on_player():
 	var direction = player_hero.global_transform.origin - transform.origin
+	direction.y = 0
 	global_translate(direction)
 
 func player_unit_move(m_pos):

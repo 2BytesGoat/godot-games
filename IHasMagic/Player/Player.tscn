@@ -23,42 +23,42 @@ size = Vector3( 1, 0.5, 0.01 )
 [sub_resource type="BoxShape" id=4]
 extents = Vector3( 1, 1, 2.5 )
 
-[sub_resource type="BoxShape" id=12]
-extents = Vector3( 1.51276, 0.262567, 1.5 )
+[sub_resource type="BoxShape" id=5]
+extents = Vector3( 0.3, 0.4, 0.3 )
 
-[sub_resource type="AnimationNodeAnimation" id=5]
+[sub_resource type="AnimationNodeAnimation" id=6]
 animation = "standing idle-loop"
 
-[sub_resource type="AnimationNodeBlend2" id=6]
-
-[sub_resource type="AnimationNodeAnimation" id=7]
-animation = "Standing Run Forward-loop"
+[sub_resource type="AnimationNodeBlend2" id=7]
 
 [sub_resource type="AnimationNodeAnimation" id=8]
+animation = "Standing Run Forward-loop"
+
+[sub_resource type="AnimationNodeAnimation" id=9]
 animation = "Standing 1H Magic Attack 01-loop"
 
-[sub_resource type="AnimationNodeOneShot" id=9]
+[sub_resource type="AnimationNodeOneShot" id=10]
 fadeout_time = 0.5
 autorestart_delay = 0.1
 
-[sub_resource type="AnimationNodeTimeScale" id=10]
+[sub_resource type="AnimationNodeTimeScale" id=11]
 
-[sub_resource type="AnimationNodeBlendTree" id=11]
-graph_offset = Vector2( 212, 101.5 )
-nodes/Idle/node = SubResource( 5 )
+[sub_resource type="AnimationNodeBlendTree" id=12]
+graph_offset = Vector2( 0, 196.5 )
+nodes/Idle/node = SubResource( 6 )
 nodes/Idle/position = Vector2( 260, 80 )
-nodes/MoveBlend/node = SubResource( 6 )
+nodes/MoveBlend/node = SubResource( 7 )
 nodes/MoveBlend/position = Vector2( 620, 100 )
-nodes/Run/node = SubResource( 7 )
+nodes/Run/node = SubResource( 8 )
 nodes/Run/position = Vector2( 260, 200 )
-nodes/Shoot/node = SubResource( 8 )
+nodes/Shoot/node = SubResource( 9 )
 nodes/Shoot/position = Vector2( 240, 340 )
-nodes/ShootSpell/node = SubResource( 9 )
+nodes/ShootSpell/node = SubResource( 10 )
 nodes/ShootSpell/position = Vector2( 860, 100 )
-nodes/ShootTimeScale/node = SubResource( 10 )
+nodes/ShootTimeScale/node = SubResource( 11 )
 nodes/ShootTimeScale/position = Vector2( 600, 300 )
 nodes/output/position = Vector2( 1100, 100 )
-node_connections = [ "output", 0, "ShootSpell", "ShootTimeScale", 0, "Shoot", "MoveBlend", 0, "Idle", "MoveBlend", 1, "Run", "ShootSpell", 0, "MoveBlend", "ShootSpell", 1, "ShootTimeScale" ]
+node_connections = [ "output", 0, "ShootSpell", "MoveBlend", 0, "Idle", "MoveBlend", 1, "Run", "ShootSpell", 0, "MoveBlend", "ShootSpell", 1, "ShootTimeScale", "ShootTimeScale", 0, "Shoot" ]
 
 [node name="Player" type="KinematicBody" groups=[
 "player_unit",
@@ -99,21 +99,22 @@ transform = Transform( 1, 0, 0, 0, -1.62921e-07, -1, 0, 1, -1.62921e-07, 0, 2.5,
 shape = SubResource( 4 )
 
 [node name="CollisionShape2" type="CollisionShape" parent="Hurtbox"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.415473, 0.1 )
-shape = SubResource( 12 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.515473, 0.1 )
+shape = SubResource( 5 )
 
 [node name="Status" parent="." instance=ExtResource( 3 )]
 
 [node name="PlayerGFX" parent="." instance=ExtResource( 7 )]
+transform = Transform( 3, 0, 0, 0, 3, 0, 0, 0, 3, 0, 0, 0 )
 
 [node name="AnimationTree" type="AnimationTree" parent="."]
-tree_root = SubResource( 11 )
+tree_root = SubResource( 12 )
 anim_player = NodePath("../PlayerGFX/AnimationPlayer")
 active = true
 root_motion_track = NodePath("Armature/Skeleton:root_motion")
 parameters/MoveBlend/blend_amount = 0.0
 parameters/ShootSpell/active = false
-parameters/ShootTimeScale/scale = 2.0
+parameters/ShootTimeScale/scale = 2.3
 [connection signal="hit_by_projectile" from="Hurtbox" to="." method="_on_Hurtbox_hit_by_projectile"]
 [connection signal="is_in_lava" from="Hurtbox" to="." method="_on_Hurtbox_is_in_lava"]
 [connection signal="health_changed" from="Status" to="HealthBar3D" method="_on_Status_health_changed"]

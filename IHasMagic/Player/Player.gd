@@ -23,20 +23,6 @@ onready var Projectile = preload("res://Spells/Projectile.tscn")
 
 func _ready():
 	Input.set_mouse_mode(Input.MOUSE_MODE_CONFINED)
-
-func move_to(target_pos):
-	travel_path = nav.get_simple_path(global_transform.origin, target_pos)
-	travel_path_idx = 0
-	
-func update_orientation(target_pos):
-	var global_pos = global_transform.origin
-	rotation.y = (Vector2(target_pos.z, target_pos.x) - 
-				  Vector2(global_pos.z, global_pos.x)).angle()
-	
-func cast_spell(target_pos):
-	travel_path = []
-	update_orientation(target_pos)
-	state = SHOOT
 	
 func _physics_process(delta):
 	match state:
@@ -44,6 +30,20 @@ func _physics_process(delta):
 			move_state(delta)
 		SHOOT:
 			shoot_state(delta)
+
+func move_to(target_pos):
+	travel_path = nav.get_simple_path(global_transform.origin, target_pos)
+	travel_path_idx = 0
+	
+func cast_spell(target_pos):
+	travel_path = []
+	update_orientation(target_pos)
+	state = SHOOT
+	
+func update_orientation(target_pos):
+	var global_pos = global_transform.origin
+	rotation.y = (Vector2(target_pos.z, target_pos.x) - 
+				  Vector2(global_pos.z, global_pos.x)).angle()
 			
 func move_state(delta):
 	if travel_path_idx < travel_path.size():
@@ -58,12 +58,12 @@ func move_state(delta):
 		movement = move_and_slide(Vector3.ZERO, Vector3.UP)
 		anim_tree.set("parameters/MoveBlend/blend_amount", 0)
 	
-	
 	if knockback_vector != Vector3.ZERO:
 		knockback_vector = knockback_vector.move_toward(Vector3.ZERO, FRICTION * delta)
 		knockback_vector = move_and_slide(knockback_vector)
 		
 func shoot_state(_delta):
+	anim_tree.set("parameters/MoveBlend/blend_amount", 0)
 	anim_tree.set("parameters/ShootSpell/active", 1)
 	
 func launch_spell():
