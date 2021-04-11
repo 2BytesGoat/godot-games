@@ -84,7 +84,7 @@ far = 5000.0
 [node name="Level" type="Navigation" parent="."]
 
 [node name="Player2" parent="Level" instance=ExtResource( 5 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.06355, -8.1843 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.06355, -19.1843 )
 collision_layer = 4
 
 [node name="Hurtbox" parent="Level/Player2" index="4"]
@@ -97,7 +97,7 @@ root_motion_track = NodePath("Armature/Skeleton:root_motion")
 parameters/playback = SubResource( 9 )
 
 [node name="Player" parent="Level" instance=ExtResource( 5 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.02404, 7 )
+transform = Transform( -1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 2.02404, 17 )
 
 [node name="NavigationMeshInstance" type="NavigationMeshInstance" parent="Level"]
 navmesh = SubResource( 10 )
@@ -152,6 +152,11 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 25, 1, 0 )
 
 [node name="pillar4" parent="Level/Destructibles" instance=ExtResource( 6 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -25, 1, 0 )
+
+[node name="SpotLight" type="SpotLight" parent="Level"]
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 51, 0 )
+spot_range = 77.0
+spot_angle = 58.3322
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 

@@ -58,7 +58,7 @@ nodes/ShootSpell/position = Vector2( 860, 100 )
 nodes/ShootTimeScale/node = SubResource( 11 )
 nodes/ShootTimeScale/position = Vector2( 600, 300 )
 nodes/output/position = Vector2( 1100, 100 )
-node_connections = [ "output", 0, "ShootSpell", "ShootTimeScale", 0, "Shoot", "ShootSpell", 0, "MoveBlend", "ShootSpell", 1, "ShootTimeScale", "MoveBlend", 0, "Idle", "MoveBlend", 1, "Run" ]
+node_connections = [ "output", 0, "ShootSpell", "MoveBlend", 0, "Idle", "MoveBlend", 1, "Run", "ShootSpell", 0, "MoveBlend", "ShootSpell", 1, "ShootTimeScale", "ShootTimeScale", 0, "Shoot" ]
 
 [node name="Player" type="KinematicBody" groups=[
 "player_unit",
