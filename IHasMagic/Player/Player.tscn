@@ -58,7 +58,7 @@ nodes/ShootSpell/position = Vector2( 860, 100 )
 nodes/ShootTimeScale/node = SubResource( 11 )
 nodes/ShootTimeScale/position = Vector2( 600, 300 )
 nodes/output/position = Vector2( 1100, 100 )
-node_connections = [ "output", 0, "ShootSpell", "MoveBlend", 0, "Idle", "MoveBlend", 1, "Run", "ShootSpell", 0, "MoveBlend", "ShootSpell", 1, "ShootTimeScale", "ShootTimeScale", 0, "Shoot" ]
+node_connections = [ "output", 0, "ShootSpell", "ShootSpell", 0, "MoveBlend", "ShootSpell", 1, "ShootTimeScale", "MoveBlend", 0, "Idle", "MoveBlend", 1, "Run", "ShootTimeScale", 0, "Shoot" ]
 
 [node name="Player" type="KinematicBody" groups=[
 "player_unit",
@@ -86,7 +86,7 @@ mesh = SubResource( 3 )
 material/0 = null
 
 [node name="Weapon" type="Spatial" parent="."]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0999997, 3.55, 3.2 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.6, 4.05, -0.2 )
 
 [node name="Position3D" type="Position3D" parent="Weapon"]
 
