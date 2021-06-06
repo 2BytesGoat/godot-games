@@ -3,6 +3,7 @@ extends Node2D
 """ 
 TODOs:
 1. Fix enemy overlap
+2. Center camera on map
 
 Code taken from:
 https://youtu.be/hVAdr0AboYU
@@ -39,8 +40,8 @@ onready var tile_h: int = Map.cell_size.y
 onready var tile_w: int = Map.cell_size.x
 
 # Move later logic
-onready var enemy_path = $Routes/First_Path
-onready var enemy_class = preload("res://Characters/UgaBunga.tscn")
+onready var enemyPath = $Routes/First_Path
+onready var enemyClass = preload("res://Characters/UgaBunga.tscn")
 var num_of_enemies = 3
 
 func _ready():
@@ -140,13 +141,13 @@ func spawn_enemies():
 		enemy_curve.add_point(Vector2(
 			(point.x - point.y) * tile_h, (point.x + point.y) * tile_w / 4 
 		))
-	enemy_path.curve = enemy_curve
+	enemyPath.curve = enemy_curve
 
 	for enemy_idx in range(num_of_enemies):
-		var enemy = enemy_class.instance()
+		var enemy = enemyClass.instance()
 		var enemy_path_follow = PathFollow2D.new()
 		enemy_path_follow.add_child(enemy)
 		enemy_path_follow.rotate = false
 		
-		enemy_path.add_child(enemy_path_follow)
+		enemyPath.add_child(enemy_path_follow)
 		yield(get_tree().create_timer(enemy.spawn_rate), "timeout")
