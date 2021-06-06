@@ -1,8 +1,8 @@
 extends Node2D
 
-""" Source of code:
-https://www.youtube.com/watch?v=hVAdr0AboYU&t=282s&ab_channel=GingerageousGames
-https://www.youtube.com/watch?v=YShYWaGF3Nc&list=PLsk-HSGFjnaH82Bn6xbQNehatj3sIvtMQ&ab_channel=KidsCanCode
+""" Code taken from:
+https://youtu.be/hVAdr0AboYU
+https://youtu.be/YShYWaGF3Nc?list=PLsk-HSGFjnaH82Bn6xbQNehatj3sIvtMQ
 """
 
 # Tile Map variables
@@ -18,35 +18,37 @@ var road_connections = {Vector2(0,  1): N, Vector2(-1, 0): E,
 						Vector2(0, -1): S, Vector2( 1, 0): W}
 
 # Astar variables
-var astar = AStar.new()
+var astar: AStar
+var starting_point: Vector2
+var ending_point: Vector2
+var final_path: PoolVector3Array
 
-## buffers such that the path does not start from an edge
 const top_margin = 1
 const bottom_margin = 2
 
-var num_of_astar_obstacles = 5
-var size_of_astar_obstacles = 4
-
-var starting_point
-var ending_point
-var final_path
+var size_of_astar_obstacles = 3
+var num_of_astar_obstacles = 12
 
 # Autotile metadata
-var hypotenuse = 24 # hypotenuse or diagonal length of the map
+var diagonal = 24 # diagonal of the map
+onready var tile_h: int = Map.cell_size.y
+onready var tile_w: int = Map.cell_size.x
 
 func _ready():
+	astar = AStar.new()
 	randomize() # pick random seed for diversity
 	create_map()
 	
 func _physics_process(_delta):
 	if Input.is_action_just_pressed("ui_reset"):
+		astar = AStar.new()
 		randomize()
 		create_map() 
 	
 func create_map():
-	var height = hypotenuse / 2
+	var height = diagonal / 2
 	for y in range(height):
-		var length = hypotenuse - (2 * y)
+		var length = diagonal - (2 * y)
 		for x in range(length):
 			Map.set_cell(x + y, y, 15)
 			if y != 0: # ignores second pass on diagonal
@@ -70,7 +72,7 @@ func create_map():
 	var ending_point_offset = (randi() % (height - (top_margin + bottom_margin))) + top_margin
 	
 	var starting_point = Vector2(starting_point_offset, starting_point_offset)
-	var ending_point = Vector2((hypotenuse-1) - ending_point_offset, -ending_point_offset)
+	var ending_point = Vector2((diagonal-1) - ending_point_offset, -ending_point_offset)
 	
 	Map.set_cellv(starting_point, 17)
 	Map.set_cellv(ending_point, 17)
@@ -94,8 +96,14 @@ func create_map():
 		
 		for size in range(size_of_astar_obstacles):
 			for tile in [-size, size]:
+				# skip cell if it's outside the game area
+				if Map.get_cellv(Vector2(point_to_change_weight.x + tile,
+									point_to_change_weight.y + tile)) != 15:
+					continue
+				# add weights to the cell such that astar avoids it
 				var current_title_id = astar.get_closest_point(point_to_change_weight + Vector3(tile, tile, 0))
 				astar.set_point_weight_scale(current_title_id, 500)
+				# change obstacle cell color for debug
 				Map.set_cellv(Vector2(point_to_change_weight.x + tile, point_to_change_weight.y + tile), 16)
 
 	final_path = astar.get_point_path(starting_id, ending_id)

@@ -1,7 +1,7 @@
 extends Camera2D
 
 const SCROLL_MARGIN = 45
-const SCROLL_SPEED = 135
+const SCROLL_SPEED = 260
 
 func _input(event):
 	if event.is_action_pressed("zoom_in"):
