@@ -249,7 +249,7 @@
 16/name = "16"
 16/texture = ExtResource( 17 )
 16/tex_offset = Vector2( 0, 0 )
-16/modulate = Color( 0.898039, 1, 0, 1 )
+16/modulate = Color( 0.945098, 1, 0, 1 )
 16/region = Rect2( 192, 256, 128, 96 )
 16/tile_mode = 0
 16/occluder_offset = Vector2( 0, 0 )
@@ -289,4 +289,5 @@ mode = 1
 tile_set = SubResource( 1 )
 cell_size = Vector2( 128, 64 )
 cell_custom_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
+compatibility_mode = true
 format = 1
