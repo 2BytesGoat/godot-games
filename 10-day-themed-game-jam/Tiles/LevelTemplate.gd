@@ -1,6 +1,10 @@
 extends Node2D
 
-""" Code taken from:
+""" 
+TODOs:
+1. Fix enemy overlap
+
+Code taken from:
 https://youtu.be/hVAdr0AboYU
 https://youtu.be/YShYWaGF3Nc?list=PLsk-HSGFjnaH82Bn6xbQNehatj3sIvtMQ
 """
@@ -33,6 +37,11 @@ var num_of_astar_obstacles = 12
 var diagonal = 24 # diagonal of the map
 onready var tile_h: int = Map.cell_size.y
 onready var tile_w: int = Map.cell_size.x
+
+# Move later logic
+onready var enemy_path = $Routes/First_Path
+onready var enemy_class = preload("res://Characters/UgaBunga.tscn")
+var num_of_enemies = 3
 
 func _ready():
 	astar = AStar.new()
@@ -120,3 +129,24 @@ func create_map():
 					current_tile -= road_connections[dir]
 	
 		Map.set_cellv(Vector2(tile.x, tile.y), current_tile)
+		
+	spawn_enemies()
+	
+func spawn_enemies():
+	# define path which enemies will follow
+	var enemy_curve = Curve2D.new()
+	for point in final_path:
+		# transform from cartesian to isometric and scale by size of tile map
+		enemy_curve.add_point(Vector2(
+			(point.x - point.y) * tile_h, (point.x + point.y) * tile_w / 4 
+		))
+	enemy_path.curve = enemy_curve
+
+	for enemy_idx in range(num_of_enemies):
+		var enemy = enemy_class.instance()
+		var enemy_path_follow = PathFollow2D.new()
+		enemy_path_follow.add_child(enemy)
+		enemy_path_follow.rotate = false
+		
+		enemy_path.add_child(enemy_path_follow)
+		yield(get_tree().create_timer(enemy.spawn_rate), "timeout")
