@@ -2,7 +2,10 @@ extends Node2D
 
 """ 
 TODOs:
-1. Fix enemy overlap
+1. Tower/Unit plcement
+
+Nice to have:
+1. Add trees/environment
 2. Center camera on map
 
 Code taken from:
@@ -41,6 +44,7 @@ onready var tile_w: int = Map.cell_size.x
 
 # Move later logic
 onready var enemyPath = $Routes/First_Path
+onready var enemyContainer = $EnemyContainer
 onready var enemyClass = preload("res://Characters/UgaBunga.tscn")
 var num_of_enemies = 3
 
@@ -144,10 +148,24 @@ func spawn_enemies():
 	enemyPath.curve = enemy_curve
 
 	for enemy_idx in range(num_of_enemies):
+		# create instance of enemy in a YSort
 		var enemy = enemyClass.instance()
-		var enemy_path_follow = PathFollow2D.new()
-		enemy_path_follow.add_child(enemy)
-		enemy_path_follow.rotate = false
+		enemyContainer.add_child(enemy)
 		
+		# refference enemy using remote transform
+		var remote_transform = RemoteTransform2D.new()
+		remote_transform.remote_path = enemy.get_path()
+		
+		# create enemy path follower by passing refference
+		var enemy_path_follow = PathFollow2D.new()
+		enemy_path_follow.add_child(remote_transform)
+		enemy_path_follow.rotate = false
+		# add path follower to path2D parent
 		enemyPath.add_child(enemy_path_follow)
+		
+		# give enemy information about path it must follow
+		var positioning_node_path = get_node(enemy_path_follow.get_path())
+		enemy.positioning_node = positioning_node_path
+		
+		# wait before next enemy spawn based on spawn_rate
 		yield(get_tree().create_timer(enemy.spawn_rate), "timeout")

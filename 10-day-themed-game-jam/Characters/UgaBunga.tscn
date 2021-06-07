@@ -1,18 +1,19 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=13 format=2]
 
 [ext_resource path="res://Assets/Characters/Invaders/UgaBunga.png" type="Texture" id=1]
 [ext_resource path="res://Characters/UgaBunga.gd" type="Script" id=2]
+[ext_resource path="res://Assets/Characters/MediumShadow.png" type="Texture" id=3]
 
 [sub_resource type="CapsuleShape2D" id=1]
 radius = 13.407
 height = 21.6521
 
-[sub_resource type="Animation" id=3]
+[sub_resource type="Animation" id=2]
 resource_name = "Idle"
 length = 1.1
 loop = true
 tracks/0/type = "value"
-tracks/0/path = NodePath("Sprite:frame")
+tracks/0/path = NodePath("GFX/Sprite:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
@@ -24,11 +25,10 @@ tracks/0/keys = {
 "values": [ 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22 ]
 }
 
-[sub_resource type="Animation" id=2]
-resource_name = "Move"
+[sub_resource type="Animation" id=3]
 loop = true
 tracks/0/type = "value"
-tracks/0/path = NodePath("Sprite:frame")
+tracks/0/path = NodePath("GFX/Sprite:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
@@ -40,35 +40,42 @@ tracks/0/keys = {
 "values": [ 0, 1, 2, 3, 4, 6, 7, 8, 9, 10, 12 ]
 }
 
-[sub_resource type="AnimationNodeAnimation" id=6]
+[sub_resource type="AnimationNodeAnimation" id=4]
 animation = "Idle"
 
-[sub_resource type="AnimationNodeAnimation" id=7]
+[sub_resource type="AnimationNodeAnimation" id=5]
 animation = "Move"
 
-[sub_resource type="AnimationNodeStateMachineTransition" id=8]
+[sub_resource type="AnimationNodeStateMachineTransition" id=6]
 
-[sub_resource type="AnimationNodeStateMachineTransition" id=9]
+[sub_resource type="AnimationNodeStateMachineTransition" id=7]
 
-[sub_resource type="AnimationNodeStateMachine" id=4]
-states/Idle/node = SubResource( 6 )
+[sub_resource type="AnimationNodeStateMachine" id=8]
+states/Idle/node = SubResource( 4 )
 states/Idle/position = Vector2( 188, 74 )
-states/Move/node = SubResource( 7 )
+states/Move/node = SubResource( 5 )
 states/Move/position = Vector2( 340, 74 )
-transitions = [ "Idle", "Move", SubResource( 8 ), "Move", "Idle", SubResource( 9 ) ]
+transitions = [ "Idle", "Move", SubResource( 6 ), "Move", "Idle", SubResource( 7 ) ]
 start_node = "Idle"
 
-[sub_resource type="AnimationNodeStateMachinePlayback" id=5]
+[sub_resource type="AnimationNodeStateMachinePlayback" id=9]
 
 [node name="Node2D" type="KinematicBody2D"]
 script = ExtResource( 2 )
 
-[node name="Sprite" type="Sprite" parent="."]
+[node name="GFX" type="Node2D" parent="."]
+
+[node name="Shadow" type="Sprite" parent="GFX"]
+position = Vector2( 0, 42 )
+scale = Vector2( 3, 3 )
+texture = ExtResource( 3 )
+
+[node name="Sprite" type="Sprite" parent="GFX"]
 scale = Vector2( 3, 3 )
 texture = ExtResource( 1 )
 hframes = 12
 vframes = 4
-frame = 19
+frame = 17
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2( 0, 36 )
@@ -76,11 +83,11 @@ rotation = 1.5708
 shape = SubResource( 1 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-anims/Idle = SubResource( 3 )
-anims/Move = SubResource( 2 )
+anims/Idle = SubResource( 2 )
+anims/Move = SubResource( 3 )
 
 [node name="AnimationTree" type="AnimationTree" parent="."]
-tree_root = SubResource( 4 )
+tree_root = SubResource( 8 )
 anim_player = NodePath("../AnimationPlayer")
 active = true
-parameters/playback = SubResource( 5 )
+parameters/playback = SubResource( 9 )
