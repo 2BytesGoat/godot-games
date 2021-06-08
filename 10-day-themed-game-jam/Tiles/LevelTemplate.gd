@@ -2,7 +2,7 @@ extends Node2D
 
 """ 
 TODOs:
-1. Tower/Unit plcement
+1. Layering between Enemy and Towers
 
 Nice to have:
 1. Add trees/environment
@@ -42,22 +42,60 @@ var diagonal = 24 # diagonal of the map
 onready var tile_h: int = Map.cell_size.y
 onready var tile_w: int = Map.cell_size.x
 
+# TODO: move enemy logic to PlacerNode
 # Move later logic
-onready var enemyPath = $Routes/First_Path
-onready var enemyContainer = $EnemyContainer
+export(NodePath) onready var enemyContainer = get_node(enemyContainer)
+export(NodePath) onready var enemyPath = get_node(enemyPath)
 onready var enemyClass = preload("res://Characters/UgaBunga.tscn")
 var num_of_enemies = 3
 
+# TODO: give LevelTemplate instance as argument to PlacerNode
+# Tower colors
+var build_mode = true
+var can_build = false
+var in_menu = false
+var current_tower_tile = Vector2.ZERO
+var buildable_tiles = [15]
+
+export(NodePath) onready var towerContainer = get_node(towerContainer)
+export(NodePath) onready var buildTool = get_node(buildTool)
+export(NodePath) onready var buildInterface = get_node(buildInterface)
+
+var yellow = Color(0.875, 0.875, 0.095, 0.575)
+var red = Color(0.875, 0.095, 0.095, 0.575)
+var current_color = yellow
+
+# Tower textures
+var UI_red_tower = preload("res://Assets/Structures/towerRound_sampleE_W.png")
+var UI_purple_tower = preload("res://Assets/Structures/towerSquare_sampleF_W.png")
+var UI_tower_list = {
+	"Red_Tower": UI_red_tower,
+	"Purple_Tower": UI_purple_tower
+}
+
+var red_tower = preload("res://Structures/RedTower.tscn")
+var purple_tower = preload("res://Structures/PurpleTower.tscn")
+var tower_list = {
+	"Red_Tower": red_tower,
+	"Purple_Tower": purple_tower
+}
+var current_tower = red_tower
+
 func _ready():
-	astar = AStar.new()
-	randomize() # pick random seed for diversity
+	reset_map()
 	create_map()
 	
 func _physics_process(_delta):
 	if Input.is_action_just_pressed("ui_reset"):
-		astar = AStar.new()
-		randomize()
-		create_map() 
+		reset_map()
+		create_map()
+	if build_mode:
+		_update_build_tool()
+		if Input.is_action_just_pressed("ui_mouse_left"):
+			build_tower()
+		if Input.is_action_just_pressed("ui_mouse_right"):
+			build_mode = false
+			buildTool.hide()
 	
 func create_map():
 	var height = diagonal / 2
@@ -85,8 +123,8 @@ func create_map():
 	var starting_point_offset = (randi() % (height - (top_margin + bottom_margin))) + top_margin
 	var ending_point_offset = (randi() % (height - (top_margin + bottom_margin))) + top_margin
 	
-	var starting_point = Vector2(starting_point_offset, starting_point_offset)
-	var ending_point = Vector2((diagonal-1) - ending_point_offset, -ending_point_offset)
+	starting_point = Vector2(starting_point_offset, starting_point_offset)
+	ending_point = Vector2((diagonal-1) - ending_point_offset, -ending_point_offset)
 	
 	Map.set_cellv(starting_point, 17)
 	Map.set_cellv(ending_point, 17)
@@ -137,6 +175,24 @@ func create_map():
 		
 	spawn_enemies()
 	
+func reset_map():
+	# set random seed to random
+	randomize()
+	# reinitialize AStar
+	astar = AStar.new()
+	# remove existing enemies from container
+	for enemy in enemyContainer.get_children():
+		enemyContainer.remove_child(enemy)
+		enemy.queue_free()
+	# remove enemy refference from enemyPath
+	for enemy in enemyPath.get_children():
+		enemyPath.remove_child(enemy)
+		enemy.queue_free()
+	# remove existing towers from container
+	for tower in towerContainer.get_children():
+		towerContainer.remove_child(tower)
+		tower.queue_free()
+	
 func spawn_enemies():
 	# define path which enemies will follow
 	var enemy_curve = Curve2D.new()
@@ -147,7 +203,7 @@ func spawn_enemies():
 		))
 	enemyPath.curve = enemy_curve
 
-	for enemy_idx in range(num_of_enemies):
+	for _enemy_idx in range(num_of_enemies):
 		# create instance of enemy in a YSort
 		var enemy = enemyClass.instance()
 		enemyContainer.add_child(enemy)
@@ -169,3 +225,23 @@ func spawn_enemies():
 		
 		# wait before next enemy spawn based on spawn_rate
 		yield(get_tree().create_timer(enemy.spawn_rate), "timeout")
+		
+func _update_build_tool():
+	var mouse_pos = get_global_mouse_position()
+	current_tower_tile = Map.world_to_map(mouse_pos)
+	buildTool.position = Map.map_to_world(current_tower_tile)
+	
+	if Map.get_cellv(current_tower_tile) in buildable_tiles:
+		current_color = yellow
+		can_build = true
+	else:
+		current_color = red
+		can_build = false
+	buildInterface.material.set_shader_param("current_color", current_color)
+	
+func build_tower():
+	if can_build and not in_menu:
+		Map.set_cellv(current_tower_tile, 16)
+		var new_tower = current_tower.instance()
+		new_tower.global_position = Map.map_to_world(current_tower_tile)
+		towerContainer.add_child(new_tower)

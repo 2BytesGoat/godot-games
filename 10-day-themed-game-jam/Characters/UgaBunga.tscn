@@ -57,10 +57,11 @@ states/Move/node = SubResource( 5 )
 states/Move/position = Vector2( 340, 74 )
 transitions = [ "Idle", "Move", SubResource( 6 ), "Move", "Idle", SubResource( 7 ) ]
 start_node = "Idle"
+graph_offset = Vector2( -201, -39 )
 
 [sub_resource type="AnimationNodeStateMachinePlayback" id=9]
 
-[node name="Node2D" type="KinematicBody2D"]
+[node name="UgaBunga" type="KinematicBody2D"]
 script = ExtResource( 2 )
 
 [node name="GFX" type="Node2D" parent="."]
@@ -75,7 +76,7 @@ scale = Vector2( 3, 3 )
 texture = ExtResource( 1 )
 hframes = 12
 vframes = 4
-frame = 17
+frame = 20
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2( 0, 36 )
