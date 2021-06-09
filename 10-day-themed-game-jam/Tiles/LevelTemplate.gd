@@ -51,9 +51,8 @@ var num_of_enemies = 3
 
 # TODO: give LevelTemplate instance as argument to PlacerNode
 # Tower colors
-var build_mode = true
+var build_mode = false
 var can_build = false
-var in_menu = false
 var current_tower_tile = Vector2.ZERO
 var buildable_tiles = [15]
 
@@ -240,8 +239,16 @@ func _update_build_tool():
 	buildInterface.material.set_shader_param("current_color", current_color)
 	
 func build_tower():
-	if can_build and not in_menu:
+	if can_build:
 		Map.set_cellv(current_tower_tile, 16)
 		var new_tower = current_tower.instance()
 		new_tower.global_position = Map.map_to_world(current_tower_tile)
 		towerContainer.add_child(new_tower)
+		build_mode = false
+		buildTool.hide()
+
+func _on_TowerButton_pressed(tower):
+	current_tower = tower_list[tower]
+	buildInterface.texture = UI_tower_list[tower]
+	build_mode = true
+	buildTool.show()
