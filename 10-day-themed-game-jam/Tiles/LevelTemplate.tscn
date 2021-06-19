@@ -302,11 +302,12 @@ shader_param/current_color = Color( 0.913725, 0.87451, 0.258824, 0.490196 )
 
 [node name="LevelTemplate" type="Node2D"]
 script = ExtResource( 19 )
-enemyContainer = NodePath("UnitContainer/EnemyContainer")
+enemyContainer = NodePath("InstanceContainer/EnemyContainer")
 enemyPath = NodePath("Routes/EnemyPath")
-towerContainer = NodePath("UnitContainer/TowerContainer")
+towerContainer = NodePath("InstanceContainer/TowerContainer")
 buildTool = NodePath("BuildTool")
 buildInterface = NodePath("BuildTool/BuildInterface")
+projectileContainer = NodePath("InstanceContainer/ProjectileContainer")
 
 [node name="MapTemplate" type="TileMap" parent="."]
 mode = 1
@@ -316,11 +317,13 @@ cell_custom_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
 compatibility_mode = true
 format = 1
 
-[node name="UnitContainer" type="YSort" parent="."]
+[node name="InstanceContainer" type="YSort" parent="."]
 
-[node name="EnemyContainer" type="YSort" parent="UnitContainer"]
+[node name="EnemyContainer" type="YSort" parent="InstanceContainer"]
 
-[node name="TowerContainer" type="YSort" parent="UnitContainer"]
+[node name="TowerContainer" type="YSort" parent="InstanceContainer"]
+
+[node name="ProjectileContainer" type="YSort" parent="InstanceContainer"]
 
 [node name="Routes" type="Node2D" parent="."]
 

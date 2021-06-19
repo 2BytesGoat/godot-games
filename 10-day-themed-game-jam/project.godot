@@ -10,12 +10,17 @@ config_version=4
 
 _global_script_classes=[  ]
 _global_script_class_icons={
+
 }
 
 [application]
 
 config/name="10-day-themed-game-jam"
 run/main_scene="res://World.tscn"
+
+[autoload]
+
+Globals="*res://Singletons/Globals.gd"
 
 [input]
 

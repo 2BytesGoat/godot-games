@@ -60,6 +60,8 @@ export(NodePath) onready var towerContainer = get_node(towerContainer)
 export(NodePath) onready var buildTool = get_node(buildTool)
 export(NodePath) onready var buildInterface = get_node(buildInterface)
 
+export(NodePath) onready var projectileContainer = get_node(projectileContainer)
+
 var yellow = Color(0.875, 0.875, 0.095, 0.575)
 var red = Color(0.875, 0.095, 0.095, 0.575)
 var current_color = yellow
@@ -81,6 +83,7 @@ var tower_list = {
 var current_tower = red_tower
 
 func _ready():
+	Globals.main_game_node = self
 	reset_map()
 	create_map()
 	
@@ -246,6 +249,12 @@ func build_tower():
 		towerContainer.add_child(new_tower)
 		build_mode = false
 		buildTool.hide()
+		
+func spawn_projectile(_projectile, _pos, _target):
+	var projectile = _projectile.instance()
+	projectile.position = _pos
+	projectile.rotation = Vector2(0, 1).angle_to((_target.position - _pos).normalized())
+	projectileContainer.add_child(projectile)
 
 func _on_TowerButton_pressed(tower):
 	current_tower = tower_list[tower]
